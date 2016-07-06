@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste -->
+    <record id="ap_pac_tree" model="ir.ui.view">
+      <field name="name">ap.pac.tree</field>
+      <field name="model">ap.pac</field>
+      <field name="arch" type="xml">
+        <tree string="Students">
+          <field name="student_name"/> 
+          <field name="student_pname" />       
+          <field name="student_email"/> 
+        </tree>
+      </field>
+    </record>
+<!-- vue formulaire -->
+    <record id="ap_pac_form" model="ir.ui.view">
+      <field name="name">ap.pac.form</field>
+      <field name="model" >ap.pac</field>
+      <field name="arch" type="xml">
+        <form string="students">
+          <sheet>
+            <separator string="student's form" />
+          <notebook string="Students">
+            <page string="Personnals information">
+              <group col="2">
+                  <field name="student_gender" /><!-- à afficher sous forme de combobox -->
+                  <field name="student_name" /> 
+                  <field name="student_birth"/>      
+                  <field name="active"/> 
+              </group>
+            </page>
+            <page string="others information">
+
+              <group col="3">
+                  <field name="student_email"/> 
+                  <group col="2">
+                    <field name="student_country" /> 
+                    <field name="student_city" /> 
+                  </group>
+                  <field name="student_pname" />
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+        </form>
+      </field>
+    </record>
+
+<!-- vue graphique -->
+    <record id="ap_pac_graph" model="ir.ui.view">
+      <field name="name">ap.pac.graph</field>
+      <field name="model">ap.pac</field>
+      <field name="arch" type="xml">
+        <graph string="students"> 
+          <field name="student_pname" />
+        </graph>
+      </field>
+    </record>
+
+
+    <!-- L'action du menu -->
+    <record model="ir.actions.act_window" id="action_ap_pac">
+      <field name="name">Students</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">ap.pac</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,graph</field>
+      <field name="view_id" ref="ap_pac_tree"/>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to Update the student's list.
+        </p>
+      </field>
+    </record>
+
+    <!-- Menu gauche  etudiant -->   
+    <menuitem 
+              name="Performances Academie" 
+              id="menu_ap_pac_students" 
+              sequence="16"
+              />
+    <menuitem
+            name="student's list"
+            id="menu_action_ap_pac_student"
+            parent="menu_ap_pac_students"
+            />
+    <menuitem
+            name="Voir"
+            id="menu_action_ap_pac_update"
+            action="action_ap_pac"
+            parent="menu_action_ap_pac_student"
+            />
+    <!-- # -->
+    
+  </data>
+</openerp>
