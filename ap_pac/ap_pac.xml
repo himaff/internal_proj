@@ -8,6 +8,7 @@
       <field name="model">ap.pac</field>
       <field name="arch" type="xml">
         <tree string="Students">
+          <field name="student_gender"/> 
           <field name="student_name"/> 
           <field name="student_pname" />       
           <field name="student_email"/> 

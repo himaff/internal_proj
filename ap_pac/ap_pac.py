@@ -15,7 +15,8 @@ class ap_pac(osv.osv):
         'student_email': fields.char('Email', size=128, required=True),
         'student_country': fields.char('Country', size=128, required=True),
         'student_city': fields.char('City', size=128, required=True),
-        'student_gender': fields.char('Gender', required=True),
+        'student_gender': fields.selection([('masculin','Masculin'),
+              ('feminin','Féminin')],'Gender', required=True),
         'student_birth': fields.date('Birth', required=True),
         'active': fields.boolean('Active', help="If a student is not active, it will not be displayed in PAC"),
     }
