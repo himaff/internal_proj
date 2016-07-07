@@ -8,7 +8,7 @@
     'summary': 'Manage members of website PAC',
     'description': """
 Manage several members
-======================================
+=======================================
 
 This App for manage members of africa performances website PAC
     """,
