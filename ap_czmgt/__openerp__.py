@@ -2,7 +2,7 @@
 {
     'name': 'AP CZ management',
     'version': '1.0.0',
-    'category': 'Liste',
+    'category': 'account,stock',
     'sequence': 3,
     'author': 'Africa performances',
     'summary': 'Manage members of website PAC',
@@ -12,9 +12,9 @@ Manage several members
 
 This App for manage members of africa performances website PAC
     """,
-    'depends': ["base"],
+    'depends': ["base","account_accountant","stock"],
     'data': [
-        'ap_pac.xml',
+        'ap_csmgt.xml',
     ],
     'installable': True,
     'application': False,
