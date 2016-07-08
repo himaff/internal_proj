@@ -7,10 +7,10 @@ import time
 
 class ap_pac(osv.osv):
     _name = 'ap.pac'
-    _order = 'student_name asc'
+    _order = 'name asc'
 
     _columns = {
-        'student_name': fields.char('Name', size=128, required=True),
+        'name': fields.char('Name', size=128, required=True),
         'student_pname': fields.char('Public name', size=128, required=True),
         'student_email': fields.char('Email', size=128, required=True),
         'student_country': fields.char('Country', size=128, required=True),
