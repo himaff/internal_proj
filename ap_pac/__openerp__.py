@@ -5,6 +5,7 @@
     'category': 'Liste',
     'sequence': 3,
     'author': 'Africa performances',
+   'icon': '/ap_pac/static/src/img/icon.png',
     'summary': 'Manage members of website PAC',
     'description': """
 Manage several members
