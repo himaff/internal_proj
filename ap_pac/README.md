@@ -1,2 +1,2 @@
-# internal_proj
+# Performances Academie Integration
 For internal use
