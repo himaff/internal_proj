@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="report_pac_order1"
+            string="Student's list2"
+            model="ap.pac" 
+            report_type="qweb-pdf"
+            file="ap_pac.report1" 
+            name="ap_pac.report1" 
+        />
+    </data>
+</openerp>

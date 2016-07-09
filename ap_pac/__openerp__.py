@@ -16,6 +16,10 @@ This App for manage members of africa performances website PAC
     'depends': ["base"],
     'data': [
         'ap_pac.xml',
+        'perfac.xml',
+        'report/report.xml',
+        'perfac1.xml',
+        'report/report1.xml',
     ],
     'installable': True,
     'application': False,
