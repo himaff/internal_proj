@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste -->
+    <record id="ap_om_tree" model="ir.ui.view">
+      <field name="name">ap.om.tree</field>
+      <field name="model">ap.om</field>
+      <field name="arch" type="xml">
+        <tree string="Mission order">
+          <field name="ref"/> 
+          <field name="project_name"/> 
+          <field name="object" />       
+        </tree>
+      </field>
+    </record>
+<!-- vue formulaire -->
+    <record id="ap_om_form" model="ir.ui.view">
+      <field name="name">ap.om.form</field>
+      <field name="model" >ap.om</field>
+      <field name="arch" type="xml">
+        <form string="mission of order">
+          <sheet>
+            <separator string="mission of order form" />
+          <notebook string="mission order">
+            <page string="information on mission order">
+              <group col="2">
+                  <field name="ref" />
+                  <field name="project_name" /> 
+                  <field name="object"/>
+                  <field name="notes_de_frais"/>				  
+              </group>
+            </page>
+            <page string="others information">
+
+              <group col="2">
+			      <field name="name_id"/>
+                  <field name="route_to_go"/> 
+                  <field name="route_return"/> 
+                  <field name="date_hour_depart"/>
+				  <field name="date_hour_return"/>
+				  <field name="accompanying_person"/>
+			   </group>	
+            </page>			   
+		    <page string="information on means_of_transport">
+               <group col="2">			
+				  <field name="means_of_transport"/>
+				  <field name="active"/>
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+        </form>
+      </field>
+    </record>
+
+<!-- vue graphique -->
+    <record id="ap_om_graph" model="ir.ui.view">
+      <field name="name">ap.om.graph</field>
+      <field name="model">ap.om</field>
+      <field name="arch" type="xml">
+        <graph string="mission order"> 
+          <field name="route_return" />
+        </graph>
+      </field>
+    </record>
+
+
+    <!-- L'action du menu -->
+    <record model="ir.actions.act_window" id="action_ap_om">
+      <field name="name">mission order</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">ap.om</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,graph</field>
+      <field name="view_id" ref="ap_om_tree"/>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to Update the student's list.
+        </p>
+      </field>
+    </record>
+
+    <!-- Menu gauche  etudiant -->   
+    <menuitem 
+              name="Performances Academie dev" 
+              id="menu_ap_om_ref" 
+              sequence="16"
+              />
+    <menuitem
+            name="mission order "
+            id="menu_action_ap_om_ref"
+            parent="menu_ap_om_ref"
+            />
+    <menuitem
+            name="Voir"
+            id="menu_action_ap_om_update"
+            action="action_ap_om"
+            parent="menu_action_ap_om_ref"
+            />
+    <!-- # -->
+    
+  </data>
+</openerp>
