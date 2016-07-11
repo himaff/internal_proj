@@ -10,8 +10,9 @@
 			<field name="model">account.journal</field>
 			<field name="inherit_id" ref="account.view_account_journal_form"/>
 			<field name="arch" type="xml">
-                <field name="user_id" position="after">
-                    <field name="section_id" on_change="on_change_journal_section_id(user_id)"/>
+                <field name="user_id" position="replace">
+				    <field name="user_id" on_change="on_change_user(user_id, context)"/>
+                    <field name="section_id"/>
                 </field>
 			</field>
 		</record>
