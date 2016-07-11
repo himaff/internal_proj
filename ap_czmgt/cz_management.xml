@@ -23,22 +23,82 @@
 			<field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
 			<field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field name="user_id"/>
+                    <field name="user_id" on_change="on_change_user(user_id, context)"/>
                     <field name="section_id"/>
                 </field>
 			</field>
 		</record>
-		<!--voucher vendor view-->
-		<record id="view_cz_mgmt_voucher_receipt_view_form" model="ir.ui.view">
+		<!--voucher supplier view-->
+		<record id="view_cz_mgmt_voucher_payment_view_form" model="ir.ui.view">
 			<field name="name">account.voucher.payment.form</field>
 			<field name="model">account.voucher</field>
 			<field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
 			<field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field name="user_id"/>
+                    <field name="user_id" on_change="on_change_user(user_id, context)"/>
                     <field name="section_id"/>
                 </field>
 			</field>
-		</record>		
+		</record>
+		<!--warehouse view-->
+		<record id="view_cz_mgmt_warehouse_view_form" model="ir.ui.view">
+			<field name="name">stock.warehouse</field>
+			<field name="model">stock.warehouse</field>
+			<field name="inherit_id" ref="stock.view_warehouse"/>
+			<field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="user_id" on_change="on_change_user(user_id, context)"/>
+                    <field name="section_id"/>
+                </field>
+			</field>
+		</record>
+		<!--location view-->
+		<record id="view_cz_mgmt_location_view_form" model="ir.ui.view">
+			<field name="name">stock.location.form</field>
+			<field name="model">stock.location</field>
+			<field name="inherit_id" ref="stock.view_location_form"/>
+			<field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="user_id" on_change="on_change_user(user_id, context)"/>
+                    <field name="section_id"/>
+                </field>
+			</field>
+		</record>
+		<!--picking type view-->
+		<record id="view_cz_mgmt_picking_type_view_form" model="ir.ui.view">
+			<field name="name">stock.picking.type.form</field>
+			<field name="model">stock.picking.type</field>
+			<field name="inherit_id" ref="stock.view_picking_type_form"/>
+			<field name="arch" type="xml">
+                <field name="warehouse_id" position="after">
+                    <field name="user_id" on_change="on_change_user(user_id, context)"/>
+                    <field name="section_id"/>
+                </field>
+			</field>
+		</record>
+		<!--picking view-->
+		<record id="view_cz_mgmt_picking_view_form" model="ir.ui.view">
+			<field name="name">stock.picking.form</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form"/>
+			<field name="arch" type="xml">
+                <field name="priority" position="after">
+                    <field name="user_id" on_change="on_change_user(user_id, context)"/>
+                    <field name="section_id"/>
+                </field>
+			</field>
+		</record>	
+		<!--stock move view-->
+		<record id="view_cz_mgmt_stock_move_view_form" model="ir.ui.view">
+			<field name="name">stock.move.form</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_form"/>
+			<field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="user_id" on_change="on_change_user(user_id, context)"/>
+                    <field name="section_id"/>
+                </field>
+			</field>
+		</record>			
 	</data>
 </openerp>
