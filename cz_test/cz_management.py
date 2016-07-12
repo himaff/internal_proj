@@ -152,7 +152,7 @@ class stock_warehouse(osv.osv):
 	
     _columns = {
         'user_id': fields.many2one('res.users','User', help="User CZ"),
-        'section_id': fields.many2one('crm.case.section','Team', help="CZ Team")
+        'section_id': fields.many2one('crm.case.section','Team', readonly=True, help="CZ Team")
     }
 
     _defaults = {
@@ -199,7 +199,7 @@ class stock_location(osv.osv):
 	
     _columns = {
         'user_id': fields.many2one('res.users','User', help="User CZ"),
-        'section_id': fields.many2one('crm.case.section','Team', help="CZ Team")
+        'section_id': fields.many2one('crm.case.section','Team', readonly=True, help="CZ Team")
     }
 
     _defaults = {
@@ -291,8 +291,8 @@ class stock_picking(osv.osv):
         return None	
 	
     _columns = {
-        'user_id': fields.many2one('res.users','User', help="User CZ"),
-        'section_id': fields.many2one('crm.case.section','Team', help="CZ Team")
+        'user_id': fields.many2one('res.users','User', readonly=True, help="User CZ"),
+        'section_id': fields.many2one('crm.case.section','Team', readonly=True, help="CZ Team")
     }
 
     _defaults = {
