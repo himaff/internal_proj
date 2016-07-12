@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-			<!-- Vue formulaire voucher vendor-->
+			<!-- Vue formulaire voucher receipt-->
 	    <record id="cz_view_vendor_receipt_form" model="ir.ui.view">
             <field name="name">cz.account.voucher.receipt.form</field>
             <field name="model">account.voucher</field>
@@ -36,35 +36,9 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Payment Information" groups="base.group_user">
-                            <label for="line_cr_ids" invisible="context.get('line_type', False)"/>
-                            <field name="line_cr_ids" context="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id}" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, context)">
-                                <tree string="Invoices and outstanding transactions" editable="bottom" colors="gray:amount==0">
-                                    <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}" on_change="onchange_move_line_id(move_line_id)" domain="[('account_id.type','in',('receivable','payable')), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]" required="1" groups="account.group_account_user"/>
-                                    <field name="account_id" groups="base.group_no_one" domain="[('type','=','receivable')]"/>
-                                    <field name="date_original" readonly="1"/>
-                                    <field name="date_due" readonly="1"/>
-                                    <field name="amount_original" readonly="1"/>
-                                    <field name="amount_unreconciled" readonly="1" groups="account.group_account_user"/>
-                                    <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)" groups="account.group_account_user"/>
-                                    <field name="amount" sum="Total Allocation" on_change="onchange_amount(amount, amount_unreconciled, context)" string="Allocation"/>
-                                </tree>
-                            </field>
-                            <label for="line_dr_ids" attrs="{'invisible': [('pre_line','=',False)]}"/>
-                            <field name="line_dr_ids" attrs="{'invisible': [('pre_line','=',False)]}" context="{'journal_id':journal_id, 'partner_id':partner_id}" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, context)">
-                                <tree string="Credits" editable="bottom" colors="gray:amount==0">
-                                    <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}" on_change="onchange_move_line_id(move_line_id)" domain="[('account_id.type','in',('receivable','payable')), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]" required="1"/>
-                                    <field name="account_id" groups="base.group_no_one" domain="[('type','=','receivable')]"/>
-                                    <field name="date_original" readonly="1"/>
-                                    <field name="date_due" readonly="1"/>
-                                    <field name="amount_original" readonly="1"/>
-                                    <field name="amount_unreconciled" readonly="1"/>
-                                    <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)"/>
-                                    <field name="amount" sum="Total Allocation" on_change="onchange_amount(amount, amount_unreconciled, context)" string="Allocation"/>
-                                </tree>
-                            </field>
+                        <page string="Payment Information">
                             <group col="3">
-                                <group>
+                                <group string="Internal Notes">
                                     <field name="narration" colspan="2" nolabel="1"/>
                                 </group>
                                 <group col="4" attrs="{'invisible':[('is_multi_currency','=',False)]}">
@@ -86,29 +60,6 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Journal Items" attrs="{'invisible': [('state','!=','posted')]}">
-                            <group col="4">
-                                <field name="period_id"/>
-                                <field name="audit"/>
-                            </group>
-                            <field name="move_ids" readonly="1">
-                                <tree string="Journal Items">
-                                    <field name="move_id"/>
-                                    <field name="ref"/>
-                                    <field name="date"/>
-                                    <field name="statement_id"/>
-                                    <field name="partner_id"/>
-                                    <field name="account_id"/>
-                                    <field name="name"/>
-                                    <field name="debit"/>
-                                    <field name="credit"/>
-                                    <field name="state"/>
-                                    <field name="reconcile_id"/>
-                                    <field name="amount_currency"/>
-                                    <field name="currency_id" groups="base.group_multi_currency"/>
-                                </tree>
-                            </field>
-                        </page>
                     </notebook>
                     </sheet>
                     <div class="oe_chatter" invisible="context.get('line_type', False)">
@@ -122,7 +73,7 @@
 			</field>
 		</record> 
        
-			<!-- Vue formulaire voucher vendor-->			
+			<!-- Vue formulaire voucher payement-->			
 	    <record id="cz_view_payement_form" model="ir.ui.view">
             <field name="name">cz.account.payement.form</field>
             <field name="model">account.voucher</field>
@@ -157,33 +108,7 @@
                     </group>
                     <notebook>
                         <page string="Payment Information">
-                        	<label for="line_dr_ids"/>
-                            <field name="line_dr_ids" context="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id}" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, context)">
-                                <tree string="Supplier Invoices and Outstanding transactions" editable="bottom" colors="gray:amount==0">
-                                    <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}" on_change="onchange_move_line_id(move_line_id)" domain="[('account_id.type','=','payable'), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]" required="1"/>
-                                    <field name="account_id" groups="base.group_no_one" domain="[('type','=','payable')]"/>
-                                    <field name="date_original" readonly="1"/>
-                                    <field name="date_due" readonly="1"/>
-                                    <field name="amount_original" readonly="1"/>
-                                    <field name="amount_unreconciled" readonly="1" groups="account.group_account_user"/>
-                                    <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)" groups="account.group_account_user"/>
-                                    <field name="amount" sum="Total Allocation" on_change="onchange_amount(amount, amount_unreconciled, context)"/>
-                                </tree>
-                            </field>
-                            <label for="line_cr_ids" attrs="{'invisible': [('pre_line','=',False)]}"/>
-                            <field name="line_cr_ids" attrs="{'invisible': [('pre_line','=',False)]}" context="{'journal_id':journal_id, 'partner_id':partner_id}" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, context)">
-                                <tree string="Credits" editable="bottom" colors="gray:amount==0">
-                                    <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}" on_change="onchange_move_line_id(move_line_id)" domain="[('account_id.type','=','payable'), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]" required="1"/>
-                                    <field name="account_id" groups="base.group_no_one" domain="[('type','=','payable')]"/>
-                                    <field name="date_original" readonly="1"/>
-                                    <field name="date_due" readonly="1"/>
-                                    <field name="amount_original" readonly="1"/>
-                                    <field name="amount_unreconciled" readonly="1" groups="account.group_account_user"/>
-                                    <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)" groups="account.group_account_user"/>
-                                    <field name="amount" sum="Total Allocation" on_change="onchange_amount(amount, amount_unreconciled, context)"/>
-                                </tree>
-                            </field>
-                            <group>
+                            <group col="3">
                                 <group string="Internal Notes">
                                     <field name="narration" colspan="2" nolabel="1"/>
                                 </group>
@@ -205,34 +130,9 @@
                                         <field name="payment_option" required="1"/>
                                         <field name="writeoff_acc_id" attrs="{'invisible':[('payment_option','!=','with_writeoff')], 'required':[('payment_option','=','with_writeoff')]}" domain="[('type','=','other')]"/>
                                         <field name="comment" attrs="{'invisible':[('payment_option','!=','with_writeoff')]}"/>
-                                        <field name="analytic_id" groups="analytic.group_analytic_accounting"/>
                                     </group>
                                 </group>
                             </group>
-                        </page>
-                        <page string="Journal Items" attrs="{'invisible': [('state','!=','posted')]}">
-                            <group col="4">
-                                <field name="period_id"/>
-                                <field name="audit"/>
-                                <field name="number"/>
-                            </group>
-                            <field name="move_ids" readonly="1">
-                               <tree string="Journal Items">
-                                   <field name="move_id"/>
-                                   <field name="ref"/>
-                                   <field name="date"/>
-                                   <field name="statement_id"/>
-                                   <field name="partner_id"/>
-                                   <field name="account_id"/>
-                                   <field name="name"/>
-                                   <field name="debit"/>
-                                   <field name="credit"/>
-                                   <field name="state"/>
-                                   <field name="reconcile_id"/>
-                                   <field name="amount_currency" groups="base.group_multi_currency"/>
-                                   <field name="currency_id" groups="base.group_multi_currency"/>
-                               </tree>
-                            </field>
                         </page>
                     </notebook>
                     </sheet>
