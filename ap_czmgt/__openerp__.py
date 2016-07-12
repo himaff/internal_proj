@@ -13,7 +13,7 @@ Payement customers and suppliers
 Warehouse management for CZ
 """,
     'depends': ['base','account','sale_stock','stock_picking_wave','stock'],
-    'data': ['cz_management.xml',],
+    'data': ['cz_management.xml','security/user_group.xml','security/read_only_user_group.xml',],
 	'auto_install': False,
     'installable': True,
     'active': False,

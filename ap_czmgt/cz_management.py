@@ -102,8 +102,8 @@ class account_voucher(osv.osv):
         return None
 	
     _columns = {
-        'user_id': fields.many2one('res.users','User', readonly=True, help="User CZ"),
-        'section_id': fields.many2one('crm.case.section','Team', readonly=True, help="CZ Team")
+        'user_id': fields.many2one('res.users','User', help="User CZ"),
+        'section_id': fields.many2one('crm.case.section','Team', help="CZ Team")
     }
 
     _defaults = {
