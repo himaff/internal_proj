@@ -2,12 +2,13 @@
 
 <openerp>
     <data noupdate="0">
-		<!--voucher receipt readonly user-->
-		<record id="view_account_voucher_receipt_form_user_readonly" model="ir.ui.view">
-            <field name="name">account.voucher.receipt.form readonly user</field>
+
+<!--CZ voucher receipt readonly user-->
+		<record id="view_account_czvoucher_receipt_form_user_readonly" model="ir.ui.view">
+            <field name="name">account.czvoucher.receipt.form readonly user</field>
             <field name="model">account.voucher</field> 
             <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
-		    <field name="inherit_id" ref="view_cz_mgmt_voucher_receipt_view_form"/>
+		    <field name="inherit_id" ref="cz_view_vendor_receipt_form"/>
             <field name="arch" type="xml">
                 <field name="user_id" position="attributes">
                     <attribute name="readonly">1</attribute>
@@ -17,11 +18,11 @@
                 </field>
             </field>
         </record>
-		<record id="view_account_voucher_receipt_form_super_user_readonly" model="ir.ui.view">
-            <field name="name">account.voucher.receipt.form readonly super user</field>
+		<record id="view_account_czvoucher_receipt_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">account.czvoucher.receipt.form readonly super user</field>
             <field name="model">account.voucher</field> 
             <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
-		    <field name="inherit_id" ref="view_cz_mgmt_voucher_receipt_view_form"/>
+		    <field name="inherit_id" ref="cz_view_vendor_receipt_form"/>
             <field name="arch" type="xml">
                 <field name="user_id" position="attributes">
                     <attribute name="readonly">1</attribute>
@@ -31,12 +32,13 @@
                 </field>
             </field>
         </record>
-		<!--voucher supplier readonly user-->
-		<record id="view_account_voucher_payement_form_user_readonly" model="ir.ui.view">
-            <field name="name">account.voucher.payement.form readonly user</field>
+
+		<!--CZ voucher payement readonly user-->
+		<record id="view_account_czvoucher_payement_form_user_readonly" model="ir.ui.view">
+            <field name="name">account.czvoucher.payement.form readonly user</field>
             <field name="model">account.voucher</field> 
             <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
-		    <field name="inherit_id" ref="view_cz_mgmt_voucher_payment_view_form"/>
+		    <field name="inherit_id" ref="cz_view_payement_form"/>
             <field name="arch" type="xml">
                 <field name="user_id" position="attributes">
                     <attribute name="readonly">1</attribute>
@@ -46,11 +48,11 @@
                 </field>
             </field>
         </record>
-		<record id="view_account_voucher_payement_form_super_user_readonly" model="ir.ui.view">
-            <field name="name">account.voucher.payement.form readonly super user</field>
+		<record id="view_account_czvoucher_payement_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">account.czvoucher.payement.form readonly super user</field>
             <field name="model">account.voucher</field> 
             <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
-		    <field name="inherit_id" ref="view_cz_mgmt_voucher_payment_view_form"/>
+		    <field name="inherit_id" ref="cz_view_payement_form"/>
             <field name="arch" type="xml">
                 <field name="user_id" position="attributes">
                     <attribute name="readonly">1</attribute>
