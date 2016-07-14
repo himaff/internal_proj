@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste casual -->
+    <record id="apgebat_poc_tree" model="ir.ui.view">
+      <field name="name">apgebat.poc.tree</field>
+      <field name="model">apgebat.poc</field>
+      <field name="arch" type="xml">
+        <tree string="Casual staff">
+          <field name="name" />
+          <field name="worker_reg"/>  
+          <field name="worker_phone" />
+          <field name="worker_nic" />       
+          <field name="worker_spec"/> 
+          <field name="worker_datein"/>
+          <field name="worker_sal" /> 
+        </tree>
+      </field>
+    </record>
+
+<!-- vue formulaire -->
+    <record id="apgebat_poc_form" model="ir.ui.view">
+      <field name="name">apgebat.poc.form</field>
+      <field name="model" >apgebat.poc</field>
+      <field name="arch" type="xml">
+        <form string="Casual staff">
+          <sheet>
+            <separator string="identification of casual staff" />
+            <newline />
+            <group col="2">
+               <field name="image_medium" widget='image' class="oe_left oe_avatar" nolabel="1"/>
+              <group col="2"> 
+               <field name="worker_reg" />
+               <field name="ref_act" />
+               <field name="worker_team"/>
+               <field name="active"/>
+              </group>
+            </group>
+            <notebook string="casual">
+              
+                <page string="Personnals information">
+                  <group col="1">
+                  <separator string="Personnals information"/>
+                    <group col="2">
+                      <field name="worker_gender" />
+                      <field name="name" /> 
+                    </group>
+                    <group col="4">
+                        <field name="worker_nat"/>  
+                        <field name="worker_nic" />
+                        <field name="worker_birth" /> 
+                        <field name="worker_placebirth"/> 
+                    </group>
+                    <group col="5">
+                        <field name="worker_marital" />
+                        <field name="worker_poschild" nolabel="1" /> 
+                        <field name="worker_children"/>
+                    </group>
+                    <group col="2">
+                      <field name="worker_postal" />
+                      <field name="worker_phone" /> 
+                      <field name="worker_living"/> 
+                      <field name="worker_study" />
+                      <field name="worker_spec" />  
+                      <field name="worker_datein" />
+                    </group>
+                  </group>
+                </page>
+                <page string="Type of contract">
+                  <group col="1">
+                  <separator string="Type of contract"/>
+                  <group col="2">
+                        <field name="worker_day" /> 
+                        <field name="worker_week" />
+                        <field name="worker_month" /> 
+                        <field name="worker_intern"/>
+                        <field name="worker_sal" on_change="verif_contrat(worker_day, worker_week, worker_month, worker_intern, worker_sal)"/>
+                  </group>
+                  </group>
+                </page>
+                <page string="Person to contact in case of emergency">
+                  <group col="1">
+                  <separator string="Person to contact in case of emergency"/> 
+                    <group col="4">
+                      <field name="worker_pers_emerg"/> 
+                      <field name="worker_numb_emerg" />    
+                    </group>
+                  </group>
+                </page>
+                <page string="Event">
+                  <group col="1">
+                  <separator string="Events"/>
+                    
+                        <field name="details" /> 
+                  </group>
+                </page>
+           </notebook>
+             
+        </sheet>
+        </form>
+      </field>
+    </record>
+<!-- vue Kanban -->
+     <record model="ir.ui.view" id="apgebat_poc_kanban">
+        <field name="name">apgebat.poc.Kanban</field>
+        <field name="model">apgebat.poc</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="worker_reg"/>
+                <field name="worker_nic"/>
+                <field name="worker_datein"/>
+                <field name="worker_study"/>
+                <field name="worker_spec"/>
+                <field name="worker_phone"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_employee_vignette">
+                            <div class="oe_employee_image">
+                                <a type="open"><img t-att-src="kanban_image('apgebat.poc', 'image_medium', record.id.value)" class="oe_employee_picture"/></a>
+                            </div>
+                            <div class="oe_employee_details">
+                                <h4>
+                                    <a type="open"><field name="name"/><t t-if="record.worker_reg.raw_value"> (<field name="worker_reg"/>)</t></a>
+                                </h4>
+                                <ul>
+                                    <li id="datein">
+                                        <span t-if="record.worker_datein.raw_value &amp;&amp; record.worker_datein.raw_value.is().today()" class="oe_kanban_button" style="font-size: 100%%">
+                                              <t t-esc="record.worker_datein.raw_value.toString('HH:mm')"/>
+                                        </span>
+                                    </li>
+                                    <li t-if="record.worker_nic.raw_value"><field name="worker_nic"/></li>
+                                    <li t-if="record.worker_study.raw_value"><field name="worker_study"/></li>
+                                    <li t-if="record.worker_spec.raw_value"><field name="worker_spec"/></li>
+                                    <li t-if="record.worker_phone.raw_value"><field name="worker_phone"/></li>
+
+                                </ul>
+                              
+                            </div>
+                        </div>
+                        <script>
+                            $('.oe_employee_picture').load(function() { if($(this).width() > $(this).height()) { $(this).addClass('oe_employee_picture_wide') } });
+                        </script>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+ 
+  
+
+
+<!-- PART OF TALLY -->
+<!-- PART OF TALLY -->
+<!-- SCHEDULE SCHEDULE SCHEDULE SCHEDULE SCHEDULE SCHEDULE -->
+<!-- PART OF TALLY -->
+<!-- PART OF TALLY -->
+
+    <!-- vue liste tally -->
+    <record id="apgebat_poc_tally_tree" model="ir.ui.view">
+      <field name="name">apgebat.poc.tally.tree</field>
+      <field name="model">apgebat.poc.tally</field>
+      <field name="arch" type="xml">
+        <tree string="Tally" editable="top" >
+          <field name="datein"/>
+          <field name="name" on_change="on_change_name(name)"/>
+          <field name="tally_site"/>
+          <field name="tally_spec"/>
+          <field name="tally_work"/>
+          <field name="fictif" invisible='1'/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- vue formulaire -->
+    <record id="apgebat_poc_tally_form" model="ir.ui.view">
+      <field name="name">apgebat.poc.tally.form</field>
+      <field name="model" >apgebat.poc.tally</field>
+      <field name="arch" type="xml">
+        <form string="Tally">
+          <sheet>
+            <separator string="Construction scorecard"/>
+            <group col="2">
+              <group col="2">
+                <field name="datein"/>
+                </group>
+                <group col="2">
+                  <field name="tally_work" />
+                </group>
+                <newline/>
+                <group colspan="1">
+                <field name="name" on_change="on_change_name(name)"/>
+                <field name="tally_site" />
+                <field name="fictif" invisible='1'/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+<!-- PAYMENT PAYMENT -->
+    <!-- vue formulaire -->
+    <record id="apgebat_poc_payment_form" model="ir.ui.view">
+      <field name="name">apgebat.poc.payment.form</field>
+      <field name="model" >apgebat.poc.payment</field>
+      <field name="arch" type="xml">
+        <form string="Casual staff payment">
+          <sheet>
+            <group col="3">
+              <group string="Site" colspan="2">
+                <h1>
+                  <field name="site" colspan="2" on_change="worker_lister(site)" id="chantier"/>
+                </h1>
+              </group>
+              <group string="Payment">
+                <field name="worker_count"/>
+                <field name="paie"/>
+                <button name="worker_lister" string='Refresh list' type='object' class="oe_highlight" context="{'site': site}"/>
+              </group>
+            </group>
+            <notebook>
+                  <page string="workers">
+                    <field name="workin" nolabel="1" widget="one2many_list">
+                      <tree string="Invoice Lines" editable="bottom">
+                          <field name="worker"/>
+                            <field name="spec"/>
+                            <field name="sal"/>
+                            <field name="presence"/>
+                            <field name="paie"/> 
+                      </tree>
+                    </field>
+                  </page>
+                </notebook>
+
+        </sheet>
+     
+        </form>
+      </field>
+    </record>
+<!-- vue tree -->
+     <record model="ir.ui.view" id="apgebat_poc_payment_tree">
+        <field name="name">apgebat.poc.payment.tree</field>
+        <field name="model">apgebat.poc.payment</field>
+        <field name="arch" type="xml">
+          <tree string="Payment" >
+            
+              <field name="site" />
+              <field name="site_build" invisible="1"/>
+              <field name="worker_count" />
+              <field name="paie" sum="total paie" />
+            
+          </tree>
+        </field>
+    </record>
+
+<!-- ACTION ACTION ACTION ACTION ACTION -->
+<!-- ACTION ACTION ACTION ACTION ACTION -->
+<!-- ACTION ACTION ACTION ACTION ACTION -->
+<!-- ACTION ACTION ACTION ACTION ACTION -->
+<!-- ACTION ACTION ACTION ACTION ACTION -->
+
+<!-- L'action du menu casual-->
+    <record model="ir.actions.act_window" id="action_apgebat_poc_casual">
+      <field name="name">Casuals</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">apgebat.poc</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">kanban,tree,form</field>
+      <field name="view_id" ref="apgebat_poc_kanban"/>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to create a Casual staff.
+        </p>
+      </field>
+    </record>
+<!-- L'action du menu tally-->
+<!--  click sur schedule affichage du wizard-->
+<record model="ir.actions.act_window" id="action_apgebat_poc_wizard">
+      <field name="name">Tally</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">apgebat.poc.tally.wizard</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target" >new</field>
+    </record>
+
+<!--  apres validation wizard-->
+    <record model="ir.actions.act_window" id="action_apgebat_poc_tally">
+      <field name="name">Schedule</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">apgebat.poc.tally</field>
+      <field name="view_type">tree</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="apgebat_poc_tally_tree"/>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to create a schedule.
+        </p>
+      </field>
+    </record>
+
+<!-- PAYMENT -->
+
+    <record model="ir.actions.act_window" id="action_apgebat_poc_payment">
+      <field name="name">Payment</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">apgebat.poc.payment</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="apgebat_poc_payment_tree"/>
+      <field name="domain">[('site_build', '=', True)]</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to create a payment.
+        </p>
+      </field>
+    </record>
+
+<!-- menu menu menu menu menu menu-->
+<!-- menu menu menu menu menu menu-->
+<!-- MENU MENU MENU MENU MENU MENU-->
+<!-- menu menu menu menu menu menu-->
+<!-- menu menu menu menu menu menu-->
+        <!-- Menu gauche  tally -->     
+   <menuitem id="menu_hr_hour" parent="hr.menu_hr_root" name="Casual Staff" sequence="2"/>
+   <!-- Menu gauche  casual staff -->  
+    <menuitem
+            name="Casuals"
+            id="menu_action_apgebat_poc_casual"
+            action="action_apgebat_poc_casual"
+            parent="menu_hr_hour"
+            />
+    <menuitem
+            name="schedule"
+            id="menu_action_apgebat_poc_schedule"
+            action="action_apgebat_poc_wizard"
+            parent="menu_hr_hour"
+            />
+    <menuitem
+            name="payment"
+            id="menu_action_apgebat_poc_payment"
+            action="action_apgebat_poc_payment"
+            parent="menu_hr_hour"
+            />
+    <!-- # -->
+    
+  </data>
+</openerp>
