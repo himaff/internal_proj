@@ -138,7 +138,7 @@ class apgebat_poc_tally(osv.osv):
         return result
         
 #requete pour faire le tri des informations et les stocker dans une table pour la vue payment
-    def sql_bd_union(self, cr, uid, ids, filterdate, context=None):
+    def sql_bd_union(self, cr, uid, ids, filterdate, begin, end, context=None):
         res = {}
         #vide la table pour accueillir les new données
         cr.execute('''DELETE FROM apgebat_poc_payment''')
@@ -231,7 +231,7 @@ class apgebat_poc_tally(osv.osv):
                     #paiesite="Payé"
                 #raise osv.except_osv(_('Error'), _(jr))
                 worker_list_id = self.pool.get('apgebat.poc.tally').worker_task(cr, uid, bd_site[x]['tally_site'][0])
-                cr.execute('''INSERT INTO apgebat_poc_payment (site, worker_count, paie, site_build, state,task) VALUES(%s, %s, %s, %s, %s, %s)''',(bd_site[x]['tally_site'][1], len(worker_list_id), paiesite, True, status, taskid))
+                cr.execute('''INSERT INTO apgebat_poc_payment (site, worker_count, paie, site_build, state, task, begindate, enddate) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)''',(bd_site[x]['tally_site'][1], len(worker_list_id), paiesite, True, status, taskid, begin, end))
                 cr.execute('''SELECT id FROM apgebat_poc_payment ORDER BY id DESC''')
                 #recupere le dernier id inseré
                 id_new = cr.fetchone()[0] 
@@ -330,7 +330,7 @@ class apgebat_poc_payment_wizard(osv.osv_memory):
             result['periods'] = period_obj.build_ctx_periods(cr, uid, data['beginweek'], data['endweek'], data['site'])
         else:
             result['periods'] = period_obj.build_ctx_periods(cr, uid, data['beginweek'], data['endweek'])
-        period_obj.sql_bd_union(cr, uid, ids, result['periods'])
+        period_obj.sql_bd_union(cr, uid, ids, result['periods'], data['beginweek'], data['endweek'])
         values = {'datein': result['periods'],}
         result['context'] = str({'periods': result['periods'],'value': values})
         #raise osv.except_osv(_('Error'), _(data['site']))
@@ -358,7 +358,9 @@ class apgebat_poc_payment(osv.osv):
         'site_build': fields.boolean('site?'),
         'workin': fields.one2many('apgebat.poc.payment.worker', 'site_id', string='Payment Lines', readonly=True),
         'state' : fields.selection([('draft', 'Unpaid'),('paye', 'Paid'),]),
-        'task' : fields.char('task_id')
+        'task' : fields.char('task_id'),
+        'begindate' : fields.date('Date'),
+        'enddate' : fields.date('Date'),
 
     }
     _rec_name= 'site'
@@ -375,6 +377,9 @@ class apgebat_poc_payment(osv.osv):
         taskid=part2[0].split(',')
         for i in range(len(taskid)):
             self.pool.get('apgebat.poc.tally').write(cr, uid, int(taskid[i]), {'state': 'paye'})
+
+
+
     
 
 

@@ -28,7 +28,7 @@
                                 .datagrid table tbody tr:last-child td { border-bottom: none; }
                             </style>
                             <h1 t-field="o.site"/>
-                            <p style="text-align:right">From <span t-field="o.site"/> to <span t-field="o.site"/></p>
+                            <p style="text-align:right">From <span t-field="o.begindate"/> to <span t-field="o.enddate"/></p>
                             <h2 style="margin:5px auto;">Payment by site</h2>
                             <div class="datagrid">
                                 <table>

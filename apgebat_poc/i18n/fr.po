@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20150306\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-18 10:16+0000\n"
-"PO-Revision-Date: 2016-07-18 10:39+0000\n"
+"PO-Revision-Date: 2016-07-18 13:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -62,13 +62,13 @@ msgstr "Annuler"
 #. module: apgebat_poc
 #: model:ir.ui.menu,name:apgebat_poc.menu_hr_hour
 msgid "Casual Staff"
-msgstr "Employé Occasionel"
+msgstr "Employés Occasionels"
 
 #. module: apgebat_poc
 #: view:apgebat.poc:apgebat_poc.apgebat_poc_form
 #: view:apgebat.poc:apgebat_poc.apgebat_poc_tree
 msgid "Casual staff"
-msgstr "Personnel ocasionnel"
+msgstr "Personnels ocasionnels"
 
 #. module: apgebat_poc
 #: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_form
