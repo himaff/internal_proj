@@ -15,6 +15,9 @@ This App for manage members of africa performances website PAC
     'depends': ["base"],
     'data': [
         'ap_om.xml',
+		'ap_om_report.xml',
+		'report_mission.xml',
+		
     ],
     'installable': True,
     'application': False,

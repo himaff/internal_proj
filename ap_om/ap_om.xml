@@ -42,7 +42,7 @@
 				  <field name="accompanying_person"/>
 			   </group>	
             </page>			   
-		    <page string="information on means_of_transport">
+		    <page string="information on means of transport">
                <group col="2">			
 				  <field name="means_of_transport"/>
 				  <field name="active"/>
