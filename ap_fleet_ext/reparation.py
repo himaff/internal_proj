@@ -20,10 +20,10 @@ class reparation(osv.osv):
 		'buyer': fields.char('Acheteur', size=128, required=True),
 		'supplier': fields.char('Fournisseur', size=128, required=True),
 		'invoice_number': fields.char('Numero facture', size=128, required=True),
-		'amount': fields.char('Montant', size=128, required=True),
-		'amount_after_discount': fields.char('Montant apres remise', size=128, required=True),
-		'tva': fields.char('Tva 18%', size=128, required=True),
-		'amount_ttc': fields.char('Montant TTC', size=128, required=True),
+		'amount': fields.float('Montant', digits=(2,1)),
+		'amount_after_discount': fields.float('Montant apres remise', digits=(2,1)),
+		'tva': fields.float('Tva 18%', digits=(2,1)),
+		'amount_ttc': fields.float('Montant TTC', digits=(2,1)),
     }
 
     _defaults = {
@@ -33,3 +33,9 @@ class reparation(osv.osv):
     _sql_constraints = [
         ('uniq_license_plate', 'unique(license_plate)', "A movement already exists with this license_plate in database. license_plate must be unique!"),
     ]
+	
+    def calcul_montant_ttc(self, cr, uid, ids, montant, context=None):
+        tva=montant*0.18
+        ttc=montant+tva
+        valeur={'tva':tva,'amount_ttc':ttc}
+        return {"value":valeur}

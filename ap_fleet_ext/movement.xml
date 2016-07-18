@@ -15,6 +15,7 @@
           <field name="driver_id" />
           <field name="start_date" />
           <field name="return_date" />
+		  <field name="km_start" />
           <field name="return_km" />
           <field name="traveled_km" />
           <field name="leasing_duraton" />

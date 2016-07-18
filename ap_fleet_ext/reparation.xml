@@ -19,7 +19,7 @@
           <field name="supplier" />
           <field name="invoice_number" />
           <field name="amount" />
-          <field name="amount_after_discount" />
+          <field name="amount_after_discount" on_change="calcul_montant_ttc(amount_after_discount)"/>
           <field name="tva" />
           <field name="amount_ttc" />		  
         </tree>
