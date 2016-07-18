@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste -->
+    <record id="ravitaillement_tree" model="ir.ui.view">
+      <field name="name">ravitaillement.tree</field>
+      <field name="model">ravitaillement</field>
+      <field name="arch" type="xml">
+        <tree string="ravitaillement of vehicle" editable="top">
+          <field name="vehicle"/> 
+          <field name="license_plate"/> 
+          <field name="vehicle_consumption" />
+          <field name="vehicle_refueling" />
+          <field name="previous_refueling_km" />
+          <field name="current_refueling_km" />	  
+        </tree>
+      </field>
+    </record>
+	
+	<!-- L'action du menu -->
+    <record model="ir.actions.act_window" id="action_ravitaillement">
+      <field name="name">ravitaillement of car</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">ravitaillement</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,graph</field>
+      <field name="view_id" ref="ravitaillement_tree"/>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to Update
+        </p>
+      </field>
+    </record>
+
+    <!-- Menu gauche  etudiant -->   
+    <menuitem 
+              name="fleet extension" 
+              id="menu_ravitaillement_ref" 
+              sequence="19"
+              />
+    <menuitem
+            name="ravitaillement"
+            id="menu_action_ravitaillement_ref"
+            parent="menu_ravitaillement_ref"
+            />
+    <menuitem
+            name="ravitaillement du vehicule"
+            id="menu_action_ravitaillement_update"
+            action="action_ravitaillement"
+            parent="fleet.fleet_vehicles"
+            />
+    <!-- # -->
+  </data>
+</openerp>
