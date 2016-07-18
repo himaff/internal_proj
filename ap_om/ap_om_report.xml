@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data><!--ce code est la declaration du report-->
+        <report 
+            id="ap_om_report"
+            string="Assignment Sheet"
+            model="ap.om" 
+            report_type="qweb-pdf"
+            file="ap_om.report_mission" 
+            name="ap_om.report_mission" 
+        />
+    </data>
+</openerp>

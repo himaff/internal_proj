@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data><!-- permet d afficher les attributs des champs en format pdf-->
+        <template id="report_mission">
+		    <t t-call="report.html_container">
+			    <t t-foreach="docs" t-as="o">
+				    <t call="report.external_layout">
+					    <div class="page">
+						    <h2>
+							<span t-field="o.name_id"/>
+							<span t-field="o.ref"/>
+							<span t-field="o.project_name"/>
+							<span t-field="o.object"/>
+							<span t-field="o.route_to_go"/>
+							<span t-field="o.route_return"/>
+							<span t-field="o.date_hour_depart"/>
+							<span t-field="o.date_hour_return"/>
+							<span t-field="o.accompanying_person"/>
+							<span t-field="o.means_of_transport"/>
+							<span t-field="o.notes_de_frais"/>
+							</h2>
+					    </div>
+                    </t>
+                </t>
+            </t>
+        </template>		          
+    </data>
+</openerp>
