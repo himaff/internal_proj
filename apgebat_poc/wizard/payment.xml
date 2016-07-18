@@ -7,19 +7,25 @@
 	      <field name="name">apgebat.poc.payment.wizard.form</field>
 	      <field name="model" >apgebat.poc.payment.wizard</field>
 	      <field name="arch" type="xml">
-	        <form string="payment">
+	        <form string="Payment">
 	          <sheet>
-	          	<group col="2">
 		          	<group col="2">
-		          		<field name="mode" on_change="sql_bd_union()"/>
+		          		<group col="2">
+		               		<field name="beginweek" on_change="calcul_week(beginweek)"/>
+		               	</group>
+						<group col="2">
+		               		<field name="endweek" />
+		               	</group>
+		               	<group colspan="2">
+			               <field name="site"/>
+		           		</group>
 		            </group>
-		        </group>
-	            <footer>
-	            	<button name="payment_wizard" string="Open payment"
-                            type="object" class="oe_highlight" />
-                     or
-                    <button string="Cancel" class="oe_link" special="cancel"/>
-	            </footer>
+		            <footer>
+		            	<button name="list_worker" string="Open Checklist"
+	                            type="object" class="oe_highlight" />
+	                     or
+	                    <button string="Cancel" class="oe_link" special="cancel"/>
+		            </footer>
 	          </sheet>
 	        </form>
 	      </field>

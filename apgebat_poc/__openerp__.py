@@ -16,7 +16,9 @@ This App for manage cusual staff of your business
     'depends': ["base", "project", "hr"],
     'data': [
         'apgebat_poc.xml',
-        'wizard/schedule_week.xml',
+        'wizard/payment.xml',
+        'reporting.xml',
+        'report/reportWorker.xml',
     ],
     'installable': True,
     'application': False,
