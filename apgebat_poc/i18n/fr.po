@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20150306\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-08 08:04+0000\n"
-"PO-Revision-Date: 2016-07-08 08:32+0000\n"
+"POT-Creation-Date: 2016-07-18 10:16+0000\n"
+"PO-Revision-Date: 2016-07-18 10:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 
 #. module: apgebat_poc
-#: model:ir.actions.act_window,help:apgebat_poc.action_apgebat_poc
+#: model:ir.actions.act_window,help:apgebat_poc.action_apgebat_poc_casual
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
 "          Click here to create a Casual staff.\n"
@@ -26,7 +26,21 @@ msgid ""
 "      "
 msgstr ""
 "<p class=\"oe_view_nocontent_create\">\n"
-"          cliquez ici pour créer un occasionnel.\n"
+"          Cliquez ici pour créer un employé occasionel\n"
+"        </p>\n"
+"      "
+
+#. module: apgebat_poc
+#: model:ir.actions.act_window,help:apgebat_poc.action_apgebat_poc_payment
+#: model:ir.actions.act_window,help:apgebat_poc.action_apgebat_poc_tally
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"          Click here to create a payment.\n"
+"        </p>\n"
+"      "
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"          Cliquez ici pour créer un paiement.\n"
 "        </p>\n"
 "      "
 
@@ -41,9 +55,14 @@ msgid "Active"
 msgstr "Active"
 
 #. module: apgebat_poc
-#: model:ir.ui.menu,name:apgebat_poc.menu_action_ap_pac_update
+#: view:apgebat.poc.payment.wizard:apgebat_poc.apgebat_poc_payment_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: apgebat_poc
+#: model:ir.ui.menu,name:apgebat_poc.menu_hr_hour
 msgid "Casual Staff"
-msgstr "personnel occasionnel"
+msgstr "Employé Occasionel"
 
 #. module: apgebat_poc
 #: view:apgebat.poc:apgebat_poc.apgebat_poc_form
@@ -52,22 +71,39 @@ msgid "Casual staff"
 msgstr "Personnel ocasionnel"
 
 #. module: apgebat_poc
-#: model:ir.actions.act_window,name:apgebat_poc.action_apgebat_poc
+#: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_form
+msgid "Casual staff payment"
+msgstr "Paiement occasionel"
+
+#. module: apgebat_poc
+#: model:ir.actions.act_window,name:apgebat_poc.action_apgebat_poc_casual
+#: model:ir.ui.menu,name:apgebat_poc.menu_action_apgebat_poc_casual
 msgid "Casuals"
-msgstr "Ocasionnel"
+msgstr "Occasionels"
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_poschild:0
-msgid "Childless"
-msgstr "Sans enfant"
+#: view:apgebat.poc.tally:apgebat_poc.apgebat_poc_tally_form
+msgid "Construction scorecard"
+msgstr "Pointage chantier"
 
 #. module: apgebat_poc
-#: field:apgebat.poc,create_uid:0
+#: view:website:apgebat_poc.reportAll view:website:apgebat_poc.reportWorker
+msgid "Contact: (+225) 09 90 64 50 - 40 13 23 12"
+msgstr "Contact: (+225) 09 90 64 50 - 40 13 23 12"
+
+#. module: apgebat_poc
+#: field:apgebat.poc,create_uid:0 field:apgebat.poc.payment,create_uid:0
+#: field:apgebat.poc.payment.wizard,create_uid:0
+#: field:apgebat.poc.payment.worker,create_uid:0
+#: field:apgebat.poc.tally,create_uid:0
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: apgebat_poc
-#: field:apgebat.poc,create_date:0
+#: field:apgebat.poc,create_date:0 field:apgebat.poc.payment,create_date:0
+#: field:apgebat.poc.payment.wizard,create_date:0
+#: field:apgebat.poc.payment.worker,create_date:0
+#: field:apgebat.poc.tally,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -75,6 +111,17 @@ msgstr "Created on"
 #: field:apgebat.poc,worker_day:0
 msgid "Daily"
 msgstr "Journalier"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.payment,sal:0 field:apgebat.poc.payment.worker,sal:0
+#: view:website:apgebat_poc.reportWorker
+msgid "Daily wage"
+msgstr "Salaire journalier"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.tally,datein:0
+msgid "Date"
+msgstr "Date"
 
 #. module: apgebat_poc
 #: field:apgebat.poc,worker_birth:0
@@ -92,14 +139,16 @@ msgid "Divorced"
 msgstr "Divorcé(e)"
 
 #. module: apgebat_poc
-#: view:apgebat.poc:apgebat_poc.apgebat_poc_form
-msgid "Event"
-msgstr "Evènement"
+#: field:apgebat.poc.payment.wizard,endweek:0
+msgid "End date"
+msgstr "Date final"
 
 #. module: apgebat_poc
-#: view:apgebat.poc:apgebat_poc.apgebat_poc_form
-msgid "Events"
-msgstr "Evènements"
+#: code:addons\apgebat_poc\apgebat_poc.py:94
+#: code:addons\apgebat_poc\apgebat_poc.py:266
+#, python-format
+msgid "Error!"
+msgstr "Error!"
 
 #. module: apgebat_poc
 #: selection:apgebat.poc,worker_gender:0
@@ -107,16 +156,17 @@ msgid "Female"
 msgstr "Féminin"
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_children:0
-msgid "Five"
-msgstr "Cinq"
+#: view:website:apgebat_poc.reportAll view:website:apgebat_poc.reportWorker
+msgid "From"
+msgstr "Du"
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_children:0
-msgid "Four"
-msgstr "Quatre"
+#: view:website:apgebat_poc.reportAll view:website:apgebat_poc.reportWorker
+msgid "GEBAT TEST"
+msgstr "GEBAT TEST"
 
 #. module: apgebat_poc
+#: view:apgebat.poc:apgebat_poc.apgebat_poc_form
 #: field:apgebat.poc,worker_gender:0
 msgid "Gender"
 msgstr "Sexe"
@@ -127,7 +177,9 @@ msgid "Home"
 msgstr "Domicile"
 
 #. module: apgebat_poc
-#: field:apgebat.poc,id:0
+#: field:apgebat.poc,id:0 field:apgebat.poc.payment,id:0
+#: field:apgebat.poc.payment.wizard,id:0 field:apgebat.poc.payment.worker,id:0
+#: field:apgebat.poc.tally,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -142,14 +194,30 @@ msgid "If a casual staff is not active, it will not be displayed in POC"
 msgstr "Si un personnel occasionnel n'est pas actif, il peut être desactivé du POC"
 
 #. module: apgebat_poc
-#: field:apgebat.poc,write_uid:0
+#: view:apgebat.poc:apgebat_poc.apgebat_poc_form
+msgid "Internal notes"
+msgstr "Notes internes"
+
+#. module: apgebat_poc
+#: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_form
+msgid "Invoice Lines"
+msgstr "Lignes de facture"
+
+#. module: apgebat_poc
+#: field:apgebat.poc,write_uid:0 field:apgebat.poc.payment,write_uid:0
+#: field:apgebat.poc.payment.wizard,write_uid:0
+#: field:apgebat.poc.payment.worker,write_uid:0
+#: field:apgebat.poc.tally,write_uid:0
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: apgebat_poc
-#: field:apgebat.poc,write_date:0
+#: field:apgebat.poc,write_date:0 field:apgebat.poc.payment,write_date:0
+#: field:apgebat.poc.payment.wizard,write_date:0
+#: field:apgebat.poc.payment.worker,write_date:0
+#: field:apgebat.poc.tally,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Dernière mise à jour"
 
 #. module: apgebat_poc
 #: field:apgebat.poc,worker_study:0
@@ -187,12 +255,15 @@ msgid "Monthly"
 msgstr "Mensuel"
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_children:0
-msgid "More"
-msgstr "Plus"
+#: view:website:apgebat_poc.reportAll view:website:apgebat_poc.reportWorker
+msgid "NAF-APE: xxx - RCS/RM: xxxx - Num. TVA: xxxx"
+msgstr "NAF-APE: xxx - RCS/RM: xxxx - Num. TVA: xxxx"
 
 #. module: apgebat_poc
-#: field:apgebat.poc,name:0 field:apgebat.poc,worker_pers_emerg:0
+#: view:apgebat.poc:apgebat_poc.apgebat_poc_form field:apgebat.poc,name:0
+#: field:apgebat.poc,worker_pers_emerg:0 field:apgebat.poc.payment,worker:0
+#: field:apgebat.poc.payment.worker,worker:0 field:apgebat.poc.tally,name:0
+#: view:website:apgebat_poc.reportWorker
 msgid "Name"
 msgstr "Nom"
 
@@ -207,9 +278,63 @@ msgid "Number of children"
 msgstr "Nombre d'enfants"
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_children:0
-msgid "One"
-msgstr "Un"
+#: field:apgebat.poc.payment,worker_count:0
+msgid "Number of workers"
+msgstr "Nombre de travailleurs"
+
+#. module: apgebat_poc
+#: view:apgebat.poc:apgebat_poc.apgebat_poc_form
+msgid "Numbers of children"
+msgstr "Nombre d'enfants"
+
+#. module: apgebat_poc
+#: view:apgebat.poc:apgebat_poc.apgebat_poc_form
+msgid "Numbers of phone"
+msgstr "Numéro de téléphone"
+
+#. module: apgebat_poc
+#: view:website:apgebat_poc.reportWorker
+msgid "N°"
+msgstr "N°"
+
+#. module: apgebat_poc
+#: view:apgebat.poc.payment.wizard:apgebat_poc.apgebat_poc_payment_wizard
+msgid "Open Checklist"
+msgstr "Ouvrir la liste"
+
+#. module: apgebat_poc
+#: view:website:apgebat_poc.reportAll view:website:apgebat_poc.reportWorker
+msgid "Page:"
+msgstr "Page:"
+
+#. module: apgebat_poc
+#: selection:apgebat.poc.payment,state:0 selection:apgebat.poc.tally,state:0
+msgid "Paid"
+msgstr "Payé"
+
+#. module: apgebat_poc
+#: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_form
+msgid "Pay"
+msgstr "Payer"
+
+#. module: apgebat_poc
+#: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_tree
+#: view:apgebat.poc.payment.wizard:apgebat_poc.apgebat_poc_payment_wizard
+#: model:ir.actions.act_window,name:apgebat_poc.action_apgebat_payment_wizard
+#: model:ir.actions.act_window,name:apgebat_poc.action_apgebat_poc_payment
+#: model:ir.ui.menu,name:apgebat_poc.menu_action_apgebat_poc_payment
+msgid "Payment"
+msgstr "Paiement"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.payment,workin:0
+msgid "Payment Lines"
+msgstr "Ligne de paiement"
+
+#. module: apgebat_poc
+#: view:website:apgebat_poc.reportAll view:website:apgebat_poc.reportWorker
+msgid "Payment by site"
+msgstr "Paiement par chantier"
 
 #. module: apgebat_poc
 #: view:apgebat.poc:apgebat_poc.apgebat_poc_form
@@ -237,19 +362,33 @@ msgid "Place of birth"
 msgstr "Lieu de naissance"
 
 #. module: apgebat_poc
+#: view:apgebat.poc:apgebat_poc.apgebat_poc_form
 #: field:apgebat.poc,worker_postal:0
 msgid "Postal address"
 msgstr "Adresse postale"
 
 #. module: apgebat_poc
-#: field:apgebat.poc,ref_act:0
+#: field:apgebat.poc.tally,tally_work:0 view:website:apgebat_poc.reportWorker
+msgid "Presence"
+msgstr "Presence"
+
+#. module: apgebat_poc
+#: field:apgebat.poc,ref_act:0 field:apgebat.poc.payment.wizard,site:0
+#: field:apgebat.poc.tally,tally_site:0
 msgid "Reference site"
 msgstr "Référence chantier"
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_children:0
-msgid "Seven"
-msgstr "Sept"
+#: model:ir.actions.act_window,name:apgebat_poc.action_apgebat_poc_tally
+#: model:ir.ui.menu,name:apgebat_poc.menu_action_apgebat_poc_schedule
+msgid "Schedule"
+msgstr "Horraire"
+
+#. module: apgebat_poc
+#: code:addons\apgebat_poc\apgebat_poc.py:94
+#, python-format
+msgid "Select the type of contract"
+msgstr "Seletionnez le type de contact"
 
 #. module: apgebat_poc
 #: selection:apgebat.poc,worker_marital:0
@@ -257,9 +396,10 @@ msgid "Single"
 msgstr "Célibataire"
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_children:0
-msgid "Six"
-msgstr "Six"
+#: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_form
+#: field:apgebat.poc.payment,site:0
+msgid "Site"
+msgstr "Chantier"
 
 #. module: apgebat_poc
 #: field:apgebat.poc,image_small:0
@@ -272,9 +412,39 @@ msgid "Small-sized photo of the employee. It is automatically resized as a 64x64
 msgstr "Small-sized photo of the employee. It is automatically resized as a 64x64px image, with aspect ratio preserved. Use this field anywhere a small image is required."
 
 #. module: apgebat_poc
-#: field:apgebat.poc,worker_spec:0
+#: view:website:apgebat_poc.reportAll view:website:apgebat_poc.reportWorker
+msgid "Société à responsabilité limitée (SARL) - Capital de xxx Euros - SIRET: xxxxxx"
+msgstr "Société à responsabilité limitée (SARL) - Capital de xxx Euros - SIRET: xxxxxx"
+
+#. module: apgebat_poc
+#: view:apgebat.poc:apgebat_poc.apgebat_poc_form
+#: field:apgebat.poc,worker_spec:0 field:apgebat.poc.payment,spec:0
+#: field:apgebat.poc.payment.worker,spec:0 field:apgebat.poc.tally,tally_spec:0
+#: view:website:apgebat_poc.reportWorker
 msgid "Speciality"
-msgstr "Speciality"
+msgstr "Specialité"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.payment.wizard,beginweek:0
+msgid "Start date"
+msgstr "Date de début"
+
+#. module: apgebat_poc
+#: code:addons\apgebat_poc\apgebat_poc.py:266
+#, python-format
+msgid "Start period should precede then end period."
+msgstr "La période de début doit préceder la période de fin"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.tally,state:0
+msgid "State"
+msgstr "Etat"
+
+#. module: apgebat_poc
+#: view:apgebat.poc.tally:apgebat_poc.apgebat_poc_tally_form
+#: view:apgebat.poc.tally:apgebat_poc.apgebat_poc_tally_tree
+msgid "Tally"
+msgstr "Pointage"
 
 #. module: apgebat_poc
 #: field:apgebat.poc,worker_team:0
@@ -287,19 +457,20 @@ msgid "This field holds the image used as photo for the employee, limited to 102
 msgstr "This field holds the image used as photo for the employee, limited to 1024x1024px."
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_children:0
-msgid "Three"
-msgstr "Trois"
-
-#. module: apgebat_poc
-#: selection:apgebat.poc,worker_children:0
-msgid "Two"
-msgstr "Deux"
+#: field:apgebat.poc.payment,paie:0 field:apgebat.poc.payment.worker,paie:0
+#: view:website:apgebat_poc.reportWorker
+msgid "To pay"
+msgstr "A payer"
 
 #. module: apgebat_poc
 #: view:apgebat.poc:apgebat_poc.apgebat_poc_form
 msgid "Type of contract"
 msgstr "Type de contrat"
+
+#. module: apgebat_poc
+#: selection:apgebat.poc.payment,state:0 selection:apgebat.poc.tally,state:0
+msgid "Unpaid"
+msgstr "Impayé"
 
 #. module: apgebat_poc
 #: field:apgebat.poc,worker_week:0
@@ -312,34 +483,85 @@ msgid "Widow(er)"
 msgstr "Veuf(ve)"
 
 #. module: apgebat_poc
-#: selection:apgebat.poc,worker_poschild:0
-msgid "With child"
-msgstr "Avec enfants"
-
-#. module: apgebat_poc
 #: field:apgebat.poc,worker_reg:0
 msgid "Worker registration"
 msgstr "N° immatriculation travailleur"
 
 #. module: apgebat_poc
+#: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_form
+msgid "Workers"
+msgstr "Travailleurs"
+
+#. module: apgebat_poc
 #: view:apgebat.poc:apgebat_poc.apgebat_poc_form
 msgid "casual"
-msgstr "casual"
+msgstr "occasionel"
 
 #. module: apgebat_poc
 #: field:apgebat.poc,worker_datein:0
 msgid "date of inauguration"
-msgstr "date of inauguration"
+msgstr "date d'entrée"
 
 #. module: apgebat_poc
 #: view:apgebat.poc:apgebat_poc.apgebat_poc_form
 msgid "identification of casual staff"
-msgstr "identification of casual staff"
+msgstr "identification de l'employé occasionel"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.tally,fictif:0
+msgid "ok"
+msgstr "ok"
+
+#. module: apgebat_poc
+#: view:apgebat.poc.payment.wizard:apgebat_poc.apgebat_poc_payment_wizard
+msgid "or"
+msgstr "or"
+
+#. module: apgebat_poc
+#: model:ir.actions.report.xml,name:apgebat_poc.report_poc_worker
+msgid "payment by site"
+msgstr "paiement par chantier"
+
+#. module: apgebat_poc
+#: model:ir.actions.report.xml,name:apgebat_poc.report_poc_site
+msgid "payment for all"
+msgstr "payment for all"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.payment.worker,presence:0
+msgid "presence"
+msgstr "présence"
 
 #. module: apgebat_poc
 #: field:apgebat.poc,worker_sal:0
 msgid "salary or bonus (F CFA)"
-msgstr "salary or bonus (F CFA)"
+msgstr "salaire ou prime (F CFA)"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.payment,site_build:0
+msgid "site?"
+msgstr "site?"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.payment,site_id:0
+#: field:apgebat.poc.payment.worker,site_id:0
+msgid "site_id"
+msgstr "site_id"
+
+#. module: apgebat_poc
+#: field:apgebat.poc.payment,task:0
+msgid "task_id"
+msgstr "task_id"
+
+#. module: apgebat_poc
+#: view:website:apgebat_poc.reportAll view:website:apgebat_poc.reportWorker
+msgid "to"
+msgstr "au"
+
+#. module: apgebat_poc
+#: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_tree
+msgid "total paie"
+msgstr "total paie"
 
 #. module: apgebat_poc
 #: field:apgebat.poc,worker_intern:0
@@ -347,6 +569,11 @@ msgid "traineeship"
 msgstr "Stage"
 
 #. module: apgebat_poc
-#: field:apgebat.poc,worker_poschild:0
+#: field:apgebat.poc.payment,state:0
 msgid "unknown"
-msgstr "indéfini"
+msgstr "unknown"
+
+#. module: apgebat_poc
+#: view:apgebat.poc.payment:apgebat_poc.apgebat_poc_payment_form
+msgid "workers"
+msgstr "travailleurs"
