@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste -->
+    <record id="rechargement_tree" model="ir.ui.view">
+      <field name="name">rechargement.tree</field>
+      <field name="model">rechargement</field>
+      <field name="arch" type="xml">
+        <tree string="rechargement of vehicle" editable="top">
+          <field name="card_number"/> 
+          <field name="vehicle"/> 
+          <field name="user" />
+          <field name="amount_before_reloading" />
+          <field name="reloading" />
+          <field name="bonus_fcfa" />
+          <field name="amount_after_reloading" />
+        </tree>
+      </field>
+    </record>
+	
+	<!-- L'action du menu -->
+    <record model="ir.actions.act_window" id="action_rechargement">
+      <field name="name">rechargement of car</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">rechargement</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,graph</field>
+      <field name="view_id" ref="rechargement_tree"/>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to Update
+        </p>
+      </field>
+    </record>
+
+    <!-- Menu gauche  etudiant -->   
+    <menuitem 
+              name="fleet extension" 
+              id="menu_rechargement_ref" 
+              sequence="18"
+              />
+    <menuitem
+            name="rechargement"
+            id="menu_action_rechargement_ref"
+            parent="menu_rechargement_ref"
+            />
+    <menuitem
+            name="rechargement du vehicule"
+            id="menu_action_rechargement_update"
+            action="action_rechargement"
+            parent="fleet.fleet_vehicles"
+            />
+    <!-- # -->
+  </data>
+</openerp>
