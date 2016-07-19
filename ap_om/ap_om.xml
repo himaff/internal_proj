@@ -82,9 +82,10 @@
       </field>
     </record>
 
+	
     <!-- Menu gauche  etudiant -->   
     <menuitem 
-              name="Performances Academie dev" 
+              name="mission order" 
               id="menu_ap_om_ref" 
               sequence="16"
               />
@@ -94,10 +95,10 @@
             parent="menu_ap_om_ref"
             />
     <menuitem
-            name="Voir"
+            name="mission order"
             id="menu_action_ap_om_update"
             action="action_ap_om"
-            parent="menu_action_ap_om_ref"
+            parent="hr_expense.menu_expense_all"
             />
     <!-- # -->
     
