@@ -82,12 +82,11 @@
       </field>
     </record>
 
-	
     <!-- Menu gauche  etudiant -->   
     <menuitem 
               name="mission order" 
               id="menu_ap_om_ref" 
-              sequence="16"
+              sequence="14"
               />
     <menuitem
             name="mission order "
@@ -98,7 +97,7 @@
             name="mission order"
             id="menu_action_ap_om_update"
             action="action_ap_om"
-            parent="hr_expense.menu_expense_all"
+            parent="hr_expense.next_id_49"
             />
     <!-- # -->
     
