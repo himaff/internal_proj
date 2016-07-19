@@ -18,6 +18,23 @@
       </field>
     </record>
 	
+	
+	<!-- vue graphique -->
+    <record id="ravitaillement_graph" model="ir.ui.view">
+      <field name="name">ravitaillement.graph</field>
+      <field name="model">ravitaillement</field>
+      <field name="arch" type="xml">
+        <graph string="ravitaillement"> 
+          <field name="vehicle" />
+		  <field name="license_plate" />
+		  <field name="vehicle_consumption" />
+		  <field name="vehicle_refueling" />
+		  <field name="previous_refueling_km" />
+        </graph>
+      </field>
+    </record>
+		
+	
 	<!-- L'action du menu -->
     <record model="ir.actions.act_window" id="action_ravitaillement">
       <field name="name">ravitaillement of car</field>
