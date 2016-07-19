@@ -19,6 +19,23 @@
       </field>
     </record>
 	
+	<!-- vue graphique -->
+    <record id="rechargement_graph" model="ir.ui.view">
+      <field name="name">rechargement.graph</field>
+      <field name="model">rechargement</field>
+      <field name="arch" type="xml">
+        <graph string="rechargement"> 
+          <field name="card_number" />
+		  <field name="vehicle" />
+		  <field name="user" />
+		  <field name="amount_before_reloading" />
+		  <field name="reloading" />
+		  <field name="bonus_fcfa" />
+		  <field name="amount_after_reloading" />
+        </graph>
+      </field>
+    </record>
+		
 	<!-- L'action du menu -->
     <record model="ir.actions.act_window" id="action_rechargement">
       <field name="name">rechargement of car</field>

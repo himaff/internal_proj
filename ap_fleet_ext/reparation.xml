@@ -25,6 +25,33 @@
         </tree>
       </field>
     </record>
+	
+	
+	<!-- vue graphique -->
+    <record id="reparation_graph" model="ir.ui.view">
+      <field name="name">reparation.graph</field>
+      <field name="model">reparation</field>
+      <field name="arch" type="xml">
+        <graph string="reparation"> 
+          <field name="reparation_date" />
+		  <field name="license_plate" />
+		  <field name="vehicle" />
+		  <field name="intervention_type" />
+		  <field name="designation" />
+		  <field name="unit" />
+		  <field name="quantity" />
+		  <field name="buyer" />
+		  <field name="supplier" />
+		  <field name="invoice_number" />
+		  <field name="amount" />
+		  <field name="amount_after_discount" />
+		  <field name="tva" />
+		  <field name="amount_ttc" />
+        </graph>
+      </field>
+    </record>
+	
+	
 	<!-- L'action du menu -->
     <record model="ir.actions.act_window" id="action_reparation">
       <field name="name">reparation of car</field>
