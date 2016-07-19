@@ -12,7 +12,7 @@ Manage several members
 
 This App for manage members of africa performances website PAC
     """,
-    'depends': ['base','hr_expense'],
+    'depends': ['base','hr_expense','fleet'],
     'data': [
         'ap_om.xml',
 		'ap_om_report.xml',
