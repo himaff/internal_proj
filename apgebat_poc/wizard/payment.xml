@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+	 <!-- vue formulaire -->
+	    <record id="apgebat_poc_payment_wizard" model="ir.ui.view">
+	      <field name="name">apgebat.poc.payment.wizard.form</field>
+	      <field name="model" >apgebat.poc.payment.wizard</field>
+	      <field name="arch" type="xml">
+	        <form string="Payment">
+	          <sheet>
+		          	<group col="2">
+		          		<group col="2">
+		               		<field name="beginweek" on_change="calcul_week(beginweek)"/>
+		               	</group>
+						<group col="2">
+		               		<field name="endweek" />
+		               	</group>
+		               	<group colspan="2">
+			               <field name="site"/>
+		           		</group>
+		            </group>
+		            <footer>
+		            	<button name="list_worker" string="Open Checklist"
+	                            type="object" class="oe_highlight" />
+	                     or
+	                    <button string="Cancel" class="oe_link" special="cancel"/>
+		            </footer>
+	          </sheet>
+	        </form>
+	      </field>
+	    </record>
+
+  	</data>
+</openerp>

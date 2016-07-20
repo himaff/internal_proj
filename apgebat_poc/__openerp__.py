@@ -1,25 +1,24 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'AP PAC',
+    'name': 'CASUAL',
     'version': '1.0.0',
-    'category': 'Liste',
-    'sequence': 3,
+    'category': 'RH',
+    'sequence': 4,
     'author': 'Africa performances',
    'icon': '/ap_pac/static/src/img/icon.png',
-    'summary': 'Manage members of website PAC',
+    'summary': 'management of casual staff',
     'description': """
 Manage several members
 ======================================
 
-This App for manage members of africa performances website PAC
+This App for manage cusual staff of your business
     """,
-    'depends': ["base"],
+    'depends': ["base", "project", "hr"],
     'data': [
-        'ap_pac.xml',
-        'perfac.xml',
-        'report/report.xml',
-        'perfac1.xml',
-        'report/report1.xml',
+        'apgebat_poc.xml',
+        'wizard/payment.xml',
+        'reporting.xml',
+        'report/reportWorker.xml',
     ],
     'installable': True,
     'application': False,

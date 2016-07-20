@@ -9,7 +9,7 @@
       <field name="arch" type="xml">
         <tree string="Students">
           <field name="student_gender"/> 
-          <field name="student_name"/> 
+          <field name="name"/> 
           <field name="student_pname" />       
           <field name="student_email"/> 
         </tree>
@@ -27,7 +27,7 @@
             <page string="Personnals information">
               <group col="2">
                   <field name="student_gender" /><!-- à afficher sous forme de combobox -->
-                  <field name="student_name" /> 
+                  <field name="name" /> 
                   <field name="student_birth"/>      
                   <field name="active"/> 
               </group>

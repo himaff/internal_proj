@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+			<!-- Vue formulaire voucher receipt-->
+	    <record id="cz_view_vendor_receipt_form" model="ir.ui.view">
+            <field name="name">cz.account.voucher.receipt.form</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+			
+            <form string="Receipt">
+                <header invisible="context.get('line_type', False)">
+                    <button name="proforma_voucher" string="Validate" states="draft" class="oe_highlight"/>
+                    <button name="cancel_voucher" string="Cancel Receipt" states="draft,proforma"/>
+                    <button name="cancel_voucher" string="Unreconcile" type="object" states="posted" confirm="Are you sure to unreconcile and cancel this record ?"/>
+                    <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors="{&quot;proforma&quot;:&quot;blue&quot;}"/>
+                </header>
+                <sheet>
+                    <h1 attrs="{'invisible': [('number','=',False)]}"><field name="number"/></h1>
+                    <group invisible="context.get('line_type', False)">
+                        <group>
+                            <field name="partner_id" domain="[('customer','=',True)]" required="1" on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)" string="Customer" context="{'search_default_customer': 1}"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="amount" class="oe_inline" string="Paid Amount" widget="monetary" options="{'currency_field': 'currency_id'}" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, context)"/>
+                            <field name="journal_id" domain="[('type','in',['bank', 'cash'])]" widget="selection" on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)" string="Payment Method"/>
+                        </group>
+                        <group>
+                            <field name="date" on_change="onchange_date(date, currency_id, payment_rate_currency_id, amount, company_id, context)"/>
+                            <field name="reference" string="Payment Ref" placeholder="e.g. 003/10"/>
+                            <field name="name" colspan="2" placeholder="e.g. Invoice SAJ/0042"/>
+							<field name="user_id" on_change="on_change_user(user_id, context)"/>
+                            <field name="section_id"/>
+                            <field name="company_id" widget="selection" on_change="onchange_company(partner_id, journal_id, currency_id, company_id)" groups="base.group_multi_company"/>
+
+                            <field name="account_id" widget="selection" invisible="True"/>
+                            <field name="pre_line" invisible="1"/>
+                            <field name="type" invisible="True"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payment Information">
+                            <group col="3">
+                                <group string="Internal Notes">
+                                    <field name="narration" colspan="2" nolabel="1"/>
+                                </group>
+                                <group col="4" attrs="{'invisible':[('is_multi_currency','=',False)]}">
+                                    <field name="is_multi_currency" invisible="1"/>
+				    <label for="payment_rate" colspan="1"/>
+				    <div>
+                                        <field name="payment_rate" required="1" class="oe_inline" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, context)"/>
+                                        <field name="payment_rate_currency_id" class="oe_inline" on_change="onchange_payment_rate_currency(currency_id, payment_rate, payment_rate_currency_id, date, amount, company_id, context)" groups="base.group_multi_currency"/>
+                                    </div>
+                                    <field name="currency_help_label" colspan="2" nolabel="1" class="oe_grey"/>
+                                    <field name="paid_amount_in_company_currency" colspan="4" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="writeoff_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="payment_option" required="1" attrs="{'invisible':[('writeoff_amount','=',0)]}"/>
+                                    <field name="writeoff_acc_id" attrs="{'invisible':['|', ('payment_option','!=','with_writeoff'), ('writeoff_amount','=',0)], 'required':[('payment_option','=','with_writeoff')]}" domain="[('type','=','other')]"/>
+                                    <field name="comment" attrs="{'invisible':['|', ('payment_option','!=','with_writeoff'), ('writeoff_amount','=',0)]}"/>
+                                    <field name="analytic_id" groups="analytic.group_analytic_accounting" attrs="{'invisible':['|', ('payment_option','!=','with_writeoff'), ('writeoff_amount','=',0)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter" invisible="context.get('line_type', False)">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            			
+			
+			
+			</field>
+		</record> 
+       
+			<!-- Vue formulaire voucher payement-->			
+	    <record id="cz_view_payement_form" model="ir.ui.view">
+            <field name="name">cz.account.payement.form</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+
+		
+            <form string="Voucher Payment">
+                <header>
+                    <button name="proforma_voucher" string="Validate" states="draft" invisible="context.get('line_type', False)" class="oe_highlight"/>
+                    <button name="cancel_voucher" string="Cancel Voucher" states="draft,proforma" invisible="context.get('line_type', False)"/>
+                    <button name="cancel_voucher" string="Unreconcile" type="object" states="posted" invisible="context.get('line_type', False)" confirm="Are you sure to unreconcile and cancel this record ?"/>
+                    <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft" invisible="context.get('line_type', False)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors="{&quot;proforma&quot;:&quot;blue&quot;}"/>
+                </header>
+                <sheet>
+                    <field name="account_id" invisible="True"/>
+                    <field name="pre_line" invisible="1"/>
+                    <field name="type" invisible="True"/>
+                    <group>
+                        <group>
+                            <field name="partner_id" required="1" invisible="context.get('line_type', False)" on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)" context="{'invoice_currency':currency_id, 'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}" string="Supplier"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="amount" invisible="context.get('line_type', False)" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, context)" class="oe_inline" widget="monetary" options="{&quot;currency_field&quot;: &quot;currency_id&quot;}"/>
+                            <field name="journal_id" domain="[('type','in',['bank', 'cash'])]" invisible="context.get('line_type', False)" widget="selection" on_change="onchange_journal(journal_id, line_dr_ids, False, partner_id, date, amount, type, company_id, context)" string="Payment Method"/>
+                        </group>
+                        <group>
+                            <field name="date" invisible="context.get('line_type', False)" on_change="onchange_date(date, currency_id, payment_rate_currency_id, amount, company_id, context)"/>
+                            <field name="reference" invisible="context.get('line_type', False)" string="Payment Ref" placeholder="e.g. 003/10"/>
+                            <field name="name" colspan="2" invisible="context.get('line_type', False)" placeholder="e.g. Invoice SAJ/0042"/>
+                            <field name="user_id" on_change="on_change_user(user_id, context)"/>
+                            <field name="section_id"/>
+							<field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payment Information">
+                            <group col="3">
+                                <group string="Internal Notes">
+                                    <field name="narration" colspan="2" nolabel="1"/>
+                                </group>
+                                <group>
+                                    <group col="2" attrs="{'invisible':[('is_multi_currency','=',False)]}">
+                                        <separator string="Currency Options" colspan="2"/>
+                                        <field name="is_multi_currency" invisible="1"/>
+					<label for="payment_rate" colspan="1"/>
+					<div>
+                                            <field name="payment_rate" required="1" class="oe_inline" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, context)"/>
+                                            <field name="payment_rate_currency_id" class="oe_inline" on_change="onchange_payment_rate_currency(currency_id, payment_rate, payment_rate_currency_id, date, amount, company_id, context)" groups="base.group_multi_currency"/>
+                                        </div>
+                                        <field name="currency_help_label" colspan="2" nolabel="1" class="oe_grey"/>
+                                        <field name="paid_amount_in_company_currency" colspan="2" invisible="1"/>
+                                    </group>
+                                    <group col="2">
+                                        <separator string="Payment Options" colspan="2"/>
+                                        <field name="writeoff_amount" widget="monetary" options="{&quot;currency_field&quot;: &quot;currency_id&quot;}"/>
+                                        <field name="payment_option" required="1"/>
+                                        <field name="writeoff_acc_id" attrs="{'invisible':[('payment_option','!=','with_writeoff')], 'required':[('payment_option','=','with_writeoff')]}" domain="[('type','=','other')]"/>
+                                        <field name="comment" attrs="{'invisible':[('payment_option','!=','with_writeoff')]}"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            	
+	
+					
+			</field>
+		</record>            
+
+		<!-- Vue table -->
+        <record id="cz_account_voucher_tree" model="ir.ui.view">
+            <field name="name">cz.account.voucher.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+				<tree colors="blue:state == 'draft';gray:state == 'cancel';red:audit" string="Voucher Entries">
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="reference"/>
+                    <field name="partner_id"/>
+                    <field name="journal_id" groups="account.group_account_user"/>
+                    <field name="period_id" invisible="context.get('visible', True)"/>
+                    <field name="type" invisible="context.get('visible', True)"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="audit" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+			</field>
+		</record>
+
+		<!-- Vue graphique -->
+		
+
+        <!-- Vue recherche -->
+
+		
+		<!-- L'action du menu voucher receipt -->
+    <record model="ir.actions.act_window" id="action_cz_account_voucher_receipt">
+        <field name="name">Vouchers receipt</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.voucher</field>
+        <field name="view_type">form</field>
+        <field name="domain">[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','receipt')]</field>
+        <field name="context">{'type':'receipt'}</field>
+        <!-- <field name="search_view_id" ref="view_voucher_filter_customer_pay"/>-->
+        <field name="view_id" eval="False"/>
+		<field name="target">current</field>
+        <field name="view_id" ref="cz_account_voucher_tree"/>
+	    <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Click here to create a voucher receipt.
+            </p>
+	    </field>
+    </record>
+
+	<record id="action_cz_account_voucher_receipt_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_cz_account_voucher_receipt"/>
+    </record>
+    <record id="action_cz_account_voucher_receipt_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cz_view_vendor_receipt_form"/>
+            <field name="act_window_id" ref="action_cz_account_voucher_receipt"/>
+    </record>		
+	
+		<!-- L'action du menu voucher payement -->
+    <record model="ir.actions.act_window" id="action_cz_account_voucher_payement">
+        <field name="name">Vouchers payement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.voucher</field>
+        <field name="view_type">form</field>
+	    <field name="domain">[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','payment')]</field>
+        <field name="context">{'type':'payment'}</field>
+       <!-- <field name="search_view_id" ref="view_voucher_filter_vendor_pay"/> -->		
+        <field name="view_id" eval="False"/>	
+		<field name="target">current</field>		
+        <field name="view_id" ref="cz_account_voucher_tree"/>
+	    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+            Click here to create a voucher payement.
+        </p>
+	  </field>
+    </record>	
+
+	<record id="action_cz_account_voucher_payement_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_cz_account_voucher_payement"/>
+    </record>
+    <record id="action_cz_account_voucher_payement_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cz_view_payement_form"/>
+            <field name="act_window_id" ref="action_cz_account_voucher_payement"/>
+    </record>		
+	
+    <!-- Menu gauche  voucher receipt -->   
+    <menuitem 
+              name="CZ Vouchers receipt" 
+              id="menu_cz_voucher_receipt" 
+              parent="base.menu_sales" 
+              sequence="10"
+			  action="action_cz_account_voucher_receipt"
+              />  
+    <!-- Menu gauche  Vouchers payement -->   
+    <menuitem 
+              name="CZ Vouchers payement" 
+              id="menu_cz_voucher_payement" 
+              parent="base.menu_sales" 
+              sequence="10"
+			  action="action_cz_account_voucher_payement"
+              /> 
+    <!-- # -->
+		
+    </data>
+</openerp>
