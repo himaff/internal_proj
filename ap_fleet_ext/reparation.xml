@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste -->
+    <record id="reparation_tree" model="ir.ui.view">
+      <field name="name">reparation.tree</field>
+      <field name="model">reparation</field>
+      <field name="arch" type="xml">
+        <tree string="reparation of vehicle" editable="top">
+          <field name="license_plate"/> 
+          <field name="reparation_date"/> 
+          <field name="vehicle" />
+          <field name="intervention_type" />
+          <field name="designation" />
+          <field name="unit" />
+          <field name="quantity" />
+          <field name="buyer" />
+          <field name="supplier" />
+          <field name="invoice_number" />
+          <field name="amount" />
+          <field name="amount_after_discount" on_change="calcul_montant_ttc(amount_after_discount)"/>
+          <field name="tva" />
+          <field name="amount_ttc" />		  
+        </tree>
+      </field>
+    </record>
+	
+	
+	<!-- vue graphique -->
+    <record id="reparation_graph" model="ir.ui.view">
+      <field name="name">reparation.graph</field>
+      <field name="model">reparation</field>
+      <field name="arch" type="xml">
+        <graph string="reparation"> 
+          <field name="reparation_date" />
+		  <field name="license_plate" />
+		  <field name="vehicle" />
+		  <field name="intervention_type" />
+		  <field name="designation" />
+		  <field name="unit" />
+		  <field name="quantity" />
+		  <field name="buyer" />
+		  <field name="supplier" />
+		  <field name="invoice_number" />
+		  <field name="amount" />
+		  <field name="amount_after_discount" />
+		  <field name="tva" />
+		  <field name="amount_ttc" />
+        </graph>
+      </field>
+    </record>
+	
+	
+	<!-- L'action du menu -->
+    <record model="ir.actions.act_window" id="action_reparation">
+      <field name="name">reparation of car</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">reparation</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,graph</field>
+      <field name="view_id" ref="reparation_tree"/>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to Update .
+        </p>
+      </field>
+    </record>
+
+    <!-- Menu gauche  etudiant -->   
+    <menuitem 
+              name="fleet extension" 
+              id="menu_reparation_ref" 
+              sequence="17"
+              />
+    <menuitem
+            name="reparation"
+            id="menu_action_reparation_ref"
+            parent="menu_reparation_ref"
+            />
+    <menuitem
+            name="reparation"
+            id="menu_action_reparation_update"
+            action="action_reparation"
+            parent="fleet.fleet_vehicles"
+            />   
+    <!-- # -->
+  </data>
+</openerp>

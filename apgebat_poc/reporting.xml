@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- rapport par site pour afficher les travailleurs du site -->
+        <report 
+            id="report_poc_worker"
+            string="payment by site"
+            model="apgebat.poc.payment" 
+            report_type="qweb-pdf"
+            file="apgebat_poc.reportWorker" 
+            name="apgebat_poc.reportWorker" 
+        />
+
+    </data>
+</openerp>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste -->
+    <record id="movement_tree" model="ir.ui.view">
+      <field name="name">movement.tree</field>
+      <field name="model">movement</field>
+      <field name="arch" type="xml">
+        <tree string="movement of vehicle" editable="top">
+          <field name="applicant"/> 
+          <field name="project_name"/> 
+          <field name="operation_nature" />
+          <field name="license_plate" />
+          <field name="driver_id" />
+          <field name="start_date" />
+          <field name="return_date" />
+		  <field name="km_start" />
+          <field name="return_km" />
+          <field name="traveled_km" />
+          <field name="leasing_duraton" />
+          <field name="price_list" />
+          <field name="leasing_amount" />
+          <field name="maintenance_amount" />		  
+        </tree>
+      </field>
+    </record>
+	
+	
+	<!-- vue graphique -->
+    <record id="movement_graph" model="ir.ui.view">
+      <field name="name">movement.graph</field>
+      <field name="model">movement</field>
+      <field name="arch" type="xml">
+        <graph string="movement"> 
+          <field name="applicant" />
+		  <field name="project_name" />
+		  <field name="operation_nature" />
+		  <field name="license_plate" />
+		  <field name="driver_id" />
+		  <field name="start_date" />
+		  <field name="return_date" />
+		  <field name="km_start" />
+		  <field name="return_km" />
+		  <field name="traveled_km" />
+		  <field name="leasing_duraton" on_change="calcul_montant_location(leasing_duraton)"/>
+		  <field name="price_list" on_change="calcul_montant_location(price_list)"/>
+		  <field name="leasing_amount" />
+		  <field name="maintenance_amount" />
+        </graph>
+      </field>
+    </record>
+	
+	
+	
+	
+	
+	<!-- L'action du menu -->
+    <record model="ir.actions.act_window" id="action_movement">
+      <field name="name">movement of car</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">movement</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form,graph</field>
+      <field name="view_id" ref="movement_tree"/>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to Update.
+        </p>
+      </field>
+    </record>
+
+    <!-- Menu gauche  etudiant -->   
+    <menuitem 
+              name="fleet extension" 
+              id="menu_movement_ref" 
+              sequence="16"
+              />
+    <menuitem
+            name="movement"
+            id="menu_action_movement_ref"
+            parent="menu_movement_ref"
+            />
+    <menuitem
+            name="Deplacement du vehicule"
+            id="menu_action_movement_update"
+            action="action_movement"
+            parent="fleet.fleet_vehicles"
+            />
+    <!-- # -->
+  </data>
+</openerp>

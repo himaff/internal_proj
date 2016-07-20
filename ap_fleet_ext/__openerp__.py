@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'AP OM',
+    'name': 'fleet extension',
     'version': '1.0.0',
     'category': 'Liste',
     'sequence': 3,
@@ -12,11 +12,12 @@ Manage several members
 
 This App for manage members of africa performances website PAC
     """,
-    'depends': ['base','hr_expense','fleet'],
+    'depends': ['base',],
     'data': [
-        'ap_om.xml',
-		'ap_om_report.xml',
-		'report_mission.xml',
+        'movement.xml',
+		'reparation.xml',
+		'ravitaillement.xml',
+		'rechargement.xml',
 		
     ],
     'installable': True,

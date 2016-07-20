@@ -42,7 +42,7 @@
 				  <field name="accompanying_person"/>
 			   </group>	
             </page>			   
-		    <page string="information on means_of_transport">
+		    <page string="information on means of transport">
                <group col="2">			
 				  <field name="means_of_transport"/>
 				  <field name="active"/>
@@ -84,9 +84,9 @@
 
     <!-- Menu gauche  etudiant -->   
     <menuitem 
-              name="Performances Academie dev" 
+              name="mission order" 
               id="menu_ap_om_ref" 
-              sequence="16"
+              sequence="14"
               />
     <menuitem
             name="mission order "
@@ -94,10 +94,10 @@
             parent="menu_ap_om_ref"
             />
     <menuitem
-            name="Voir"
+            name="mission order"
             id="menu_action_ap_om_update"
             action="action_ap_om"
-            parent="menu_action_ap_om_ref"
+            parent="hr_expense.next_id_49"
             />
     <!-- # -->
     
