@@ -78,11 +78,9 @@
                   <group col="1">
                   <separator string="Type of contract"/>
                   <group col="2">
-                        <field name="worker_day" /> 
-                        <field name="worker_week" />
-                        <field name="worker_month" /> 
-                        <field name="worker_intern"/>
-                        <field name="worker_sal" on_change="verif_contrat(worker_day, worker_week, worker_month, worker_intern, worker_sal)"/>
+                        <field name="type_contrat" widget="radio"/>
+                        <field name="worker_intern" />
+                        <field name="worker_sal" />
                   </group>
                   </group>
                 </page>

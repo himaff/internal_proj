@@ -42,9 +42,7 @@ class apgebat_poc(osv.osv):
         'worker_spec': fields.char('Speciality', size=128, required=True),
         'worker_team': fields.char('Team', size=128),
         'worker_datein': fields.date('date of inauguration', required=True),
-        'worker_day': fields.boolean('Daily'),
-        'worker_week': fields.boolean('Weekly'),
-        'worker_month': fields.boolean('Monthly'),
+        'type_contrat': fields.selection([('day','Daily'),('week','Weekly'),('month','Monthly')],'Contract type'),
         'worker_intern': fields.boolean('traineeship'),
         'worker_sal': fields.float('salary or bonus (F CFA)', required=True),
         'worker_pers_emerg': fields.char('Name', size=128, required=True),
@@ -77,21 +75,10 @@ class apgebat_poc(osv.osv):
         return tools.image_resize_image_big(open(image_path, 'rb').read().encode('base64'))
 #recuperer les information sur l'utilisateur a partir de son id
     def info_user(self, cr, uid, worker_id, context=None):
-        users = self.read(cr, uid, worker_id,['name', 'worker_sal','worker_day', 'worker_week', 'worker_month', 'worker_intern','worker_spec'])
+        users = self.read(cr, uid, worker_id,['name', 'worker_sal','type_contrat', 'worker_intern','worker_spec'])
         return users
 
-    def verif_contrat(self, cr, uid, day, week, month, stage, sal, context=None):
-        if sal:
-            if day==True:
-                return True
-            elif week==True:
-                return True
-            elif month==True:
-                return True
-            elif stage==True:
-                return True
-            else:
-                raise osv.except_osv(_('Error!'), _('Select the type of contract'))
+   
 
 
     _defaults = {
@@ -126,7 +113,7 @@ class apgebat_poc_tally(osv.osv):
         'tally_work': fields.boolean('Presence'),
         'datein': fields.date('Date', required=True),
         'fictif': fields.char('ok'),
-        'state' : fields.selection([('draft', 'Unpaid'),('paye', 'Paid'),], 'State')
+        'state' : fields.selection([('draft', 'Unpaid'),('paye', 'Paid'),], 'State', readonly=True)
     }
 #group les infos par site
     def info_site(self, cr, uid, filterdate, context=None):
@@ -178,21 +165,14 @@ class apgebat_poc_tally(osv.osv):
                     day=''
                     paie=0
                     stat=int(0)
-                    if bd_worker[o]['worker_day']:
-                        contrat='day'
-                    elif bd_worker[o]['worker_week']:
-                        contrat='week'
-                    elif bd_worker[o]['worker_month']:
-                        contrat='month'
-                    else:
-                        contrat='intern'
+                   
                     for a in range(nbre_task):
                         if task_status[a]=='paye':
                             stat+=0
                             if a+1 == nbre_task and stat==0:
-                                if contrat=='day':
+                                if bd_worker[o]['type_contrat']=='day':
                                     day=bd_worker[o]['worker_sal']
-                                elif contrat=='week':
+                                elif bd_worker[o]['type_contrat']=='week':
                                     day=bd_worker[o]['worker_sal']/7
                                 else:
                                     day=bd_worker[o]['worker_sal']/30
@@ -201,14 +181,14 @@ class apgebat_poc_tally(osv.osv):
                             stat+=1
 
                             if a+1 == nbre_task:
-                                if contrat=='day':
-                                    day=bd_worker[o]['worker_sal']
+                                if bd_worker[o]['type_contrat']=='day':
+                                    day=round(bd_worker[o]['worker_sal'],2)
                                     paie=day * stat
-                                elif contrat=='week':
-                                    day=bd_worker[o]['worker_sal']/7
+                                elif bd_worker[o]['type_contrat']=='week':
+                                    day=round(bd_worker[o]['worker_sal']/7,2)
                                     paie=day * stat
                                 else:
-                                    day=bd_worker[o]['worker_sal']/30
+                                    day=round(bd_worker[o]['worker_sal']/30,2)
                                     paie=day * stat
 
                     jr.append(day)
