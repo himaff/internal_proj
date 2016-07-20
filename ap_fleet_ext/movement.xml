@@ -27,26 +27,28 @@
     </record>
 	
 	
-	<!-- vue graphique -->
+		<!-- vue graphique et vue pivot -->
     <record id="movement_graph" model="ir.ui.view">
       <field name="name">movement.graph</field>
       <field name="model">movement</field>
       <field name="arch" type="xml">
-        <graph string="movement"> 
-          <field name="applicant" />
-		  <field name="project_name" />
-		  <field name="operation_nature" />
-		  <field name="license_plate" />
-		  <field name="driver_id" />
-		  <field name="start_date" />
-		  <field name="return_date" />
-		  <field name="km_start" />
-		  <field name="return_km" />
-		  <field name="traveled_km" />
-		  <field name="leasing_duraton" on_change="calcul_montant_location(leasing_duraton)"/>
-		  <field name="price_list" on_change="calcul_montant_location(price_list)"/>
-		  <field name="leasing_amount" />
-		  <field name="maintenance_amount" />
+		<graph string="vehicle movement Analysis" type="pivot">
+		            <field name="project_name" type="row"/>
+					<field name="license_plate" type="row"/>
+					<field name="applicant" type="col"/>
+                    <field name="operation_nature" type="col"/>
+                    <field name="driver_id" type="col"/>
+                    <field name="start_date" type="col"/>
+                    <field name="return_date" type="col"/>
+                    <field name="km_start" type="col"/>
+                    <field name="return_km" type="col"/>
+                    <field name="traveled_km" type="col"/>
+                    <field name="leasing_duraton" type="col"/>
+                    <field name="price_list" type="col"/>
+                    <field name="leasing_amount" type="col"/>
+                    <field name="maintenance_amount" type="col"/>
+                    <field name="leasing_amount" type="measure"/>
+                    <field name="maintenance_amount" type="measure"/>					
         </graph>
       </field>
     </record>

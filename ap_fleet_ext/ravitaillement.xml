@@ -19,19 +19,21 @@
     </record>
 	
 	
-	<!-- vue graphique -->
+		<!-- vue graphique et vue pivot -->
     <record id="ravitaillement_graph" model="ir.ui.view">
       <field name="name">ravitaillement.graph</field>
       <field name="model">ravitaillement</field>
       <field name="arch" type="xml">
-        <graph string="ravitaillement"> 
-          <field name="vehicle" />
-		  <field name="license_plate" />
-		  <field name="vehicle_consumption" />
-		  <field name="vehicle_refueling" />
-		  <field name="previous_refueling_km" />
+		<graph string="vehicle ravitaillement Analysis" type="pivot">
+		            <field name="vehicle" type="row"/>
+					<field name="license_plate" type="row"/>
+					<field name="vehicle_consumption" type="col"/>
+                    <field name="vehicle_refueling" type="col"/>
+                    <field name="previous_refueling_km" type="col"/>
+                    <field name="current_refueling_km" type="col"/>
+                    <field name="vehicle_consumption" type="measure"/>					
         </graph>
-      </field>
+	  </field>
     </record>
 		
 	

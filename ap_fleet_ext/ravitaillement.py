@@ -12,10 +12,10 @@ class ravitaillemet(osv.osv):
     _columns = {
 	    'vehicle': fields.char('Vehicule', size=128, required=True),
         'license_plate': fields.char('Immatriculation vehicule', size=128, required=True),
-		'vehicle_consumption': fields.char('Consommation du vehicule', size=128, required=True),
-        'vehicle_refueling': fields.char('ravitaillement', size=128, required=True),
-        'previous_refueling_km': fields.char('Kilometrage au ravitaillement precedent', size=128, required=True),
-        'current_refueling_km': fields.char('Kilometrage au ravitaillement actuel', size=128, required=True),		
+		'vehicle_consumption': fields.float('Consommation du vehicule', digits=(2,1)),
+        'vehicle_refueling': fields.float('Ravitaillement', digits=(2,1)),
+        'previous_refueling_km': fields.float('Kilometrage au ravitaillement precedent', digits=(2,1)),
+        'current_refueling_km': fields.float('Kilometrage au ravitaillement actuel', digits=(2,1)),		
     }
 
     _defaults = {

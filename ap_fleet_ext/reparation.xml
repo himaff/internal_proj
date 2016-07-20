@@ -27,26 +27,27 @@
     </record>
 	
 	
-	<!-- vue graphique -->
+	<!-- vue graphique et vue pivot -->
     <record id="reparation_graph" model="ir.ui.view">
       <field name="name">reparation.graph</field>
       <field name="model">reparation</field>
       <field name="arch" type="xml">
-        <graph string="reparation"> 
-          <field name="reparation_date" />
-		  <field name="license_plate" />
-		  <field name="vehicle" />
-		  <field name="intervention_type" />
-		  <field name="designation" />
-		  <field name="unit" />
-		  <field name="quantity" />
-		  <field name="buyer" />
-		  <field name="supplier" />
-		  <field name="invoice_number" />
-		  <field name="amount" />
-		  <field name="amount_after_discount" />
-		  <field name="tva" />
-		  <field name="amount_ttc" />
+		<graph string="vehicle reparation Analysis" type="pivot">
+		            <field name="vehicle" type="row"/>
+					<field name="license_plate" type="row"/>
+					<field name="reparation_date" type="col"/>
+                    <field name="intervention_type" type="col"/>
+                    <field name="designation" type="col"/>
+                    <field name="unit" type="col"/>
+                    <field name="quantity" type="col"/>
+                    <field name="buyer" type="col"/>
+                    <field name="supplier" type="col"/>
+                    <field name="invoice_number" type="col"/>
+                    <field name="amount" type="col"/>
+                    <field name="amount_after_discount" type="col"/>
+                    <field name="tva" type="col"/>
+                    <field name="amount_ttc" type="col"/>
+                    <field name="amount" type="measure"/>					
         </graph>
       </field>
     </record>

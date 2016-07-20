@@ -10,7 +10,7 @@ class movement(osv.osv):
     _order = 'applicant'
 
     _columns = {
-        'applicant': fields.char('Nature operation', size=128, required=True),		
+        'applicant': fields.char('Demandeur', size=128, required=True),		
         'project_name': fields.many2one('project.project', 'projet'),
         'operation_nature': fields.char('Nature operation', size=128, required=True),
 		'license_plate': fields.char('immatriculation vehicule', size=128, required=True),
