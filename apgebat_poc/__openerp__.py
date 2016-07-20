@@ -5,7 +5,7 @@
     'category': 'RH',
     'sequence': 4,
     'author': 'Africa performances',
-   'icon': '/ap_pac/static/src/img/icon.png',
+   'icon': '/apgebat_poc/static/description/icon.png',
     'summary': 'management of casual staff',
     'description': """
 Manage several members
