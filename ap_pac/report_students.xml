@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_students">
+		    <t t-call="report.html_container">
+			    <t t-foreach="docs" t-as="o">
+				    <t call="report.external_layout">
+					    <div class="page">
+						    <h2>
+							<span t-field="o.student_name"/>
+							<span t-field="o.student_pname"/>
+							<span t-field="o.student_email"/>
+							<span t-field="o.student_country"/>
+							<span t-field="o.student_city"/>
+							<span t-field="o.student_gender"/>
+							<span t-field="o.student_birth"/>
+							</h2>
+					    </div>
+                    </t>
+                </t>
+            </t>
+        </template>		          
+    </data>
+</openerp>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data noupdate="0">
+
+<!--CZ voucher receipt readonly user-->
+		<record id="view_account_czvoucher_receipt_form_user_readonly" model="ir.ui.view">
+            <field name="name">account.czvoucher.receipt.form readonly user</field>
+            <field name="model">account.voucher</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="cz_view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<record id="view_account_czvoucher_receipt_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">account.czvoucher.receipt.form readonly super user</field>
+            <field name="model">account.voucher</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="cz_view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+
+		<!--CZ voucher payement readonly user-->
+		<record id="view_account_czvoucher_payement_form_user_readonly" model="ir.ui.view">
+            <field name="name">account.czvoucher.payement.form readonly user</field>
+            <field name="model">account.voucher</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="cz_view_payement_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<record id="view_account_czvoucher_payement_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">account.czvoucher.payement.form readonly super user</field>
+            <field name="model">account.voucher</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="cz_view_payement_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<!--stock picking readonly user-->
+		<record id="view_picking_form_user_readonly" model="ir.ui.view">
+            <field name="name">stock.picking.form readonly user</field>
+            <field name="model">stock.picking</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="view_cz_mgmt_picking_view_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<record id="view_picking_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">stock.picking.form readonly super user</field>
+            <field name="model">stock.picking</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="view_cz_mgmt_picking_view_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<!--stock move readonly user-->
+		<record id="view_stock_move_form_user_readonly" model="ir.ui.view">
+            <field name="name">stock.move.form readonly user</field>
+            <field name="model">stock.move</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="view_cz_mgmt_stock_move_view_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<record id="view_stock_move_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">stock.move.form readonly super user</field>
+            <field name="model">stock.move</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="view_cz_mgmt_stock_move_view_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<!--res partner readonly user-->
+		<record id="view_partner_form_user_readonly" model="ir.ui.view">
+            <field name="name">partner.form readonly user</field>
+            <field name="model">res.partner</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="crm.view_partners_form_crm1"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<record id="view_partner_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">partner.form readonly super user</field>
+            <field name="model">res.partner</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="crm.view_partners_form_crm1"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<!--sale order readonly user-->
+		<record id="view_sale_order_form_user_readonly" model="ir.ui.view">
+            <field name="name">sale.order readonly user</field>
+            <field name="model">sale.order</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<record id="view_sale_order_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">sale.order readonly super user</field>
+            <field name="model">sale.order</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<!--invoice readonly user-->
+		<record id="view_account_invoice_form_user_readonly" model="ir.ui.view">
+            <field name="name">account.invoice readonly user</field>
+            <field name="model">account.invoice</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="sale.account_invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+		<record id="view_account_invoice_form_super_user_readonly" model="ir.ui.view">
+            <field name="name">account.invoice readonly super user</field>
+            <field name="model">account.invoice</field> 
+            <field name="groups_id" eval="[(6, 0, [ref('ap_czmgt.group_cz_user')])]"/>
+		    <field name="inherit_id" ref="sale.account_invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+				<field name="section_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+	</data>
+</openerp>
