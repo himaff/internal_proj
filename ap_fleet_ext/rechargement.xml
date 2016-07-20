@@ -15,23 +15,29 @@
           <field name="reloading" />
           <field name="bonus_fcfa" />
           <field name="amount_after_reloading" />
+		  <field name="amount_reload_total" />
+		  <field name="total_bonus_fcfa" />
+		  <field name="total_balance_after_reload" />
         </tree>
       </field>
     </record>
 	
-	<!-- vue graphique -->
+	<!-- vue graphique et vue pivot -->
     <record id="rechargement_graph" model="ir.ui.view">
       <field name="name">rechargement.graph</field>
       <field name="model">rechargement</field>
       <field name="arch" type="xml">
-        <graph string="rechargement"> 
-          <field name="card_number" />
-		  <field name="vehicle" />
-		  <field name="user" />
-		  <field name="amount_before_reloading" />
-		  <field name="reloading" />
-		  <field name="bonus_fcfa" />
-		  <field name="amount_after_reloading" />
+		<graph string="vehicle rechargement Analysis" type="pivot">
+		            <field name="vehicle" type="row"/>
+					<field name="card_number" type="row"/>
+					<field name="user" type="col"/>
+                    <field name="amount_before_reloading" type="col"/>
+                    <field name="reloading" type="col"/>
+                    <field name="bonus_fcfa" type="col"/>
+					<field name="amount_reload_total" type="col"/>
+					<field name="total_bonus_fcfa" type="col"/>
+					<field name="total_balance_after_reload" type="col"/>
+                    <field name="amount_after_reloading" type="measure"/>					
         </graph>
       </field>
     </record>
