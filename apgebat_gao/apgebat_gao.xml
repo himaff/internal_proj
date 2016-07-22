@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste -->
+    <record id="ap_gao_tree" model="ir.ui.view">
+      <field name="name">ap.gao.tree</field>
+      <field name="model">ap.gao</field>
+      <field name="arch" type="xml">
+        <tree string="Tender" colors="blue:state=='cons';red:state=='cancel'">
+                <field name="code" />
+                <field name="name"/>
+                <field name="owner"/>
+                <field name="masterwork"/>
+                <field name="type"/>
+                <field name="state" invisible="1"/>
+
+        </tree>
+      </field>
+    </record>
+<!-- vue formulaire -->
+    <record id="ap_gao_form" model="ir.ui.view">
+      <field name="name">ap.gao.form</field>
+      <field name="model" >ap.gao</field>
+      <field name="arch" type="xml">
+        <form string="Tender">
+          <header>
+
+            <field name="project_id" invisible="1"/>
+            <!-- etat brouillon -->
+            <button string="Validate" type="object" name="poster" class="oe_highlight" attrs="{'invisible': [('state','!=','draft')]}"/>
+            <!-- etat consultation -->
+            <button string="Validate" type="object" name="accord" class="oe_highlight" attrs="{'invisible': [('state','!=','cons')]}"/>
+            <!-- etat planning -->
+            <button string="Submission" type="object" name="submited" class="oe_highlight" attrs="{'invisible': [('state','!=','plan')]}"/>
+            <!-- etat soumission -->
+            <button string="Accepted" type="object" name="accepted" class="oe_highlight" attrs="{'invisible': [('state','!=','submit')]}"/>
+            <button string="Reject" type="object" name="rejected" class="oe_highlight" attrs="{'invisible': [('state','!=','submit')]}"/>
+            <!-- etat accepted -->
+            <button string="Create project" type="object" name="create_project" class="oe_highlight" attrs="{'invisible': [('state','!=','accept')]}"/>
+            <button string="Create project et afficher" type="object" name="create_project" class="oe_highlight" attrs="{'invisible': [('state','!=','accept')]}" context="{'open_project':'open_project'}"/>
+            <button string="Open Project" type="object" name="affiche" class="oe_highlight" attrs="{'invisible': [('state','!=','accepted')]}" context="{'open_project': project_id}"/>
+            <!-- etat canceled -->
+            <button string="Give the draft" type="object" name="draft" class="oe_highlight" attrs="{'invisible': [('state','!=','cancel')]}"/>
+
+            <button string="Cancel" type="object" name="cancel" attrs="{'invisible': [('state','in',['draft','cancel','accepted'])]}"/>
+            <button string="Cancel" type="object" name="canceled" confirm="Are you sure? because the event related project is also deleted." attrs="{'invisible': [('state','not in','accepted')]}" context="{'open_project': project_id}"/>
+
+            <field name="state" widget="statusbar" statusbar_visible="plan,submit,accept" statusbar_colors="{'accept': 'green','Reject':'red','cancel':'red'}"/>
+            
+          </header>
+          <style>
+             .openerp .oe_form_sheetbg {
+              padding: 16px 0;
+              max-width: none !important;
+              }
+             .openerp .oe_form_sheet_width_wider {
+               max-width: 1100px;
+            }
+          </style>
+
+          <sheet class="oe_form_sheet_width_wider">
+            <group col="2" >
+              <group col="2">
+                <field name="code" attrs="{'readonly': [('state','=','cancel')]}"/>
+              </group>
+              <newline/>
+              <h1 colspan="2"><field name="name" placeholder="Tender title" attrs="{'readonly': [('state','=','cancel')]}"/></h1>
+              
+              <group col="2" string="Customer" >
+                <field name="owner" attrs="{'readonly': [('state','=','cancel')]}"/>
+                <field name="owner_contact" attrs="{'readonly': [('state','=','cancel')]}"/>
+
+                <field name="masterwork" attrs="{'readonly': [('state','=','cancel')]}"/>
+                <field name="master_address" attrs="{'readonly': [('state','=','cancel')]}"/>
+                <field name="master_contact" attrs="{'readonly': [('state','=','cancel')]}"/> 
+              </group>
+              <group col="2" string="Tender Processus">
+                <field name="type" attrs="{'readonly': [('state','=','cancel')]}"/>
+                <field name="date_meeting" attrs="{'readonly': [('state','=','cancel')]}"/>
+                <field name="date_depot" attrs="{'readonly': [('state','=','cancel')]}"/>
+                <field name="owner_address" attrs="{'readonly': [('state','=','cancel')]}"/>
+                <field name="copy" attrs="{'readonly': [('state','=','cancel')]}"/>
+                <!--<field name="date_ouvert"/>
+                <field name="date_begin"/>
+                <field name="date_end"/>-->
+                <field name="delai" attrs="{'readonly': [('state','=','cancel')]}"/>
+              </group>
+                           
+              <!--<group col="4" string="Values" colspan="2">
+                <field name="market"/>
+                <field name="total_ds"/>
+              </group>-->
+              <notebook string="Processus" colspan="2">
+                
+                <page string="Award prizes">
+                  <separator string="Award prizes" />
+                    <field name="lot_id" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state','=','cancel')]}">
+                      <tree string="Award prizes" editable="bottom" default_order="name asc">
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="caution" sum="Caution total"/>
+                        <field name="credit_line" sum="Credit total"/>
+                      </tree>
+                    </field>
+                </page>
+                
+                <page string="Estimates" attrs="{'readonly': [('state','=','cancel')], 'invisible': [('state','in',['draft', 'cons'])]}">
+                  <separator string="Estimates" />
+                    <field name="estimation_id" nolabel="1" widget="one2many_list" >
+                      <form string="Estimates" >
+                        <group col="2">
+                          <group col="4" colspan="2">
+                            <field name="code"/>
+                            <field name="lot_id"/>
+                          </group>
+                          <group col="2">
+                            <field name="price_line" colspan="2"/>
+                          </group>
+                          <group col="2">
+                            <field name="type" />
+                          </group>
+                          <group col="4" colspan="2">
+                          <field name="parent_id" attrs="{'invisible': [('type','in','vue')]}"/><field name="sequences" attrs="{'invisible': [('type','in','vue')]}"/></group>
+                          <group col="4" colspan="2" >
+                            <field name="prevu" on_change="valeur(pu_ds, bpu, prevu)" attrs="{'invisible': [('type','in','vue')]}"/>
+                            <field name="unite_id" attrs="{'invisible': [('type','in','vue')]}"/>
+                          </group>
+                          <group col="2" >
+                            <field name="pu_ds" on_change="valeur(pu_ds, bpu, prevu)" attrs="{'invisible': [('type','in','vue')]}"/>
+                            <field name="qte_ds" invisible="1" />
+                            <field name="bpu" on_change="valeur(pu_ds, bpu, prevu)" attrs="{'invisible': [('type','in','vue')]}"/>
+                            <field name="qte_bpu" invisible="1"/>
+                            <field name="ecart" invisible="1"/>
+                            <field name="ratio" invisible="1"/>
+                          </group>
+                        </group>
+                        
+                       <!-- <script> 
+                          $('.ok_button').load(function() { 
+                          $(this).removeAttr('disabled')
+                           });
+                         </script>-->
+                      </form>
+                      <tree>
+                        <field name="code"/>
+                        <field name="lot_id"/>
+                        <field name="price_line"/>
+                        <field name="priceline_id" />
+                        <field name="unite_id"/>
+                        <field name="prevu" on_change="valeur(pu_ds, bpu, prevu)"/>
+                        <field name="pu_ds" on_change="valeur(pu_ds, bpu, prevu)"/>
+                        <field name="qte_ds" />
+                        <field name="bpu" on_change="valeur(pu_ds, bpu, prevu)"/>
+                        <field name="qte_bpu"/>
+                        <field name="ecart" />
+                        <field name="ratio" />
+                      </tree>
+
+                    </field>
+                      <group class="oe_subtotal_footer oe_right" >
+                          <field name="amount_ht"/>
+                          <field name="amount_tva"/>
+                          <field name="amount_ttc" class="oe_subtotal_footer_separator"/>
+                      </group>
+                    
+                </page>
+
+
+                <page string="Documents received" attrs="{'readonly': [('state','=','cancel')], 'invisible': [('state','in',['draft', 'cons'])]}">
+                  <separator string="Documents received" />
+                    <field name="doc_rec" nolabel="1" widget="one2many_list" >
+                      <tree string="Documents received" editable="bottom" default_order="name asc" >
+                        <field name="name" />
+                        <field name="type" invisible="1"/>
+                        <field name="datas"/>
+                        <field name="date"/>
+                        <field name="status" invisible="1"/>
+                      </tree>
+                    </field>
+                </page>
+
+                <page string="Submission documents" attrs="{'readonly': [('state','=','cancel')], 'invisible': [('state','in',['draft', 'cons'])]}">
+                  <separator string="Documents sended" />
+                    <field name="doc_send" nolabel="1" widget="one2many_list" >
+                      <tree string="Documents sended" editable="bottom" default_order="name asc" >
+                        <field name="name"/>
+                        <field name="type" invisible="1"/>
+                        <field name="datas"/>
+                        <field name="date"/>
+                        <field name="status" invisible="1"/>
+                      </tree>
+                    </field>
+                </page>
+
+                <page string="Description">
+                  <separator string="Description" />
+                  <field name="note"/>
+                </page>
+              </notebook>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+
+    <!-- L'action du menu -->
+    <record model="ir.actions.act_window" id="action_ap_gao_draft">
+      <field name="name">Tender</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">ap.gao</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="ap_gao_tree"/>
+      <field name="domain">[('state', 'in', ['draft', 'cons', 'cancel'])]</field>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to create a customer bidding.
+        </p>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_ap_gao_approved">
+      <field name="name">Tender</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">ap.gao</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="ap_gao_tree"/>
+      <field name="domain">[('state', 'not in', ['draft', 'cons', 'cancel', 'accept', 'accepted'])]</field>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to create a customer bidding.
+        </p>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_ap_gao_accept">
+      <field name="name">Tender</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">ap.gao</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="ap_gao_tree"/>
+      <field name="domain">[('state', 'in', ['accept', 'accepted'])]</field>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to create a customer bidding.
+        </p>
+      </field>
+    </record>
+
+    <!-- Menu gauche  etudiant -->   
+    <menuitem
+            name="Tenders"
+            id="menu_tender"
+            />
+
+    <menuitem
+            name="Tenders"
+            id="menu_ap_gao"
+            parent="menu_tender"
+            />
+    <menuitem
+            name="Proposal"
+            id="menu_action_ap_gao_draft"
+            action="action_ap_gao_draft"
+            parent="menu_ap_gao"
+            sequence="1"
+            />
+    <menuitem
+            name="Subscription"
+            id="menu_action_ap_gao_approved"
+            action="action_ap_gao_approved"
+            parent="menu_ap_gao"
+            sequence="2"
+            />
+    <menuitem
+            name="Accepted"
+            id="menu_action_ap_gao_accept"
+            action="action_ap_gao_accept"
+            parent="menu_ap_gao"
+            sequence="3"
+            />
+     <!-- <menuitem
+            name="Voir"
+            id="menu_action_ap_pac_update"
+            
+            parent="menu_action_ap_pac_student"
+            />
+   # -->
+    
+  </data>
+</openerp>
