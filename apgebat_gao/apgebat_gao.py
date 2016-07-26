@@ -4,10 +4,122 @@ import openerp
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 import time
+import datetime
+import calendar
 
 class ap_gao(osv.osv):
     _name = 'ap.gao'
     _order = 'name asc'
+
+    def _amount_all_wrapper(self, cr, uid, ids, field_name, arg, context=None):
+        """ Wrapper because of direct method passing as parameter for function fields """
+        #raise osv.except_osv(_('Error!'), _(context))
+        return self._amount_all(cr, uid, ids, field_name, arg, context=context)
+
+    def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for order in self.browse(cr, uid, ids, context=context):
+            res[order.id] = {
+                'amount_ht_ds': 0.0,
+                'amount_ht_dqe': 0.0,
+            }
+            val = val1 = val2 = 0.0
+            for estim in order.estimation_id:
+                res[estim.id] = {
+                    'pu_ds': 0.0,
+                    'ecart': 0.0,
+                    'ratio': 0.0,
+                    'coef': 0.0,
+                    'total_ds': 0.0,
+                    'total_bpu': 0.0,
+                    'amount_total': 0.0,
+                }
+                val2 += estim.total_bpu
+                val += estim.total_ds
+                for line in estim.mat_line:
+                    val1 += line.mat_total
+                    
+                res[estim.id]['pu_ds'] = val1
+                res[estim.id]['total_ds'] = estim.quantity * val1
+                res[estim.id]['total_bpu'] = estim.quantity * estim.bpu
+                res[estim.id]['ecart'] = res[estim.id]['total_bpu'] - res[estim.id]['total_ds']
+                if res[estim.id]['total_bpu'] and res[estim.id]['total_ds']:
+                    res[estim.id]['ratio'] = (res[estim.id]['total_ds'] / res[estim.id]['total_bpu']) * 100
+                    res[estim.id]['coef'] = ((res[estim.id]['total_bpu'] - res[estim.id]['total_ds']) / res[estim.id]['total_ds']) * 100
+                else:
+                    res[estim.id]['ratio'] = 0
+                    res[estim.id]['coef'] = 0
+                res[estim.id]['amount_total'] = res[estim.id]['total_bpu']
+             
+            res[order.id]['amount_ht_dqe'] = val2
+            res[order.id]['amount_ht_ds'] = val
+        return res
+
+
+
+    def _delai(self, cr, uid, ids, begin, end, context=None):
+        daily = ""
+        #raise osv.except_osv(_('Error!'), _(ok))
+        if begin:
+            dateBegin = datetime.datetime.strptime(begin,'%Y-%m-%d')
+        else:
+            dateBegin = datetime.datetime.strptime(time.strftime('%Y-%m-%d',time.localtime()), "%Y-%m-%d")
+        if end:
+            dateEnd = datetime.datetime.strptime(end,'%Y-%m-%d')
+        else:
+            dateEnd = datetime.datetime.strptime(time.strftime('%Y-%m-%d',time.localtime()), "%Y-%m-%d")
+
+        day_ecart= dateEnd - dateBegin
+        yearBegin = dateBegin.year
+        monthBegin = dateBegin.month
+        dayBegin = dateBegin.day 
+        dayOfMonth = calendar.mdays
+        delaiDay = day_ecart.days
+        month_val = 0
+        day_val = 0
+        i = 0
+
+        while delaiDay > 0:
+            if calendar.isleap(yearBegin + i):
+                dayOfMonth[2] = 29
+            else:
+                dayOfMonth[2] = 28
+
+            for month in range(12):
+                if month+1 >= monthBegin:
+                    if delaiDay >= dayOfMonth[month]:
+                        delaiDay -= dayOfMonth[month]
+                        month_val += 1
+                    else:
+                        day_val += delaiDay
+                        delaiDay = 0
+
+
+            i += 1
+            monthBegin = 1
+        if month_val>1:
+            if day_val>1:
+                daily = "%s months and %s days" % (month_val, day_val)
+            else:
+                daily = "%s months and %s day" % (month_val, day_val)
+        else:
+            if day_val>1:
+                daily = "%s month and %s days" % (month_val, day_val)
+            else:
+                daily = "%s month and %s day" % (month_val, day_val)
+        values = {'delai': daily,}
+        cr.execute('''UPDATE ap_gao SET delai = %s WHERE id=%s''', (daily, ids[0]))
+        return {'value': values}
+
+
+
+    def _get_order(self, cr, uid, ids, context=None):
+        result = {}
+        for line in self.pool.get('ap.gao.estim').browse(cr, uid, ids, context=context):
+            raise osv.except_osv(_('Error!'), _(line))
+            result[line.order_id.id] = True
+        return result.keys()
+
 
     _columns = {
         'code': fields.char('N° tender'),
@@ -18,10 +130,10 @@ class ap_gao(osv.osv):
         'copy': fields.integer('Copy number'),
         'owner': fields.many2one('res.partner', 'Building owner', required=True, domain="[('customer','=',True)]"),
         'owner_address': fields.char('Instead of deposit'),
-        'owner_contact': fields.char('Contact'),
+        'owner_contact': fields.related('owner','phone',readonly=True, type='char', relation='res.partner', string='Building owner phone'),
         'masterwork': fields.many2one('res.partner', 'Master work', required=True, domain="[('customer','=',True)]"),
-        'master_address': fields.char('Address'),
-        'master_contact': fields.char('Contact'),
+        'master_address': fields.related('masterwork','city',readonly=True, type='char', relation='res.partner', string='Masterwork address'),
+        'master_contact': fields.related('masterwork','phone',readonly=True, type='char', relation='res.partner', string='Masterwork phone'),
         'date_meeting': fields.datetime('Date of preparatory meeting'),
         'lot_id': fields.one2many('ap.gao.attr', 'tender_id', string='Award prizes'),
         'estimation_id': fields.one2many('ap.gao.estim', 'tender_id', string='Estimates'),
@@ -32,11 +144,18 @@ class ap_gao(osv.osv):
         'date_end': fields.date('Date of Completion'),
         'market': fields.float('Market value'),
         'total_ds': fields.float(''),
-        'delai': fields.float('Completion time'),
+        'delai': fields.char('Completion time', readonly=True),
         'note': fields.text('Description'),
-        'amount_ht': fields.float('Untaxed'),
-        'amount_tva': fields.float('Tax'),
-        'amount_ttc': fields.float('Total'),
+        'amount_ht_ds': fields.function(_amount_all_wrapper, string='Amount total DS',
+            store={
+                'ap.gao': (lambda self, cr, uid, ids, c={}: ids, ['estimation_id'], 10),
+                'ap.gao.estim': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount without tax.", track_visibility='always'),
+        'amount_ht_dqe': fields.function(_amount_all_wrapper, string='Amount total DQE',
+            store={
+                'ap.gao': (lambda self, cr, uid, ids, c={}: ids, ['estimation_id'], 10),
+                'ap.gao.estim': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount with tax.", track_visibility='always'),
         'state' : fields.selection([('draft', 'Draft'),('cons', 'Consultation'), ('plan', 'Planning'),('submit', 'Submission'), ('accept', 'Accepted'), ('accepted', 'Created project'), ('reject', 'Rejected'),('cancel', 'Canceled')]),
 
         
@@ -44,7 +163,8 @@ class ap_gao(osv.osv):
 
     _defaults = {
         'state' : 'draft',
-        'status' : 'encours'
+        'status' : 'encours',
+        'delai': '0 month and 0 day'
     }
 
    # _sql_constraints = [
@@ -137,6 +257,13 @@ class ap_gao(osv.osv):
 
 
 
+    def button_dummy(self, cr, uid, ids, context=None):
+
+        return True
+
+    
+
+
 
 class ap_gao_attr(osv.osv):
     _name = 'ap.gao.attr'
@@ -164,26 +291,116 @@ class ap_gao_estim(osv.osv):
     _order = 'price_line asc'
     _rec_name= 'price_line'
 
+    def _amount_all_wrapper(self, cr, uid, ids, field_name, arg, context=None):
+        """ Wrapper because of direct method passing as parameter for function fields """
+        #raise osv.except_osv(_('Error!'), _(field_name))
+        return self._amount_all(cr, uid, ids, field_name, arg, context=context)
+
+    def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        estim=self.browse(cr, uid, ids, context=None)
+        for order in self.pool.get('ap.gao').browse(cr, uid, estim.tender_id, context=None):
+            res[order.id] = {
+                'amount_ht_ds': 0.0,
+                'amount_ht_dqe': 0.0,
+            }
+            val = val2 = 0.0
+            for estim in order.estimation_id:
+                res[estim.id] = {
+                    'pu_ds': 0.0,
+                    'ecart': 0.0,
+                    'ratio': 0.0,
+                    'coef': 0.0,
+                    'total_ds': 0.0,
+                    'total_bpu': 0.0,
+                    'amount_total': 0.0,
+                }
+                val2 += estim.total_bpu
+                val += estim.total_ds
+                val1 = 0.0
+                for line in estim.mat_line:
+                    val1 += line.mat_total
+                    
+                res[estim.id]['pu_ds'] = val1
+                res[estim.id]['total_ds'] = estim.quantity * val1
+                res[estim.id]['total_bpu'] = estim.quantity * estim.bpu
+                res[estim.id]['ecart'] = res[estim.id]['total_bpu'] - res[estim.id]['total_ds']
+                if res[estim.id]['total_bpu'] and res[estim.id]['total_ds']:
+                    res[estim.id]['ratio'] = (res[estim.id]['total_ds'] / res[estim.id]['total_bpu']) * 100
+                    res[estim.id]['coef'] = ((res[estim.id]['total_bpu'] - res[estim.id]['total_ds']) / res[estim.id]['total_ds']) * 100
+                else:
+                    res[estim.id]['ratio'] = 0
+                    res[estim.id]['coef'] = 0
+                res[estim.id]['amount_total'] = res[estim.id]['total_bpu']
+             
+            res[order.id]['amount_ht_dqe'] = val2
+            res[order.id]['amount_ht_ds'] = val
+        return res
+
+    def _get_order(self, cr, uid, ids, context=None):
+        result = {}
+        for line in self.pool.get('ap.gao.mat').browse(cr, uid, ids, context=context):
+            raise osv.except_osv(_('Error!'), _(line))
+            result[line.order_id.id] = True
+        return result.keys()
+
     _columns = {
         'type': fields.selection([('vue','Vue'),('child','Details')],'Type', required=True),
-        'sequences': fields.integer('Item N°'),
+        'sequences': fields.integer('Item N°', required=True),
         'parent_id': fields.many2one('ap.gao.estim', 'Parent', ondelete="cascade", domain="[('type','=','vue')]"),
-        'code': fields.char('Batch number', required=True),
-        'price_line': fields.char('Issue price lines', required=True),
-        'prevu': fields.float('Expected amount'),
-        'pu_ds': fields.float('Unit price DS'),
-        'bpu': fields.float('Unit Price BPU'),
-        'ecart': fields.float('Gap'),
-        'ratio': fields.float('Ratio DS/DQE'),
-        'tender_id': fields.integer('tender_id'),
+        'code': fields.char('Batch number'),
         'lot_id': fields.many2one('ap.gao.attr', 'Lot of tender', required=True),
+        'price_line': fields.char('Name', required=True),
+        'pu_ds': fields.function(_amount_all_wrapper, string='Unit price DS',
+            store={
+                'ap.gao.estim': (lambda self, cr, uid, ids, c={}: ids, ['mat_line'], 10),
+                'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
+        'bpu': fields.float('Unit Price BPU'),
+        'ecart': fields.function(_amount_all_wrapper, string='Gap',
+            store={
+                'ap.gao.estim': (lambda self, cr, uid, ids, c={}: ids, ['mat_line'], 10),
+                'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
+        'ratio': fields.function(_amount_all_wrapper, string='Ratio DS/DQE (%)',
+            store={
+                'ap.gao.estim': (lambda self, cr, uid, ids, c={}: ids, ['mat_line'], 10),
+                'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
+        'coef': fields.function(_amount_all_wrapper, string='Coef. of sale',
+            store={
+                'ap.gao.estim': (lambda self, cr, uid, ids, c={}: ids, ['mat_line'], 10),
+                'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
+        'tender_id': fields.integer('tender_id'),
         'priceline_id': fields.many2one('ap.gao.prix', 'Price line'),
         'unite_id': fields.many2one('product.uom', 'Product UoM'),
-        'qte_ds': fields.integer('Amount DS'),
-        'qte_bpu': fields.integer('Amount DQE'),
+        'total_ds': fields.function(_amount_all_wrapper, string='Amount DS',
+            store={
+                'ap.gao.estim': (lambda self, cr, uid, ids, c={}: ids, ['mat_line'], 10),
+                'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
+        'total_bpu': fields.function(_amount_all_wrapper, string='Amount DQE',
+            store={
+                'ap.gao.estim': (lambda self, cr, uid, ids, c={}: ids, ['mat_line'], 10),
+                'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
+        'amount_total': fields.function(_amount_all_wrapper, string='Total',
+            store={
+                'ap.gao.estim': (lambda self, cr, uid, ids, c={}: ids, ['mat_line'], 10),
+                'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
+            }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
+        'mat_line': fields.one2many('ap.gao.mat', 'estim_id', string='Materials'),
+        'quantity': fields.float('Quantity'),
+        
+        
         
 
     }
+
+    #creer une fonction pour filtrer les valeurs de parent_id afin d'afficher uniquement les valeurs qui concerne notre vue
+
+   
 
     def valeur(self, cr, uid, ids, puds, pubpu, prevu, context=None):
         ds=0
@@ -191,45 +408,20 @@ class ap_gao_estim(osv.osv):
         values={}
         if prevu and puds:
             ds=puds*prevu
-            values={'qte_ds':ds,}
+            values={'total_ds':ds,}
         if prevu and pubpu:
             dqe=pubpu*prevu
-            values={'qte_bpu':dqe,}
+            values={'total_bpu':dqe,}
         if ds and dqe:
             ecart=dqe-ds
             ratio=(ds/dqe)*100
-            values={'qte_ds':ds, 'qte_bpu':dqe, 'ecart':ecart, 'ratio':ratio}
+            coef=((dqe-ds)/ds)*100
+
+            values={'total_ds':ds, 'total_bpu':dqe, 'ecart':ecart, 'ratio':ratio, 'coef':coef}
         return {'value': values}
 
-    def coucou(self, cr, uid, ids, context=None):
-        raise osv.except_osv(_('Error!'), _('coucou.'))
-
-
-
-
-
-class ap_gao_prix(osv.osv):
-    _name = 'ap.gao.prix'
-    _order = 'name asc'
-
-    _columns = {
-        'name': fields.char('wording of the price line', required=True),
-        'mat_ds_val': fields.float('DS value of materials'),
-        'mat_bpu_val': fields.float('BPU value of materials'),
-        'coef': fields.float('Coefficient of sale'),
-        'estim_id': fields.integer('estim'),
-
-
-
-#choix   Type
-#Many 2 one / ligne de prix  affiliation
-#Many 2 many / ligne de materiaux, MMO   ligne de materiaux, MMO
-
-
-
-
-    }
-
+    def button_dummy(self, cr, uid, ids, context=None):
+        return True
 
 
 
@@ -239,18 +431,37 @@ class ap_gao_prix(osv.osv):
 
 class ap_gao_mat(osv.osv):
     _name = 'ap.gao.mat'
-    _order = 'name asc'
+    _order = 'product_id asc'
+
 
     _columns = {
         'quantity': fields.float('Quantity'),
         'pu_composant': fields.float('price component'),
-        'unite_id': fields.many2one('product.uom', 'Product UoM', required=True),
-        'product_id': fields.many2one('product.template', 'equipments / materials', required=True),
+        'unite_id': fields.many2one('product.uom', 'Product UoM'),
+        'product_id': fields.many2one('product.template', 'equipments / materials'),
+        'mat_total': fields.float('Amount total'),
+        'estim_id': fields.integer('estim'),
         
 
     }
 
 
+    def calcul_mat_total(self, cr, uid, ids, pu, qte, context=None):
+        total=pu*qte
+        values = {'mat_total': total,}
+        return {'value': values}
+
+    def button_dummy(self, cr, uid, ids, context=None):
+            return True
+
+     #   if mat_total:
+     #       raise osv.except_osv(_('Error!'), _(context))
+      #      ds+=mat_total
+      #      values = {'pu_ds': ds,}
+      #      return {'value': values}
+      #  return True
+
+    
 
 
 
@@ -265,4 +476,8 @@ class ap_gao_doc_received(osv.osv):
         'tenderrec_id': fields.integer('tender_id'),
         'date': fields.date('Date'),
 
+    }
+
+    _defaults = {
+        'date': time.strftime('%Y-%m-%d',time.localtime()),
     }
