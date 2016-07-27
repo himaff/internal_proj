@@ -19,6 +19,32 @@
     </record>
 	
 	
+	<!-- vue formulaire -->
+    <record id="ravitaillement_form" model="ir.ui.view">
+      <field name="name">ravitaillement.form</field>
+      <field name="model" >ravitaillement</field>
+      <field name="arch" type="xml">
+        <form string="ravitaillement of car">		
+          <sheet>
+            <separator string="ravitaillement of car" />
+          <notebook string="ravitaillement car">
+            <page string="information of ravitaillement ">
+              <group col="2">
+			      <field name="vehicle" />
+                  <field name="license_plate" />
+                  <field name="vehicle_consumption" /> 
+                  <field name="vehicle_refueling"/>
+                  <field name="previous_refueling_km"/>
+                  <field name="current_refueling_km"/>			  
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+        </form>
+      </field>
+    </record>
+	
+	
 		<!-- vue graphique et vue pivot -->
     <record id="ravitaillement_graph" model="ir.ui.view">
       <field name="name">ravitaillement.graph</field>
