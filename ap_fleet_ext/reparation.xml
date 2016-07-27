@@ -26,6 +26,62 @@
       </field>
     </record>
 	
+	   <!-- heritage de la vue         -->
+	<record id="reparation-fleet" model="ir.ui.view">
+			<field name="name">reparation.fleet.form</field>
+			<field name="model">fleet.vehicle.log.services</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_log_services_form"/>
+			<field name="arch" type="xml">
+                <field name="cost_ids" position="after">				     
+				  <group col="2">	
+					<field name="unit"/>
+					<field name="quantity  on_change="(quantity)""/>
+					<field name="unit_price"/>
+					<field name="total_amount"/>
+				  </group>	
+                </field>
+			</field>
+</record>
+	
+	
+	
+		<!-- vue formulaire -->
+    <record id="reparation_form" model="ir.ui.view">
+      <field name="name">reparation.form</field>
+      <field name="model" >reparation</field>
+      <field name="arch" type="xml">
+        <form string="reparation of car">		
+          <sheet>
+            <separator string="reparation of car" />
+          <notebook string="reparation car">
+            <page string="information of car">
+              <group col="2">
+			      <field name="reparation_date" />
+                  <field name="license_plate" />
+                  <field name="vehicle" /> 
+                  <field name="intervention_type"/>
+                  <field name="designation"/>
+                  <field name="unit"/>
+                  <field name="quantity"/>				  
+              </group>
+            </page>
+            <page string="others information">
+              <group col="2">
+			      <field name="buyer"/>
+                  <field name="supplier"/> 
+                  <field name="invoice_number"/> 
+                  <field name="amount"/>
+				  <field name="amount_after_discount"/>
+				  <field name="tva"/>
+				  <field name="amount_ttc"/>
+			   </group>	
+            </page>
+          </notebook>
+        </sheet>
+        </form>
+      </field>
+    </record>
+	
 	
 	<!-- vue graphique et vue pivot -->
     <record id="reparation_graph" model="ir.ui.view">

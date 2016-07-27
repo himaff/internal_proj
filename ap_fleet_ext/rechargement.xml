@@ -9,11 +9,12 @@
       <field name="arch" type="xml">
         <tree string="rechargement of vehicle" editable="top">
           <field name="card_number"/> 
-          <field name="vehicle"/> 
-          <field name="user" />
+          <field name="vehicle"/>
+          <field name="license_plate"/>		  
+          <field name="driver" />
           <field name="amount_before_reloading" />
-          <field name="reloading" />
-          <field name="bonus_fcfa" />
+          <field name="reloading" on_change="calcul_solde(reloading)"/>
+          <field name="bonus_fcfa" on_change="calcul_solde(bonus_fcfa)"/>
           <field name="amount_after_reloading" />
 		  <field name="amount_reload_total" />
 		  <field name="total_bonus_fcfa" />
@@ -21,6 +22,41 @@
         </tree>
       </field>
     </record>
+	
+	<!-- vue formulaire -->
+    <record id="rechargement_form" model="ir.ui.view">
+      <field name="name">rechargement.form</field>
+      <field name="model" >rechargement</field>
+      <field name="arch" type="xml">
+        <form string="rechargement of car">		
+          <sheet>
+            <separator string="information of car" />
+          <notebook string="rechargement car">
+            <page string="information of car">
+              <group col="2">
+			      <field name="card_number" />
+                  <field name="vehicle" />
+                  <field name="license_plate"/>
+                  <field name="driver" /> 
+                  <field name="amount_before_reloading"/>
+                  <field name="reloading"/>				  
+              </group>
+            </page>
+            <page string="others information">
+              <group col="2">
+			      <field name="bonus_fcfa"/>
+                  <field name="amount_after_reloading"/> 
+                  <field name="amount_reload_total"/> 
+                  <field name="total_bonus_fcfa"/>
+				  <field name="total_balance_after_reload"/>
+			   </group>	
+            </page>
+          </notebook>
+        </sheet>
+        </form>
+      </field>
+    </record>	
+	
 	
 	<!-- vue graphique et vue pivot -->
     <record id="rechargement_graph" model="ir.ui.view">
@@ -30,10 +66,11 @@
 		<graph string="vehicle rechargement Analysis" type="pivot">
 		            <field name="vehicle" type="row"/>
 					<field name="card_number" type="row"/>
-					<field name="user" type="col"/>
+					<field name="driver" type="col"/>
                     <field name="amount_before_reloading" type="col"/>
                     <field name="reloading" type="col"/>
                     <field name="bonus_fcfa" type="col"/>
+					<field name="license_plate" type="col"/>
 					<field name="amount_reload_total" type="col"/>
 					<field name="total_bonus_fcfa" type="col"/>
 					<field name="total_balance_after_reload" type="col"/>
@@ -70,7 +107,7 @@
             parent="menu_rechargement_ref"
             />
     <menuitem
-            name="rechargement du vehicule"
+            name="Suivi de carte carburant"
             id="menu_action_rechargement_update"
             action="action_rechargement"
             parent="fleet.fleet_vehicles"
