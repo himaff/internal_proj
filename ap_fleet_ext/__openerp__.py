@@ -12,7 +12,7 @@ Manage several members
 
 This App for manage members of africa performances website PAC
     """,
-    'depends': ['base',],
+    'depends': ['base','fleet'],
     'data': [
         'movement.xml',
 		'reparation.xml',
