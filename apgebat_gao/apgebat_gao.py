@@ -6,6 +6,8 @@ from openerp.tools.translate import _
 import time
 import datetime
 import calendar
+import logging
+_logger = logging.getLogger(__name__)
 
 class ap_gao(osv.osv):
     _name = 'ap.gao'
@@ -23,8 +25,11 @@ class ap_gao(osv.osv):
                 'amount_ht_ds': 0.0,
                 'amount_ht_dqe': 0.0,
             }
-            val = val1 = val2 = 0.0
+            i=1
+            val = val2 = 0.0
+            nbr=len(order.estimation_id)
             for estim in order.estimation_id:
+                i+1
                 res[estim.id] = {
                     'pu_ds': 0.0,
                     'ecart': 0.0,
@@ -34,11 +39,11 @@ class ap_gao(osv.osv):
                     'total_bpu': 0.0,
                     'amount_total': 0.0,
                 }
-                val2 += estim.total_bpu
-                val += estim.total_ds
+                
+                val1 = 0.0
                 for line in estim.mat_line:
                     val1 += line.mat_total
-                    
+                    _logger.error("total : %r", line.mat_total)
                 res[estim.id]['pu_ds'] = val1
                 res[estim.id]['total_ds'] = estim.quantity * val1
                 res[estim.id]['total_bpu'] = estim.quantity * estim.bpu
@@ -50,10 +55,11 @@ class ap_gao(osv.osv):
                     res[estim.id]['ratio'] = 0
                     res[estim.id]['coef'] = 0
                 res[estim.id]['amount_total'] = res[estim.id]['total_bpu']
+                val2 += res[estim.id]['total_bpu']
+                val += res[estim.id]['total_ds']
              
             res[order.id]['amount_ht_dqe'] = val2
             res[order.id]['amount_ht_ds'] = val
-        raise osv.except_osv(_('Error!'), _(res))
         return res
 
 
@@ -293,17 +299,17 @@ class ap_gao_estim(osv.osv):
     def _amount_all_wrapper(self, cr, uid, ids, field_name, arg, context=None):
         """ Wrapper because of direct method passing as parameter for function fields """
         #raise osv.except_osv(_('Error!'), _(field_name))
-        return self._amount_all(cr, uid, ids, field_name, arg, context=context)
+        return self._amount_alll(cr, uid, ids, field_name, arg, context=context)
 
-    def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
-        #raise osv.except_osv(_('Error!'), _(field_name))
+    def _amount_alll(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
+        
         estim=self.browse(cr, uid, ids, context=None)
         for order in self.pool.get('ap.gao').browse(cr, uid, estim.tender_id, context=None):
-            res[order.id] = {
-                'amount_ht_ds': 0.0,
-                'amount_ht_dqe': 0.0,
-            }
+            #res[order.id] = {
+           #     'amount_ht_ds': 0.0,
+            #    'amount_ht_dqe': 0.0,
+           # }
             val = val2 = 0.0
             for estim in order.estimation_id:
                 res[estim.id] = {
@@ -315,8 +321,7 @@ class ap_gao_estim(osv.osv):
                     'total_bpu': 0.0,
                     'amount_total': 0.0,
                 }
-                val2 += estim.total_bpu
-                val += estim.total_ds
+                
                 val1 = 0.0
                 for line in estim.mat_line:
                     val1 += line.mat_total
@@ -333,9 +338,10 @@ class ap_gao_estim(osv.osv):
                     res[estim.id]['coef'] = 0
                 res[estim.id]['amount_total'] = res[estim.id]['total_bpu']
              
-            res[order.id]['amount_ht_dqe'] = val2
-            res[order.id]['amount_ht_ds'] = val
-        raise osv.except_osv(_('Error!'), _(res))
+            #res[order.id]['amount_ht_dqe'] = val2
+            #res[order.id]['amount_ht_ds'] = val
+
+        #raise osv.except_osv(_('Error!'), _(res))
         return res
 
     def _get_order(self, cr, uid, ids, context=None):
