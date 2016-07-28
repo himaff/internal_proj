@@ -53,70 +53,15 @@ class ap_gao(osv.osv):
              
             res[order.id]['amount_ht_dqe'] = val2
             res[order.id]['amount_ht_ds'] = val
+        raise osv.except_osv(_('Error!'), _(res))
         return res
 
-
-
-    def _delai(self, cr, uid, ids, begin, end, context=None):
-        daily = ""
-        #raise osv.except_osv(_('Error!'), _(ok))
-        if begin:
-            dateBegin = datetime.datetime.strptime(begin,'%Y-%m-%d')
-        else:
-            dateBegin = datetime.datetime.strptime(time.strftime('%Y-%m-%d',time.localtime()), "%Y-%m-%d")
-        if end:
-            dateEnd = datetime.datetime.strptime(end,'%Y-%m-%d')
-        else:
-            dateEnd = datetime.datetime.strptime(time.strftime('%Y-%m-%d',time.localtime()), "%Y-%m-%d")
-
-        day_ecart= dateEnd - dateBegin
-        yearBegin = dateBegin.year
-        monthBegin = dateBegin.month
-        dayBegin = dateBegin.day 
-        dayOfMonth = calendar.mdays
-        delaiDay = day_ecart.days
-        month_val = 0
-        day_val = 0
-        i = 0
-
-        while delaiDay > 0:
-            if calendar.isleap(yearBegin + i):
-                dayOfMonth[2] = 29
-            else:
-                dayOfMonth[2] = 28
-
-            for month in range(12):
-                if month+1 >= monthBegin:
-                    if delaiDay >= dayOfMonth[month]:
-                        delaiDay -= dayOfMonth[month]
-                        month_val += 1
-                    else:
-                        day_val += delaiDay
-                        delaiDay = 0
-
-
-            i += 1
-            monthBegin = 1
-        if month_val>1:
-            if day_val>1:
-                daily = "%s months and %s days" % (month_val, day_val)
-            else:
-                daily = "%s months and %s day" % (month_val, day_val)
-        else:
-            if day_val>1:
-                daily = "%s month and %s days" % (month_val, day_val)
-            else:
-                daily = "%s month and %s day" % (month_val, day_val)
-        values = {'delai': daily,}
-        cr.execute('''UPDATE ap_gao SET delai = %s WHERE id=%s''', (daily, ids[0]))
-        return {'value': values}
 
 
 
     def _get_order(self, cr, uid, ids, context=None):
         result = {}
         for line in self.pool.get('ap.gao.estim').browse(cr, uid, ids, context=context):
-            raise osv.except_osv(_('Error!'), _(line))
             result[line.order_id.id] = True
         return result.keys()
 
@@ -261,6 +206,60 @@ class ap_gao(osv.osv):
 
         return True
 
+    def delayer(self, cr, uid, ids, begin, end, context=None):
+        daily = ""
+        if begin:
+            dateBegin = datetime.datetime.strptime(begin,'%Y-%m-%d')
+        else:
+            dateBegin = datetime.datetime.strptime(time.strftime('%Y-%m-%d',time.localtime()), "%Y-%m-%d")
+        if end:
+            dateEnd = datetime.datetime.strptime(end,'%Y-%m-%d')
+        else:
+            dateEnd = datetime.datetime.strptime(time.strftime('%Y-%m-%d',time.localtime()), "%Y-%m-%d")
+
+        day_ecart= dateEnd - dateBegin
+        yearBegin = dateBegin.year
+        monthBegin = dateBegin.month
+        dayBegin = dateBegin.day 
+        dayOfMonth = calendar.mdays
+        delaiDay = day_ecart.days
+        month_val = 0
+        day_val = 0
+        i = 0
+
+        while delaiDay > 0:
+            if calendar.isleap(yearBegin + i):
+                dayOfMonth[2] = 29
+            else:
+                dayOfMonth[2] = 28
+
+            for month in range(12):
+                if month+1 >= monthBegin:
+                    if delaiDay >= dayOfMonth[month]:
+                        delaiDay -= dayOfMonth[month]
+                        month_val += 1
+                    else:
+                        day_val += delaiDay
+                        delaiDay = 0
+
+
+            i += 1
+            monthBegin = 1
+        if month_val>1:
+            if day_val>1:
+                daily = "%s months and %s days" % (month_val, day_val)
+            else:
+                daily = "%s months and %s day" % (month_val, day_val)
+        else:
+            if day_val>1:
+                daily = "%s month and %s days" % (month_val, day_val)
+            else:
+                daily = "%s month and %s day" % (month_val, day_val)
+        values = {'delai': daily,}
+        if ids:
+            cr.execute('''UPDATE ap_gao SET delai = %s WHERE id=%s''', (daily, ids[0]))
+        return {'value': values}
+
     
 
 
@@ -297,6 +296,7 @@ class ap_gao_estim(osv.osv):
         return self._amount_all(cr, uid, ids, field_name, arg, context=context)
 
     def _amount_all(self, cr, uid, ids, field_name, arg, context=None):
+        #raise osv.except_osv(_('Error!'), _(field_name))
         res = {}
         estim=self.browse(cr, uid, ids, context=None)
         for order in self.pool.get('ap.gao').browse(cr, uid, estim.tender_id, context=None):
@@ -335,6 +335,7 @@ class ap_gao_estim(osv.osv):
              
             res[order.id]['amount_ht_dqe'] = val2
             res[order.id]['amount_ht_ds'] = val
+        raise osv.except_osv(_('Error!'), _(res))
         return res
 
     def _get_order(self, cr, uid, ids, context=None):
@@ -373,7 +374,7 @@ class ap_gao_estim(osv.osv):
                 'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
         'tender_id': fields.integer('tender_id'),
-        'priceline_id': fields.many2one('ap.gao.prix', 'Price line'),
+        #'priceline_id': fields.many2one('ap.gao.prix', 'Price line'),
         'unite_id': fields.many2one('product.uom', 'Product UoM'),
         'total_ds': fields.function(_amount_all_wrapper, string='Amount DS',
             store={

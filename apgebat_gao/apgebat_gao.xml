@@ -82,12 +82,12 @@
                 <field name="owner_address" attrs="{'readonly': [('state','in',['cancel','draft', 'cons', 'reject'])]}"/>
                 <field name="copy" attrs="{'readonly': [('state','in',['cancel','draft', 'cons', 'reject'])]}"/>
                 <field name="date_ouvert" attrs="{'readonly': [('state','in',['cancel','draft', 'cons','plan', 'reject'])]}"/>
-                <field name="date_begin" attrs="{'readonly': [('state','in',['cancel','draft', 'cons', 'plan', 'submit', 'reject'])]}" on_change="_delai(date_begin, date_end)"/>
-                <field name="date_end" attrs="{'readonly': [('state','in',['cancel','draft', 'cons', 'plan', 'submit', 'reject'])]}" on_change="_delai(date_begin, date_end)"/>
+                <field name="date_begin" on_change="delayer(date_begin, date_end)" attrs="{'readonly': [('state','in',['cancel','draft', 'cons', 'plan', 'submit', 'reject'])]}"  />
+                <field name="date_end" on_change="delayer(date_begin, date_end)" attrs="{'readonly': [('state','in',['cancel','draft', 'cons', 'plan', 'submit', 'reject'])]}" />
                 <field name="delai"/>
               </group>
                            
-              <!--<group col="4" string="Values" colspan="2">
+              <!--<group col="4" string="Values" colspan="2" >
                 <field name="market"/>
                 <field name="total_ds"/>
               </group>-->
@@ -161,8 +161,7 @@
                         <field name="code"/>
                         <field name="lot_id"/>
                         <field name="price_line"/>
-                        <field name="mat_line" invisible="1"/>
-                        <field name="priceline_id" invisible="1" /> <!-- tester si possible mettre en many2many pour afficher plusieurs ligne de prix -->
+                        <field name="mat_line" invisible="1"/> <!-- tester si possible mettre en many2many pour afficher plusieurs ligne de prix -->
                         <field name="unite_id"  invisible="1"/>
                         <field name="quantity" on_change="valeur(pu_ds, bpu, quantity)" attrs="{'invisible': [('type','in','vue')]}"/>
                         <field name="pu_ds" on_change="valeur(pu_ds, bpu, quantity)" invisible="1"/>
