@@ -43,7 +43,7 @@ class ap_gao(osv.osv):
                 val1 = 0.0
                 for line in estim.mat_line:
                     val1 += line.mat_total
-                    _logger.error("total : %r", line.mat_total)
+                   # _logger.error("total : %r", line.mat_total)
                 res[estim.id]['pu_ds'] = val1
                 res[estim.id]['total_ds'] = estim.quantity * val1
                 res[estim.id]['total_bpu'] = estim.quantity * estim.bpu
@@ -156,6 +156,7 @@ class ap_gao(osv.osv):
         result = []
         inv_values = {
             'name': tender.name,
+            'tender_id': tender.id,
             'use_tasks': True,
             'user_id': uid,
             'partner_id': tender.owner.id,
@@ -175,7 +176,7 @@ class ap_gao(osv.osv):
         self.write(cr, uid, ids, {'state': 'accepted'})
         if context.get('open_project', False):
             return self.open_project(cr, uid, ids, inv_ids[0], context=context)
-        #return {'type': 'ir.actions.act_window_close'}
+       
         return None
 
     def _create_project(self, cr, uid, ids, inv_values, context=None):
@@ -306,10 +307,7 @@ class ap_gao_estim(osv.osv):
         
         estim=self.browse(cr, uid, ids, context=None)
         for order in self.pool.get('ap.gao').browse(cr, uid, estim.tender_id, context=None):
-            #res[order.id] = {
-           #     'amount_ht_ds': 0.0,
-            #    'amount_ht_dqe': 0.0,
-           # }
+          
             val = val2 = 0.0
             for estim in order.estimation_id:
                 res[estim.id] = {
@@ -338,8 +336,7 @@ class ap_gao_estim(osv.osv):
                     res[estim.id]['coef'] = 0
                 res[estim.id]['amount_total'] = res[estim.id]['total_bpu']
              
-            #res[order.id]['amount_ht_dqe'] = val2
-            #res[order.id]['amount_ht_ds'] = val
+        
 
         #raise osv.except_osv(_('Error!'), _(res))
         return res
@@ -380,7 +377,6 @@ class ap_gao_estim(osv.osv):
                 'ap.gao.mat': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
         'tender_id': fields.integer('tender_id'),
-        #'priceline_id': fields.many2one('ap.gao.prix', 'Price line'),
         'unite_id': fields.many2one('product.uom', 'Product UoM'),
         'total_ds': fields.function(_amount_all_wrapper, string='Amount DS',
             store={
@@ -399,10 +395,13 @@ class ap_gao_estim(osv.osv):
             }, multi='sums', help="The amount total of material's line.", track_visibility='always'),
         'mat_line': fields.one2many('ap.gao.mat', 'estim_id', string='Materials'),
         'quantity': fields.float('Quantity'),
-        
-        
+        'filter': fields.boolean('filter_for_purchase'),
         
 
+    }
+
+    _defaults = {
+        'filter': False
     }
 
     #creer une fonction pour filtrer les valeurs de parent_id afin d'afficher uniquement les valeurs qui concerne notre vue
@@ -430,6 +429,12 @@ class ap_gao_estim(osv.osv):
     def button_dummy(self, cr, uid, ids, context=None):
         return True
 
+    def lot_for_tender(self,cr,uid,ids, context=None):
+        #raise osv.except_osv(_('Error!'), _())
+        estim_obj = self.pool.get('ap.gao.estim')
+        estim_ids = estim_obj.search(cr,uid, [('tender_id','=',context['tender']), ('type','=','vue')])
+        lot_ids = self.pool.get('ap.gao.attr').search(cr,uid, [('tender_id','=',context['tender'])])
+        return {'domain':{'parent_id':[('id','in',estim_ids)], 'lot_id':[('id','in',lot_ids)]}}
 
 
 
@@ -461,13 +466,6 @@ class ap_gao_mat(osv.osv):
     def button_dummy(self, cr, uid, ids, context=None):
             return True
 
-     #   if mat_total:
-     #       raise osv.except_osv(_('Error!'), _(context))
-      #      ds+=mat_total
-      #      values = {'pu_ds': ds,}
-      #      return {'value': values}
-      #  return True
-
     
 
 
@@ -487,4 +485,13 @@ class ap_gao_doc_received(osv.osv):
 
     _defaults = {
         'date': time.strftime('%Y-%m-%d',time.localtime()),
+    }
+
+class ap_gao_inherit_project(osv.osv):
+    _inherit='project.project'
+
+    _columns = {
+
+        'tender_id': fields.many2one('ap.gao', 'Tender'),
+
     }
