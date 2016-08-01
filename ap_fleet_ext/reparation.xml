@@ -35,7 +35,7 @@
                 <field name="cost_ids" position="after">				     
 				  <group col="2">	
 					<field name="unit"/>
-					<field name="quantity  on_change="(quantity)""/>
+					<field name="quantity"/>
 					<field name="unit_price"/>
 					<field name="total_amount"/>
 				  </group>	
@@ -136,12 +136,12 @@
             id="menu_action_reparation_ref"
             parent="menu_reparation_ref"
             />
-    <menuitem
+    <!--<menuitem
             name="reparation"
             id="menu_action_reparation_update"
             action="action_reparation"
             parent="fleet.fleet_vehicles"
-            />   
+            />-->  
     <!-- # -->
   </data>
 </openerp>

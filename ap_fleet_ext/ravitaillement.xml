@@ -19,6 +19,27 @@
     </record>
 	
 	
+	 <!--heritage de la vue fleet_vehicule_odometer_tree-->
+	<record id="ravitaillement_fleet" model="ir.ui.view">
+			<field name="name">ravitaillement.fleet.form</field>
+			<field name="model">fleet.vehicle.log.fuel</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_log_fuel_form"/>
+			<field name="arch" type="xml">
+                <field name="vendor_id" position="after">
+				    <group string="Others informations">
+				                          				 
+					    <field name="vehicle_refueling" cellspacing="2"/>
+                        <field name="previous_refueling_km"/>
+					    <field name="current_refueling_km"/>
+					    <field name="vehicle_consumption"/>
+					  
+                    </group>					  
+                </field>
+			</field>
+</record>
+	
+	
+	
 	<!-- vue formulaire -->
     <record id="ravitaillement_form" model="ir.ui.view">
       <field name="name">ravitaillement.form</field>
@@ -90,12 +111,12 @@
             id="menu_action_ravitaillement_ref"
             parent="menu_ravitaillement_ref"
             />
-    <menuitem
+   <!-- <menuitem
             name="ravitaillement du vehicule"
             id="menu_action_ravitaillement_update"
             action="action_ravitaillement"
             parent="fleet.fleet_vehicles"
-            />
-    <!-- # -->
+            />-->
+    <!-- # --> 
   </data>
 </openerp>

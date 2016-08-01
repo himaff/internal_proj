@@ -5,19 +5,19 @@
     'category': 'Liste',
     'sequence': 3,
     'author': 'Africa performances',
-    'summary': 'Management of the orders',
+    'summary': 'Management of the vehicle',
     'description': """
-Manage several members
+Management of vehicle
 =======================================
 
-This App for manage members of africa performances website PAC
+This App for manage vehicle 
     """,
     'depends': ['base','fleet'],
     'data': [
-        'movement.xml',
-		'reparation.xml',
+	    'movement.xml',
 		'ravitaillement.xml',
 		'rechargement.xml',
+        'reparation.xml',
 		
     ],
     'installable': True,
