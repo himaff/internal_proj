@@ -171,11 +171,11 @@ class apgebat_poc_tally(osv.osv):
                             stat+=0
                             if a+1 == nbre_task and stat==0:
                                 if bd_worker[o]['type_contrat']=='day':
-                                    day=bd_worker[o]['worker_sal']
+                                    day=round(bd_worker[o]['worker_sal'],2)
                                 elif bd_worker[o]['type_contrat']=='week':
-                                    day=bd_worker[o]['worker_sal']/7
+                                    day=round(bd_worker[o]['worker_sal']/7,2)
                                 else:
-                                    day=bd_worker[o]['worker_sal']/30
+                                    day=round(bd_worker[o]['worker_sal']/30,2)
                                 paie='payé'
                         else:
                             stat+=1
@@ -183,13 +183,13 @@ class apgebat_poc_tally(osv.osv):
                             if a+1 == nbre_task:
                                 if bd_worker[o]['type_contrat']=='day':
                                     day=round(bd_worker[o]['worker_sal'],2)
-                                    paie=day * stat
+                                    paie=round(day * stat,2)
                                 elif bd_worker[o]['type_contrat']=='week':
                                     day=round(bd_worker[o]['worker_sal']/7,2)
-                                    paie=day * stat
+                                    paie=round(day * stat,2)
                                 else:
                                     day=round(bd_worker[o]['worker_sal']/30,2)
-                                    paie=day * stat
+                                    paie=round(day * stat,2)
 
                     jr.append(day)
                     pre.append(stat)
