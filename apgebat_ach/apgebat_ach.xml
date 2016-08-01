@@ -114,18 +114,7 @@
         </form>
       </field>
     </record>
-    <record id="action_internal_request_form" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="apgebat_ach_form"/>
-            <field name="act_window_id" ref="action_internal_request"/>
-</record> 
-<record id="action_internal_request_tree" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="apgebat_ach_tree"/>
-            <field name="act_window_id" ref="action_internal_request"/>
-</record> 
+    
 
 
 
@@ -287,7 +276,18 @@
         </p>
       </field>
     </record>
-
+    <record id="action_internal_request_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="apgebat_ach_form"/>
+            <field name="act_window_id" ref="action_internal_request"/>
+</record> 
+<record id="action_internal_request_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="apgebat_ach_tree"/>
+            <field name="act_window_id" ref="action_internal_request"/>
+</record> 
     <record id="action_pending_request_tree" model="ir.actions.act_window.view">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
