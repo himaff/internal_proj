@@ -19,12 +19,16 @@
       <field name="name">ap.om.form</field>
       <field name="model" >ap.om</field>
       <field name="arch" type="xml">
-        <form string="mission of order">
+        <form string="mission of order">		
+	    <!--Cela va créer la barre d'état , grâce au widget.-->
+		<header>
+	    <field name="state" widget="statusbar" clickable="True"/></header>		
           <sheet>
             <separator string="mission of order form" />
           <notebook string="mission order">
             <page string="information on mission order">
               <group col="2">
+			      <field name="date" />
                   <field name="ref" />
                   <field name="project_name" /> 
                   <field name="object"/>
