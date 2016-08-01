@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  
+  <!-- vue liste -->
+    <record id="apgebat_ach_tree" model="ir.ui.view">
+      <field name="name">apgebat.ach.tree</field>
+      <field name="model">apgebat.ach</field>
+      <field name="arch" type="xml">
+        <tree string="Internal purchase">
+           <field name="dateout" />
+           <field name="type" />
+           <field name="amount_ht" />
+        </tree>
+      </field>
+    </record>
+
+
+
+<!-- vue formulaire -->
+    <record id="apgebat_ach_form" model="ir.ui.view">
+      <field name="name">apgebat.ach.form</field>
+      <field name="model" >apgebat.ach</field>
+      <field name="arch" type="xml">
+        <form string="Internal purchase">
+          <header>
+            <button name="valided" string="Valided" class="oe_highlight" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+            <button name="cancel" string="Cancel" type="object" attrs="{'invisible':[('state', '!=', 'sent')]}"/>
+            <button string="Give the draft" type="object" name="draft" class="oe_highlight" attrs="{'invisible': [('state','!=','cancel')]}"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,sent"/>
+          </header>
+          <sheet>
+            <separator string="Internal purchase request" />
+            <group col="2">
+              <h2>
+                <group col="2">
+                  <field name="project_id" attrs="{'required': [('type','=','technical')], 'readonly':[('state', '=', 'sent')]}" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}" on_change="call_onchange_project(project_id)"/>
+                </group>
+              </h2>
+              <group col="2">
+                <field name="dateout" attrs="{'readonly':[('state', '=', 'sent')]}"/>
+                <field name="datein" attrs="{'readonly':[('state', '=', 'sent')]}"/>
+              </group>
+              <group col="2">
+              <field name="type" on_change="line_update(type)" attrs="{'readonly':[('state', '=', 'sent')]}"/>
+            </group>
+            <newline/>
+              
+            <notebook string="Articles" colspan="2">
+              <page string="Articles">
+                  <field name="purchase_line1" attrs="{'invisible': [('type','!=','technical')], 'readonly': ['|',('type','!=','technical'),('state', '=', 'sent')]}" context="{'project_id': project_id}">
+                    <tree editable="bottom" >
+                      <field name="lot_id" required="1" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}" on_change="onchange_project(lot_id)"/><!-- onchange_lot(lot_id) -->
+                      <field name="lignes_id" required="1" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}" on_change="onchange_ligne(lignes_id)"/>
+                      <field name="product_id" on_change="onchange_product(product_id)" required="1" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/>
+                      <field name="name" />
+                      <field name="date_planned" />
+                      <field name="product_qty" on_change="cal_subtotal(product_qty, price_unit)"/>
+                      <field name="price_unit" on_change="cal_subtotal(product_qty, price_unit)"/>
+                      <field name="price_subtotal" modifiers="{'readonly': True}"/>
+                    </tree>
+                  </field>
+                <field name="purchase_line" attrs="{'invisible': [('type','=','technical')], 'readonly': ['|',('type','=','technical'), ('state', '=', 'sent')]}">
+                    <tree editable="bottom" >
+                      <field name="product_id" on_change="onchange_product(product_id)" />
+                      <field name="name" />
+                      <field name="date_planned" />
+                      <field name="product_qty" on_change="cal_subtotal(product_qty, price_unit)"/>
+                      <field name="price_unit" on_change="cal_subtotal(product_qty, price_unit)"/>
+                      <field name="price_subtotal" modifiers="{'readonly': True}"/>
+                    </tree>
+                  </field> 
+                  <group class="oe_subtotal_footer oe_right">                       
+                      <div class="oe_subtotal_footer_separator oe_inline">
+                        <label for="amount_ht"/>
+                        <button name="button_dummy" string="(update)" type="object" class="oe_edit_only oe_link" />
+                      </div>
+                      <field name="amount_ht" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" modifiers="{'readonly': true}"/>
+                  </group>
+              
+              </page>
+               <page string="Team" >
+                  <group col="4" >
+                <field name="department_id" colspan="2" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                <field name="master" colspan="2" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                <field name="employee_ids" widget="many2many_tags" colspan="4" attrs="{'required': [('type','=','technical')], 'readonly': [('state', '=', 'sent')]}"/>
+              </group>
+
+              </page>
+            </notebook>
+            </group>
+         <!-- <notebook string="Students">
+            <page string="Personnals information">
+              <group col="2">
+                  <field name="student_gender" /> à afficher sous forme de combobox
+                  <field name="name" /> 
+                  <field name="student_birth"/>      
+                  <field name="active"/> 
+              </group>
+            </page>
+            <page string="others information">
+
+              <group col="3">
+                  <field name="student_email"/> 
+                  <group col="2">
+                    <field name="student_country" /> 
+                    <field name="student_city" /> 
+                  </group>
+                  <field name="student_pname" />
+              </group>
+            </page>
+          </notebook> -->
+        </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="action_internal_request_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="apgebat_ach_form"/>
+            <field name="act_window_id" ref="action_internal_request"/>
+</record> 
+<record id="action_internal_request_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="apgebat_ach_tree"/>
+            <field name="act_window_id" ref="action_internal_request"/>
+</record> 
+
+
+
+
+
+
+
+
+    <!-- vue liste -->
+    <record id="apgebat_pending_tree" model="ir.ui.view">
+      <field name="name">apgebat.pending.tree</field>
+      <field name="model">apgebat.ach</field>
+      <field name="arch" type="xml">
+        <tree string="Purchase" create="0" colors="blue:statet=='approuved'">
+          <field name="statet" invisible="1" />
+           <field name="dateout" />
+           <field name="department_id" />
+           <field name="master" />
+           <field name="amount_ht" />
+        </tree>
+      </field>
+    </record>
+
+
+    
+<!-- vue formulaire -->
+    <record id="apgebat_pending_form" model="ir.ui.view">
+      <field name="name">apgebat.pending.form</field>
+      <field name="model" >apgebat.ach</field>
+      <field name="arch" type="xml">
+        <form string="Purchase" create="0">
+          <header>
+            <field name="accept" invisible="1"/>
+            <button name="accepted_request" string="Validate the request" class="oe_highlight" type="object" attrs="{'invisible':[('accept', '!=', 'valid')]}"/>
+            <button name="rejected" string="Reject the request" class="oe_highlight" type="object" attrs="{'invisible':[('accept', '!=', 'reject')]}"/>
+            <field name="statet" widget="statusbar" statusbar_visible="sent,approuved"/>
+          </header>
+          <sheet>
+            <separator string="Internal purchase request" />
+            <group col="2">
+              <group col="2">
+                <h2 colspan="2">
+                  <group col="2" colspan="2">
+                    <field name="project_id" readonly="1" />
+                  </group>
+                </h2>
+              <field name="type" readonly="1"/>
+              </group>
+              <group col="2">
+                <field name="dateout" readonly="1"/>
+                <field name="datein" attrs="{'readonly':[('statet', '=', 'reject')]}"/>
+                <field name="department_id" colspan="2" readonly="1"/>
+                <field name="master" colspan="2" readonly="1"/>
+                <field name="employee_ids" widget="many2many_tags" colspan="4" readonly="1"/>
+              </group>
+            <newline/>
+              
+            <notebook string="Orders" colspan="2">
+              <page string="Orders">
+                  <field name="purchase_line" attrs="{'invisible':[('type', '=', 'technical')], 'readonly':[('statet', '=', 'reject')]}">
+                    <tree create='0' editable="top" >
+                      <field name="etat" invisible="1"/>
+                      <field name="valid" on_change="call_accept(valid)" attrs="{'readonly':['|',('etat', '=', 'oui')]}"/>
+                      <field name="product_id" on_change="onchange_product(product_id)" readonly="1"/>
+                      <field name="name" readonly="1"/>
+                      <field name="date_planned" attrs="{'readonly':['|',('valid', '=', False),('etat', '=', 'oui')]}"/>
+                      <field name="supplier" attrs="{'required': [('valid', '=', True)], 'readonly':['|',('valid', '=', False),('etat', '=', 'oui')]}"/>
+                      <field name="product_qty" on_change="cal_subtotal(product_qty, price_unit)" attrs="{'required':[('valid', '=', True)], 'readonly':['|',('valid', '=', False),('etat', '=', 'oui')]}"/>
+                      <field name="price_unit" on_change="cal_subtotal(product_qty, price_unit)" readonly="1" />
+                      <field name="price_subtotal" attrs="{'readonly':['|',('valid', '=', False),('etat', '=', 'oui')]}"/>
+                    </tree>
+                  </field>
+
+                  <field name="purchase_line1" attrs="{'invisible':[('type', '!=', 'technical')], 'readonly':[('statet', '=', 'reject')]}">
+                    <tree create='0' editable="top">
+                      <field name="etat" invisible="1"/>
+                      <field name="valid" on_change="call_accept(valid)" attrs="{'readonly':[('etat', '=', 'oui')]}"/>
+                      <field name="lot_id" readonly="1" /><!-- onchange_lot(lot_id) -->
+                      <field name="lignes_id" readonly="1" />
+                      <field name="product_id" on_change="onchange_product(product_id)" readonly="1"/>
+                      <field name="name" readonly="1"/>
+                      <field name="date_planned" attrs="{'readonly':['|',('valid', '=', False),('etat', '=', 'oui')]}"/>
+                      <field name="supplier" attrs="{'required': [('valid', '=', True)], 'readonly':['|',('valid', '=', False),('etat', '=', 'oui')]}"/>
+                      <field name="product_qty" on_change="cal_subtotal(product_qty, price_unit)" attrs="{'required':[('valid', '=', True)], 'readonly':['|',('valid', '=', False),('etat', '=', 'oui')]}"/>
+                      <field name="price_unit" on_change="cal_subtotal(product_qty, price_unit)" readonly="1" />
+                      <field name="price_subtotal" attrs="{'readonly':['|',('valid', '=', False),('etat', '=', 'oui')]}"/>
+                    </tree>
+                  </field>
+
+                  <group class="oe_subtotal_footer oe_right">
+                      <div class="oe_subtotal_footer_separator oe_inline">
+                          <label for="amount_ht"/>
+                          <button name="button_dummy" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                      </div>
+                      <field name="amount_ht" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" />
+                  </group>
+              
+              </page>
+                 
+            </notebook>
+            </group>
+         <!-- <notebook string="Students">
+            <page string="Personnals information">
+              <group col="2">
+                  <field name="student_gender" /> à afficher sous forme de combobox
+                  <field name="name" /> 
+                  <field name="student_birth"/>      
+                  <field name="active"/> 
+              </group>
+            </page>
+            <page string="others information">
+
+              <group col="3">
+                  <field name="student_email"/> 
+                  <group col="2">
+                    <field name="student_country" /> 
+                    <field name="student_city" /> 
+                  </group>
+                  <field name="student_pname" />
+              </group>
+            </page>
+          </notebook> -->
+        </sheet>
+        </form>
+      </field>
+    </record>
+
+
+
+    <!-- L'action du menu -->
+    <record model="ir.actions.act_window" id="action_internal_request">
+      <field name="name">Internal.purchase.request</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">apgebat.ach</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="apgebat_ach_tree"/>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to Create a new purchase request.
+        </p>
+      </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_pending_request">
+      <field name="name">Pending.request</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">apgebat.ach</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="apgebat_pending_tree"/>
+      <field name="domain">[('statet', 'in', ['sent','approuved'])]</field>
+      <field name="context">{"search_default_filter_see_all":1}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click here to Create a new purchase request.
+        </p>
+      </field>
+    </record>
+
+    <record id="action_pending_request_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="apgebat_pending_tree"/>
+            <field name="act_window_id" ref="action_pending_request"/>
+      </record> 
+      <record id="action_pending_request_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="apgebat_pending_form"/>
+            <field name="act_window_id" ref="action_pending_request"/>
+      </record>
+
+    <!-- Menu gauche  etudiant -->   
+
+    <menuitem
+            name=" Internal purchase request"
+            id="menu_action_internal_request"
+            parent="purchase.menu_procurement_management"
+            action="action_internal_request"
+            sequence="0"
+            />
+    <menuitem
+            name=" Pending request"
+            id="menu_action_pending_request"
+            parent="purchase.menu_procurement_management"
+            action="action_pending_request"
+            sequence="1"
+            />
+    <!-- Modification de la position du menu demande prix du module natif -->   
+    <menuitem action="purchase.purchase_rfq" id="purchase.menu_purchase_rfq"
+            parent="purchase.menu_procurement_management"
+            sequence="2"/>
+            />
+   
+    <!-- # -->
+    
+  </data>
+</openerp>
