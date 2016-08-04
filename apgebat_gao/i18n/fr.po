@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20160719\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-28 17:12+0000\n"
-"PO-Revision-Date: 2016-07-31 16:05+0000\n"
+"POT-Creation-Date: 2016-08-02 19:36+0000\n"
+"PO-Revision-Date: 2016-08-02 19:47+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,17 @@ msgstr ""
 "Plural-Forms: \n"
 "Language: fr\n"
 "X-Generator: Poedit 1.8.8\n"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,ratio:0
+msgid ""
+"    Amount DS\n"
+"--------------- x 100\n"
+"    Amount DQE."
+msgstr ""
+"   Montant DS\n"
+"----------------- x 100\n"
+"  Montant DQE"
 
 #. module: apgebat_gao
 #: view:ap.gao:apgebat_gao.ap_gao_form
@@ -43,6 +54,11 @@ msgstr " Acceptée"
 #: field:ap.gao.estim,total_bpu:0
 msgid "Amount DQE"
 msgstr "Montant DQE"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,ecart:0
+msgid "Amount DQE - Amount DS."
+msgstr "montant DQE - montant DS."
 
 #. module: apgebat_gao
 #: view:ap.gao:apgebat_gao.ap_gao_form field:ap.gao.estim,total_ds:0
@@ -77,7 +93,7 @@ msgstr "Lot d'attributions"
 #. module: apgebat_gao
 #: field:ap.gao.attr,code:0 field:ap.gao.estim,code:0
 msgid "Batch number"
-msgstr "Numéro du lot"
+msgstr "N°"
 
 #. module: apgebat_gao
 #: field:ap.gao,owner:0
@@ -106,8 +122,8 @@ msgstr "Montant totale "
 
 #. module: apgebat_gao
 #: field:ap.gao.estim,coef:0
-msgid "Coef. of sale"
-msgstr "Coef. de vente"
+msgid "Coef."
+msgstr "Coef."
 
 #. module: apgebat_gao
 #: field:ap.gao,delai:0
@@ -122,7 +138,7 @@ msgstr "Consultation"
 #. module: apgebat_gao
 #: field:ap.gao,copy:0
 msgid "Copy number"
-msgstr "Numéro du lot"
+msgstr "Nombre de copies"
 
 #. module: apgebat_gao
 #: view:ap.gao:apgebat_gao.ap_gao_form
@@ -204,7 +220,6 @@ msgstr "Offre directe"
 #. module: apgebat_gao
 #: field:ap.gao,display_name:0 field:ap.gao.attr,display_name:0
 #: field:ap.gao.estim,display_name:0 field:ap.gao.mat,display_name:0
-#: field:ir.attachment,display_name:0
 msgid "Display Name"
 msgstr "Afficher le nom"
 
@@ -224,7 +239,11 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: apgebat_gao
-#: code:addons/apgebat_gao/apgebat_gao.py:60
+#: field:ap.gao.estim,price_line:0
+msgid "Entitled"
+msgstr "Intitulé"
+
+#. module: apgebat_gao
 #: code:addons/apgebat_gao/apgebat_gao.py:348
 #, python-format
 msgid "Error!"
@@ -259,12 +278,11 @@ msgstr "Lieu de dépot"
 #. module: apgebat_gao
 #: field:ap.gao.estim,sequences:0
 msgid "Item N°"
-msgstr "Séquence"
+msgstr "Seq."
 
 #. module: apgebat_gao
 #: field:ap.gao,__last_update:0 field:ap.gao.attr,__last_update:0
 #: field:ap.gao.estim,__last_update:0 field:ap.gao.mat,__last_update:0
-#: field:ir.attachment,__last_update:0
 msgid "Last Modified on"
 msgstr "Dernière modification le"
 
@@ -281,9 +299,14 @@ msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
 #. module: apgebat_gao
+#: help:ap.gao.estim,lot_id:0
+msgid "Lot award."
+msgstr "Lot d'attributions."
+
+#. module: apgebat_gao
 #: field:ap.gao.estim,lot_id:0
 msgid "Lot of tender"
-msgstr "Lot d'attributions"
+msgstr "Lot        "
 
 #. module: apgebat_gao
 #: field:ap.gao,market:0
@@ -314,11 +337,6 @@ msgstr "Materiels"
 #: view:ap.gao:apgebat_gao.ap_gao_form
 msgid "Materials lines"
 msgstr "Lignes de matériaux"
-
-#. module: apgebat_gao
-#: field:ap.gao.estim,price_line:0
-msgid "Name"
-msgstr "Nom"
 
 #. module: apgebat_gao
 #: field:ap.gao,code:0
@@ -356,19 +374,29 @@ msgid "Product UoM"
 msgstr "Unité "
 
 #. module: apgebat_gao
+#: model:ir.model,name:apgebat_gao.model_project_project
+msgid "Project"
+msgstr "Projet"
+
+#. module: apgebat_gao
 #: model:ir.ui.menu,name:apgebat_gao.menu_action_ap_gao_draft
 msgid "Proposal"
 msgstr "Proposition"
 
 #. module: apgebat_gao
-#: field:ap.gao.estim,quantity:0 field:ap.gao.mat,quantity:0
+#: field:ap.gao.estim,quantity:0
+msgid "Qty"
+msgstr "Qté"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,quantity:0 field:ap.gao.mat,quantity:0
 msgid "Quantity"
 msgstr "Quantité"
 
 #. module: apgebat_gao
 #: field:ap.gao.estim,ratio:0
-msgid "Ratio DS/DQE (%)"
-msgstr "Ratio DS/DQE (%)"
+msgid "Ratio"
+msgstr "Ratio"
 
 #. module: apgebat_gao
 #: view:ap.gao:apgebat_gao.ap_gao_form
@@ -415,6 +443,7 @@ msgstr "Titre de l'appel d'offre"
 #: model:ir.actions.act_window,name:apgebat_gao.action_ap_gao_accept
 #: model:ir.actions.act_window,name:apgebat_gao.action_ap_gao_approved
 #: model:ir.actions.act_window,name:apgebat_gao.action_ap_gao_draft
+#: field:project.project,tender_id:0
 msgid "Tender"
 msgstr "Appel d'offre"
 
@@ -424,7 +453,7 @@ msgid "Tender Processus"
 msgstr "Processus de l'appel d'offre"
 
 #. module: apgebat_gao
-#: code:addons/apgebat_gao/apgebat_gao.py:197
+#: code:addons/apgebat_gao/apgebat_gao.py:200
 #, python-format
 msgid "Tender project"
 msgstr "Projet d'appel d'offre"
@@ -441,27 +470,59 @@ msgid "Tenders"
 msgstr "Appels d'offres"
 
 #. module: apgebat_gao
-#: help:ap.gao.estim,amount_total:0 help:ap.gao.estim,coef:0
-#: help:ap.gao.estim,ecart:0 help:ap.gao.estim,pu_ds:0
-#: help:ap.gao.estim,ratio:0 help:ap.gao.estim,total_bpu:0
+#: help:ap.gao.estim,total_bpu:0
+msgid "The amount total BPU of price line."
+msgstr "Le montant total BPU de la ligne de prix."
+
+#. module: apgebat_gao
 #: help:ap.gao.estim,total_ds:0
+msgid "The amount total DS of price line."
+msgstr "Le montant total BPU de la ligne de prix."
+
+#. module: apgebat_gao
+#: help:ap.gao,amount_ht_ds:0
+msgid "The amount total of Amount DS."
+msgstr "Le total du montant DS."
+
+#. module: apgebat_gao
+#: help:ap.gao,amount_ht_dqe:0
+msgid "The amount total of amount DQE."
+msgstr "Le total du montant DQE."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,amount_total:0
 msgid "The amount total of material's line."
 msgstr "Montant total des lignes de matériaux."
 
 #. module: apgebat_gao
-#: help:ap.gao,amount_ht_dqe:0
-msgid "The amount with tax."
-msgstr "Le montant TTC."
+#: help:ap.gao.estim,coef:0
+msgid ""
+"The coefficient of sale\n"
+"\n"
+"  Amount DQE - Amount DS\n"
+"----------------------- x 100\n"
+"     Amount DS."
+msgstr ""
+"Le coefficient de ventes\n"
+"\n"
+"  Montant DQE - Montant DS\n"
+"-------------------------------- x 100\n"
+"                Montant DS."
 
 #. module: apgebat_gao
-#: help:ap.gao,amount_ht_ds:0
-msgid "The amount without tax."
-msgstr "Le montant HT."
+#: help:ap.gao.estim,bpu:0
+msgid "The unit price BPU of line."
+msgstr "Le prix unitaire BPU de la ligne."
 
 #. module: apgebat_gao
-#: field:ap.gao.attr,name:0
+#: help:ap.gao.estim,pu_ds:0
+msgid "The unit price DS of line."
+msgstr "Le prix unitaire DS de la ligne."
+
+#. module: apgebat_gao
+#: field:ap.gao.attr,lot_name:0
 msgid "Titled lot of tender"
-msgstr "Intitulé de l'appel d'offre"
+msgstr "Titre du lot de l'appel d'offres"
 
 #. module: apgebat_gao
 #: field:ap.gao.estim,amount_total:0
@@ -481,17 +542,17 @@ msgstr "Type"
 #. module: apgebat_gao
 #: field:ap.gao.estim,bpu:0
 msgid "Unit Price BPU"
-msgstr "Prix unitaire"
+msgstr "PU BPU"
 
 #. module: apgebat_gao
 #: field:ap.gao.estim,pu_ds:0
 msgid "Unit price DS"
-msgstr "Prix unitaire DS"
+msgstr "PU DS"
 
 #. module: apgebat_gao
 #: view:ap.gao:apgebat_gao.ap_gao_form
 msgid "Validate"
-msgstr "Validé"
+msgstr "Valider"
 
 #. module: apgebat_gao
 #: selection:ap.gao.estim,type:0
@@ -514,6 +575,11 @@ msgid "estim"
 msgstr "estim"
 
 #. module: apgebat_gao
+#: field:ap.gao.estim,filter:0
+msgid "filter_for_purchase"
+msgstr "filter_for_purchase"
+
+#. module: apgebat_gao
 #: field:ap.gao.attr,caution:0
 msgid "interim bail"
 msgstr "Caution provisoire"
@@ -529,12 +595,27 @@ msgid "project"
 msgstr "projet"
 
 #. module: apgebat_gao
+#: field:ap.gao,state:0
+msgid "state"
+msgstr "state"
+
+#. module: apgebat_gao
 #: field:ap.gao.attr,tender_id:0 field:ap.gao.estim,tender_id:0
 #: field:ir.attachment,tenderrec_id:0 field:ir.attachment,tendersen_id:0
 msgid "tender_id"
 msgstr "ID_appel_d'offre"
 
 #. module: apgebat_gao
-#: field:ap.gao,state:0
-msgid "unknown"
-msgstr "Inconnu"
+#: help:ap.gao.estim,code:0
+msgid "the allocation batch number."
+msgstr "N° ligne de prix."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,sequences:0
+msgid "the display sequence."
+msgstr "la séquence d'affichage."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,price_line:0
+msgid "the name of the line price."
+msgstr "Le nom de la ligne de prix."
