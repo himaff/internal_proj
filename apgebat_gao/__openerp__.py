@@ -15,9 +15,10 @@ This application allows a company to manage its subscription to tenders.
 it recapitulates all the points relating to the tender ( cost , price, Elements folder and other documents)
 and allows the manager to monitor the dedicated team throughout this process.
     """,
-    'depends': ["base","account","sale", "document", "stock", "project",'web'],
+    'depends': ["base","account","sale", "document", "stock", "project"],
     'data': [
         'apgebat_gao.xml',
+        'security/ir.model.access.csv',
     ],
     
     'installable': True,
