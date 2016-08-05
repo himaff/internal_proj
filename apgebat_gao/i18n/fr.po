@@ -1,0 +1,621 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* apgebat_gao
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20160719\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-02 19:36+0000\n"
+"PO-Revision-Date: 2016-08-02 19:47+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fr\n"
+"X-Generator: Poedit 1.8.8\n"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,ratio:0
+msgid ""
+"    Amount DS\n"
+"--------------- x 100\n"
+"    Amount DQE."
+msgstr ""
+"   Montant DS\n"
+"----------------- x 100\n"
+"  Montant DQE"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "(update)"
+msgstr "(mise à jour)"
+
+#. module: apgebat_gao
+#: model:ir.actions.act_window,help:apgebat_gao.action_ap_gao_accept
+#: model:ir.actions.act_window,help:apgebat_gao.action_ap_gao_approved
+#: model:ir.actions.act_window,help:apgebat_gao.action_ap_gao_draft
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"          Click here to create a customer bidding.\n"
+"        </p>\n"
+"      "
+msgstr "<p class=\"oe_view_nocontent_create\">Cliquez ici pour créer un appel d’offres.</p>"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form selection:ap.gao,state:0
+#: model:ir.ui.menu,name:apgebat_gao.menu_action_ap_gao_accept
+msgid "Accepted"
+msgstr " Acceptée"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,total_bpu:0
+msgid "Amount DQE"
+msgstr "Montant DQE"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,ecart:0
+msgid "Amount DQE - Amount DS."
+msgstr "montant DQE - montant DS."
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form field:ap.gao.estim,total_ds:0
+msgid "Amount DS"
+msgstr "Montant DS"
+
+#. module: apgebat_gao
+#: field:ap.gao.mat,mat_total:0
+msgid "Amount total"
+msgstr "Montant total"
+
+#. module: apgebat_gao
+#: field:ap.gao,amount_ht_dqe:0
+msgid "Amount total DQE"
+msgstr "Montant total DQE"
+
+#. module: apgebat_gao
+#: field:ap.gao,amount_ht_ds:0
+msgid "Amount total DS"
+msgstr "Montant total DS"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Are you sure? because the event related project is also deleted."
+msgstr "Êtes-vous sûr ? parce que cet action supprimera aussi le projet lié"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form field:ap.gao,lot_id:0
+msgid "Award prizes"
+msgstr "Lot d'attributions"
+
+#. module: apgebat_gao
+#: field:ap.gao.attr,code:0 field:ap.gao.estim,code:0
+msgid "Batch number"
+msgstr "N°"
+
+#. module: apgebat_gao
+#: field:ap.gao,owner:0
+msgid "Building owner"
+msgstr "Maitre d'ouvrage"
+
+#. module: apgebat_gao
+#: field:ap.gao,owner_contact:0
+msgid "Building owner phone"
+msgstr "Téléphone du maitre d'ouvragre"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: apgebat_gao
+#: selection:ap.gao,state:0
+msgid "Canceled"
+msgstr "Annulé"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Caution total"
+msgstr "Montant totale "
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,coef:0
+msgid "Coef."
+msgstr "Coef."
+
+#. module: apgebat_gao
+#: field:ap.gao,delai:0
+msgid "Completion time"
+msgstr "Durée d'achèvement"
+
+#. module: apgebat_gao
+#: selection:ap.gao,state:0
+msgid "Consultation"
+msgstr "Consultation"
+
+#. module: apgebat_gao
+#: field:ap.gao,copy:0
+msgid "Copy number"
+msgstr "Nombre de copies"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Create project"
+msgstr "Créer le projet"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Create project et afficher"
+msgstr "Créer et afficher le projet"
+
+#. module: apgebat_gao
+#: field:ap.gao,create_uid:0 field:ap.gao.attr,create_uid:0
+#: field:ap.gao.estim,create_uid:0 field:ap.gao.mat,create_uid:0
+msgid "Created by"
+msgstr "Crée par"
+
+#. module: apgebat_gao
+#: field:ap.gao,create_date:0 field:ap.gao.attr,create_date:0
+#: field:ap.gao.estim,create_date:0 field:ap.gao.mat,create_date:0
+msgid "Created on"
+msgstr "Crée le"
+
+#. module: apgebat_gao
+#: selection:ap.gao,state:0
+msgid "Created project"
+msgstr "Projet créé"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Credit total"
+msgstr "Totale de crédit"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Customer"
+msgstr "Client"
+
+#. module: apgebat_gao
+#: field:ir.attachment,date:0
+msgid "Date"
+msgstr "Date"
+
+#. module: apgebat_gao
+#: field:ap.gao,date_end:0
+msgid "Date of Completion"
+msgstr "Date d'achèvement"
+
+#. module: apgebat_gao
+#: field:ap.gao,date_meeting:0
+msgid "Date of preparatory meeting"
+msgstr "Date de réunion préparatoire"
+
+#. module: apgebat_gao
+#: field:ap.gao,date_begin:0
+msgid "Date of start of work"
+msgstr "Date de début des travaux"
+
+#. module: apgebat_gao
+#: field:ap.gao,date_depot:0
+msgid "Deposit date"
+msgstr "Date de dépot"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form field:ap.gao,note:0
+msgid "Description"
+msgstr "Description"
+
+#. module: apgebat_gao
+#: selection:ap.gao.estim,type:0
+msgid "Details"
+msgstr "Détails"
+
+#. module: apgebat_gao
+#: selection:ap.gao,type:0
+msgid "Direct tender"
+msgstr "Offre directe"
+
+#. module: apgebat_gao
+#: field:ap.gao,display_name:0 field:ap.gao.attr,display_name:0
+#: field:ap.gao.estim,display_name:0 field:ap.gao.mat,display_name:0
+msgid "Display Name"
+msgstr "Afficher le nom"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form field:ap.gao,doc_rec:0
+msgid "Documents received"
+msgstr "Documents reçus"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form field:ap.gao,doc_send:0
+msgid "Documents sended"
+msgstr "Documents envoyés"
+
+#. module: apgebat_gao
+#: selection:ap.gao,state:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,price_line:0
+msgid "Entitled"
+msgstr "Intitulé"
+
+#. module: apgebat_gao
+#: code:addons/apgebat_gao/apgebat_gao.py:348
+#, python-format
+msgid "Error!"
+msgstr "Erreur!"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form field:ap.gao,estimation_id:0
+msgid "Estimates"
+msgstr "Estimations"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,ecart:0
+msgid "Gap"
+msgstr "Ecart"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Give the draft"
+msgstr "Remettre en brouillon"
+
+#. module: apgebat_gao
+#: field:ap.gao,id:0 field:ap.gao.attr,id:0 field:ap.gao.estim,id:0
+#: field:ap.gao.mat,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: apgebat_gao
+#: field:ap.gao,owner_address:0
+msgid "Instead of deposit"
+msgstr "Lieu de dépot"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,sequences:0
+msgid "Item N°"
+msgstr "Seq."
+
+#. module: apgebat_gao
+#: field:ap.gao,__last_update:0 field:ap.gao.attr,__last_update:0
+#: field:ap.gao.estim,__last_update:0 field:ap.gao.mat,__last_update:0
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: apgebat_gao
+#: field:ap.gao,write_uid:0 field:ap.gao.attr,write_uid:0
+#: field:ap.gao.estim,write_uid:0 field:ap.gao.mat,write_uid:0
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: apgebat_gao
+#: field:ap.gao,write_date:0 field:ap.gao.attr,write_date:0
+#: field:ap.gao.estim,write_date:0 field:ap.gao.mat,write_date:0
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,lot_id:0
+msgid "Lot award."
+msgstr "Lot d'attributions."
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,lot_id:0
+msgid "Lot of tender"
+msgstr "Lot        "
+
+#. module: apgebat_gao
+#: field:ap.gao,market:0
+msgid "Market value"
+msgstr "Valeur marchande"
+
+#. module: apgebat_gao
+#: field:ap.gao,masterwork:0
+msgid "Master work"
+msgstr "Maitre d'oeuvre"
+
+#. module: apgebat_gao
+#: field:ap.gao,master_address:0
+msgid "Masterwork address"
+msgstr "Adresse du maitre d'oeuvre"
+
+#. module: apgebat_gao
+#: field:ap.gao,master_contact:0
+msgid "Masterwork phone"
+msgstr "Numéro du maitre d'oeuvre"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,mat_line:0
+msgid "Materials"
+msgstr "Materiels"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Materials lines"
+msgstr "Lignes de matériaux"
+
+#. module: apgebat_gao
+#: field:ap.gao,code:0
+msgid "N° tender"
+msgstr "N° de l'appel d'offre"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Open Project"
+msgstr "Afficher le projet"
+
+#. module: apgebat_gao
+#: field:ap.gao,date_ouvert:0
+msgid "Opening date"
+msgstr "Date d'ouverture"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,parent_id:0
+msgid "Parent"
+msgstr "Parent"
+
+#. module: apgebat_gao
+#: selection:ap.gao,state:0
+msgid "Planning"
+msgstr "Préparation"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Processus"
+msgstr "Processus"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,unite_id:0 field:ap.gao.mat,unite_id:0
+msgid "Product UoM"
+msgstr "Unité "
+
+#. module: apgebat_gao
+#: model:ir.model,name:apgebat_gao.model_project_project
+msgid "Project"
+msgstr "Projet"
+
+#. module: apgebat_gao
+#: model:ir.ui.menu,name:apgebat_gao.menu_action_ap_gao_draft
+msgid "Proposal"
+msgstr "Proposition"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,quantity:0
+msgid "Qty"
+msgstr "Qté"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,quantity:0 field:ap.gao.mat,quantity:0
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,ratio:0
+msgid "Ratio"
+msgstr "Ratio"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Reject"
+msgstr "Rejecter"
+
+#. module: apgebat_gao
+#: selection:ap.gao,state:0
+msgid "Rejected"
+msgstr "Rejecteé"
+
+#. module: apgebat_gao
+#: selection:ap.gao,type:0
+msgid "Restricted tender"
+msgstr "Appel d'offre restreint"
+
+#. module: apgebat_gao
+#: field:ir.attachment,status:0
+msgid "Status"
+msgstr "Status"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form selection:ap.gao,state:0
+msgid "Submission"
+msgstr "Soumission"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Submission documents"
+msgstr "Documents soumis"
+
+#. module: apgebat_gao
+#: model:ir.ui.menu,name:apgebat_gao.menu_action_ap_gao_approved
+msgid "Subscription"
+msgstr "Souscription"
+
+#. module: apgebat_gao
+#: field:ap.gao,name:0
+msgid "Tenden title"
+msgstr "Titre de l'appel d'offre"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form view:ap.gao:apgebat_gao.ap_gao_tree
+#: model:ir.actions.act_window,name:apgebat_gao.action_ap_gao_accept
+#: model:ir.actions.act_window,name:apgebat_gao.action_ap_gao_approved
+#: model:ir.actions.act_window,name:apgebat_gao.action_ap_gao_draft
+#: field:project.project,tender_id:0
+msgid "Tender"
+msgstr "Appel d'offre"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Tender Processus"
+msgstr "Processus de l'appel d'offre"
+
+#. module: apgebat_gao
+#: code:addons/apgebat_gao/apgebat_gao.py:200
+#, python-format
+msgid "Tender project"
+msgstr "Projet d'appel d'offre"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Tender title"
+msgstr "Titre de l'appel d'offre"
+
+#. module: apgebat_gao
+#: model:ir.ui.menu,name:apgebat_gao.menu_ap_gao
+#: model:ir.ui.menu,name:apgebat_gao.menu_tender
+msgid "Tenders"
+msgstr "Appels d'offres"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,total_bpu:0
+msgid "The amount total BPU of price line."
+msgstr "Le montant total BPU de la ligne de prix."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,total_ds:0
+msgid "The amount total DS of price line."
+msgstr "Le montant total BPU de la ligne de prix."
+
+#. module: apgebat_gao
+#: help:ap.gao,amount_ht_ds:0
+msgid "The amount total of Amount DS."
+msgstr "Le total du montant DS."
+
+#. module: apgebat_gao
+#: help:ap.gao,amount_ht_dqe:0
+msgid "The amount total of amount DQE."
+msgstr "Le total du montant DQE."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,amount_total:0
+msgid "The amount total of material's line."
+msgstr "Montant total des lignes de matériaux."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,coef:0
+msgid ""
+"The coefficient of sale\n"
+"\n"
+"  Amount DQE - Amount DS\n"
+"----------------------- x 100\n"
+"     Amount DS."
+msgstr ""
+"Le coefficient de ventes\n"
+"\n"
+"  Montant DQE - Montant DS\n"
+"-------------------------------- x 100\n"
+"                Montant DS."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,bpu:0
+msgid "The unit price BPU of line."
+msgstr "Le prix unitaire BPU de la ligne."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,pu_ds:0
+msgid "The unit price DS of line."
+msgstr "Le prix unitaire DS de la ligne."
+
+#. module: apgebat_gao
+#: field:ap.gao.attr,lot_name:0
+msgid "Titled lot of tender"
+msgstr "Titre du lot de l'appel d'offres"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,amount_total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: apgebat_gao
+#: field:ap.gao,total_ds:0
+msgid "Total ds"
+msgstr "Total ds"
+
+#. module: apgebat_gao
+#: field:ap.gao,type:0 field:ap.gao.estim,type:0
+msgid "Type"
+msgstr "Type"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,bpu:0
+msgid "Unit Price BPU"
+msgstr "PU BPU"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,pu_ds:0
+msgid "Unit price DS"
+msgstr "PU DS"
+
+#. module: apgebat_gao
+#: view:ap.gao:apgebat_gao.ap_gao_form
+msgid "Validate"
+msgstr "Valider"
+
+#. module: apgebat_gao
+#: selection:ap.gao.estim,type:0
+msgid "Vue"
+msgstr "Vue"
+
+#. module: apgebat_gao
+#: field:ap.gao.attr,credit_line:0
+msgid "credit line"
+msgstr "Ligne de crédit"
+
+#. module: apgebat_gao
+#: field:ap.gao.mat,product_id:0
+msgid "equipments / materials"
+msgstr "equipements / materiels"
+
+#. module: apgebat_gao
+#: field:ap.gao.mat,estim_id:0
+msgid "estim"
+msgstr "estim"
+
+#. module: apgebat_gao
+#: field:ap.gao.estim,filter:0
+msgid "filter_for_purchase"
+msgstr "filter_for_purchase"
+
+#. module: apgebat_gao
+#: field:ap.gao.attr,caution:0
+msgid "interim bail"
+msgstr "Caution provisoire"
+
+#. module: apgebat_gao
+#: field:ap.gao.mat,pu_composant:0
+msgid "price component"
+msgstr "Prix du composant"
+
+#. module: apgebat_gao
+#: field:ap.gao,project_id:0
+msgid "project"
+msgstr "projet"
+
+#. module: apgebat_gao
+#: field:ap.gao,state:0
+msgid "state"
+msgstr "state"
+
+#. module: apgebat_gao
+#: field:ap.gao.attr,tender_id:0 field:ap.gao.estim,tender_id:0
+#: field:ir.attachment,tenderrec_id:0 field:ir.attachment,tendersen_id:0
+msgid "tender_id"
+msgstr "ID_appel_d'offre"
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,code:0
+msgid "the allocation batch number."
+msgstr "N° ligne de prix."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,sequences:0
+msgid "the display sequence."
+msgstr "la séquence d'affichage."
+
+#. module: apgebat_gao
+#: help:ap.gao.estim,price_line:0
+msgid "the name of the line price."
+msgstr "Le nom de la ligne de prix."

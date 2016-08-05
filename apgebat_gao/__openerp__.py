@@ -18,7 +18,9 @@ and allows the manager to monitor the dedicated team throughout this process.
     'depends': ["base","account","sale", "document", "stock", "project"],
     'data': [
         'apgebat_gao.xml',
+        'security/ir.model.access.csv',
     ],
+    
     'installable': True,
     'application': False,
     'auto_install': False,

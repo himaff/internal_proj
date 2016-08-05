@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ap_gao,acces.ap.gao,model_ap_gao,project.group_project_user,1,1,1,1
+access_ap_ga_attr,access.ap.gao.attr,model_ap_gao_attr,project.group_project_user,1,1,1,1
+access_ap_ga_estim,access.ap.gao.estim,model_ap_gao_estim,project.group_project_user,1,1,1,1
+access_ap_ga_mat,access.ap.ga.mat,model_ap_gao_mat,project.group_project_user,1,1,1,1
+access_ap_ir_attachment,access.ap.ir.attachment,model_ir_attachment,project.group_project_user,1,1,1,1
+access_ap_project_project,access.project.project,model_project_project,project.group_project_user,1,1,1,1
