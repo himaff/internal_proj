@@ -16,6 +16,7 @@ This App for manage members of africa performances website PAC
     'depends': ["base", "purchase", "project", "hr", "apgebat_gao"],
     'data': [
         'apgebat_ach.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'application': False,
