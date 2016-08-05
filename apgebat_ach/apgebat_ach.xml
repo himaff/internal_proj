@@ -7,10 +7,11 @@
       <field name="name">apgebat.ach.tree</field>
       <field name="model">apgebat.ach</field>
       <field name="arch" type="xml">
-        <tree string="Internal purchase">
+        <tree string="Internal purchase" colors="blue:state=='draft'">
            <field name="dateout" />
            <field name="type" />
            <field name="amount_ht" />
+           <field name="state" />
         </tree>
       </field>
     </record>
@@ -42,15 +43,15 @@
                 <field name="datein" attrs="{'readonly':[('state', '=', 'sent')]}"/>
               </group>
               <group col="2">
-              <field name="type" on_change="line_update(type)" attrs="{'readonly':[('state', '=', 'sent')]}"/>
+              <field name="type" attrs="{'readonly':[('state', '=', 'sent')]}"/>
             </group>
             <newline/>
               
             <notebook string="Articles" colspan="2">
               <page string="Articles">
-                  <field name="purchase_line1" attrs="{'invisible': [('type','!=','technical')], 'readonly': ['|',('type','!=','technical'),('state', '=', 'sent')]}" context="{'project_id': project_id}">
+                  <field name="purchase_line1" attrs="{'invisible': [('type','!=','technical')], 'readonly': ['|',('type','!=','technical'), ('state', '=', 'sent')], 'required': [('type','=','technical')]}" context="{'project_id': project_id}">
                     <tree editable="bottom" >
-                      <field name="lot_id" required="1" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}" on_change="onchange_project(lot_id)"/><!-- onchange_lot(lot_id) -->
+                      <field name="lot_id" required="1" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}" on_change="onchange_project(lot_id)"/><!-- on_change="line_update(type)" onchange_lot(lot_id) -->
                       <field name="lignes_id" required="1" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}" on_change="onchange_ligne(lignes_id)"/>
                       <field name="product_id" on_change="onchange_product(product_id)" required="1" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/>
                       <field name="name" />
@@ -60,7 +61,7 @@
                       <field name="price_subtotal" modifiers="{'readonly': True}"/>
                     </tree>
                   </field>
-                <field name="purchase_line" attrs="{'invisible': [('type','=','technical')], 'readonly': ['|',('type','=','technical'), ('state', '=', 'sent')]}">
+                  <field name="purchase_line" attrs="{'invisible': [('type','=','technical')], 'readonly': ['|',('type','=','technical'), ('state', '=', 'sent')], 'required': [('type','!=','technical')]}">
                     <tree editable="bottom" >
                       <field name="product_id" on_change="onchange_product(product_id)" />
                       <field name="name" />
@@ -128,12 +129,12 @@
       <field name="name">apgebat.pending.tree</field>
       <field name="model">apgebat.ach</field>
       <field name="arch" type="xml">
-        <tree string="Purchase" create="0" colors="blue:statet=='approuved'">
+        <tree string="Purchase" create="0" colors="blue:statet=='sent'">
           <field name="statet" invisible="1" />
            <field name="dateout" />
            <field name="department_id" />
            <field name="master" />
-           <field name="amount_ht" />
+           <field name="amount_ht" sum='Total HT'/>
         </tree>
       </field>
     </record>

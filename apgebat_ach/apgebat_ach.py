@@ -24,8 +24,13 @@ class apgebat_ach(osv.osv):
                 'amount_ht': 0.0,
             }
             val1 = 0.0
-            for line in order.purchase_line:
-                val1 += line.price_subtotal
+            #raise osv.except_osv(_('Error!'), _(order.type))
+            if order.type=="ordinary":
+                for line in order.purchase_line:
+                    val1 += line.price_subtotal
+            elif order.type=="technical":
+                for line in order.purchase_line1:
+                    val1 += line.price_subtotal
             res[order.id]['amount_ht'] = val1
         return res
 
@@ -51,11 +56,11 @@ class apgebat_ach(osv.osv):
         'department_id': fields.many2one('hr.department', 'Department', required=True),
         'dateout': fields.datetime('Date'),
         'datein': fields.date('Delivery date'),
-        'purchase_line': fields.one2many('internal.order.line', 'internal_id'),
-        'purchase_line1': fields.one2many('internal.order.line', 'internal_id'),
+        'purchase_line': fields.one2many('internal.order.line', 'internal_id', string="ordinary line"),
+        'purchase_line1': fields.one2many('internal.order.line', 'internal_id1', string="technical line"),
         'amount_ht': fields.function(_amount_all_wrapper, string='Total',
             store={
-                'apgebat.ach': (lambda self, cr, uid, ids, c={}: ids, ['purchase_line'], 10),
+                'apgebat.ach': (lambda self, cr, uid, ids, c={}: ids, ['purchase_line','purchase_line1'], 10),
                 'internal.order.line': (_get_order, ['price_unit', 'product_qty'], 10),
             }, multi='sums', help="The amount without tax.", track_visibility='always'),
         'state': fields.selection([('draft','Draft'), ('sent', 'Sent'), ('cancel', 'Canceled')], 'States'),
@@ -113,7 +118,7 @@ class apgebat_ach(osv.osv):
             line_values = {
                 'order_id': ids,
                 'product_id': int(infos.product_id),
-                'name': str(infos.name),
+                'name': infos.name,
                 'date_planned': infos.date_planned,
                 'product_qty': infos.product_qty,
                 'price_unit': infos.price_unit,
@@ -170,8 +175,8 @@ class apgebat_ach(osv.osv):
                 self.write(cr, uid, ids, {'accept': 'end', 'statet': 'approuved'})
 
     
-    def line_update(self, cr, uid, ids, types, context=None):
-        self.pool.get('internal.order.line').line_updater(cr, uid, ids, types, context=context)
+    #def line_update(self, cr, uid, ids, types, context=None):
+     #   self.pool.get('internal.order.line').line_updater(cr, uid, ids, types, context=context)
 
     def call_onchange_project(self, cr, uid, ids, project_id, context=None):
         self.pool.get('internal.order.line').onchange_project(cr, uid, ids, 'ok', project_id, context=context)
@@ -199,7 +204,8 @@ class internal_order_line(osv.osv):
         'supplier': fields.many2one('res.partner', 'Supplier', domain=[('supplier', '=', True)]),
         'price_subtotal': fields.float('Subtotal'),
         'internal_id': fields.integer('internal'),
-        'updater': fields.selection([('ordinary','Ordinary purchases'),('technical','Technical purchasing')],'Type', required=True),
+        'internal_id1': fields.integer('internal'),
+        #'updater': fields.selection([('ordinary','Ordinary purchases'),('technical','Technical purchasing')],'Type', required=True),
 
     }
 
@@ -239,9 +245,9 @@ class internal_order_line(osv.osv):
         else:
             self.pool.get('apgebat.ach').write(cr, uid, line.internal_id,{'accept': 'reject'})
 
-    def line_updater(self, cr, uid, ids, types, context=None):
-        values = {'updater': types}
-        return {'value': values}
+    #def line_updater(self, cr, uid, ids, types, context=None):
+     #   values = {'updater': types}
+     #   return {'value': values}
 
     def onchange_project(self,cr,uid,ids, lot_id, project_id=None, context=None):
         #raise osv.except_osv(_('Error!'), _(context['project_id']))

@@ -177,7 +177,7 @@
                 <field name="date_depot" attrs="{'readonly': [('state','in',['cancel', 'reject'])]}"/>
                 <field name="owner_address" attrs="{'readonly': [('state','in',['cancel', 'reject'])]}"/>
                 <field name="copy" attrs="{'readonly': [('state','in',['cancel', 'reject'])]}"/>
-                <field name="date_ouvert" attrs="{'readonly': [('state','in',['cancel','draft', 'cons','plan', 'reject'])]}"/>
+                <field name="date_ouvert" attrs="{'readonly': [('state','in',['cancel', 'reject'])]}"/>
                 <field name="date_begin" on_change="delayer(date_begin, date_end)" attrs="{'readonly': [('state','in',['cancel','draft', 'cons', 'plan', 'submit', 'reject'])]}"  />
                 <field name="date_end" on_change="delayer(date_begin, date_end)" attrs="{'readonly': [('state','in',['cancel','draft', 'cons', 'plan', 'submit', 'reject'])]}" />
                 <field name="delai"/>
