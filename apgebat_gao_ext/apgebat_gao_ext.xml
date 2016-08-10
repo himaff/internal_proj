@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+  	<!-- Heritage de vue sur les projets pour afficher les estimation et autres fichiers de LAO -->
+    <record id="ao_projet_form" model="ir.ui.view">
+      <field name="name">project.project.form</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.edit_project"/>
+      <field name="arch" type="xml">
+       
+        <page string="Team" name="team" position="before">
+
+          <page string="definition attachments">
+            <field name="att_list" nolabel="1" widget="one2many_list" >
+              <tree string="attachments lists" editable="top" default_order="date_planned desc" >
+                <field name="name"/>
+                <field name="date_planned"/>
+              </tree>
+            </field>
+          </page>
+
+        </page>
+        
+      </field>
+    </record>
+
+	<record model="ir.ui.view" id="gao_ext_sit_filter">
+	  <field name="name">gao.ext.sit.search</field>
+	  <field name="model">apgebat.attachment</field>
+	  <field name="arch" type="xml">
+	    <search string="Situation">
+	      <group expand="0" string="Group By...">
+	        <filter name="group_project" string="project" domain="[]" context="{'group_by': 'project_id'}" />
+	      </group>
+	    </search>
+	  </field>
+	</record>
+
+
+
+
+
+
+
+  		<!-- vue liste situation-->
+    <record id="view_situation" model="ir.ui.view">
+      <field name="name">ap.gao.tree</field>
+      <field name="model">apgebat.attachment</field>
+      <field name="arch" type="xml">
+        <tree string="Situation" >
+	        <field name="project_id" invisible="1"/>
+	        <field name="name"/>
+	        <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- vue formulaire situation -->
+    <record id="situation_form" model="ir.ui.view">
+      <field name="name">ap.gao.form</field>
+      <field name="model" >apgebat.attachment</field>
+      <field name="arch" type="xml">
+        <form string="Situation" >
+        <header>
+          <button name="" string="validate" type='object' class="oe_highlight" />
+          <field name="state" widget='statusbar'/>
+        </header>   
+        	<h4><field name="project_id" readonly="1"/></h4>
+	        <h1 style="text-align:center"><field name="name" readonly="1"/></h1>
+	        <button name="importer" type="object" string="Generate" class="oe_highlight" />
+	       	<field name="line_attach" widget="one2many_list"> 
+		       	<tree default_order="sequence asc" colors="blue:type=='vue'">
+		       		<field name="code"/>
+		       		<field name="lines" />
+		       		<field name="unit_id"/>
+		       		<field name="quantity" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="unit_price" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="total_dqe" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="qte_m1" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="qte_m" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="qte_cumul" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="montant_m1" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="montant_m" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="montant_cumul" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="taux" attrs="{'invisible': [('type','in','vue')]}"/>
+		       		<field name="att_id" invisible="1"/>
+		       		<field name="sequence" invisible="1"/>
+		       		<field name="type" invisible="1"/>
+		       	</tree>
+	       	</field>
+        </form>
+      </field>
+    </record>
+
+
+
+
+
+
+
+      <record id="purchase_wizard" model="ir.ui.view">
+      <field name="name">internal.purchase.wizard</field>
+      <field name="model" >internal.purchase.request.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Purchases" > 
+          <h2><group col="2"><field name="project_id" /></group></h2>
+          <h4><group col="2"><field name="selector" /></group></h4>
+          <footer>
+            <button name='selector_choice' string="Selected" type="object" class="oe_highlight" />
+             or
+            <button string="Cancel" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+      <!-- vue liste purchase project-->
+    <record id="purchase_project_tree" model="ir.ui.view">
+      <field name="name">purchase.project.tree</field>
+      <field name="model">project.project</field>
+      <field name="arch" type="xml">
+        <tree string="Purchases by Projects" >
+          <field name="name" />
+          <field name="user_id" />
+          <field name="partner_id" />
+        </tree>
+      </field>
+    </record>
+
+    <!-- vue formulaire purchase -->
+    <record id="purchase_line_form" model="ir.ui.view">
+      <field name="name">purchase.line.form</field>
+      <field name="model" >project.project</field>
+      <field name="arch" type="xml">
+        <form string="Situation" >
+            <field name="name" readonly="1"/>
+  
+              <field name="estimation_id" nolabel="1" widget="one2many_list" >
+                <tree default_order="sequences asc" colors="blue:type=='vue'" create="0" delete="0" editable='top'>
+                  <field name="type" invisible="1" />
+                  <field name="sequences" invisible="1"/>
+                  <field name="code" readonly="1"/>
+                  <field name="lot_id" readonly="1"/>
+                  <field name="price_line" readonly="1"/>
+                  <field name="mat_line" invisible="1"/> <!-- tester si possible mettre en many2many pour afficher plusieurs ligne de prix -->
+                  <field name="unite_id"  readonly="1"/>
+                  <field name="quantity" attrs="{'invisible': [('type','in','vue')]}" readonly="1" string="Qty max" />
+                  <field name="qte_request" attrs="{'readonly': [('type','in','vue')], 'invisible': [('type','in','vue')]}"/>
+                </tree>
+              </field>
+           <footer>
+            <button name='selector_choice' string="Validate request" type="object" class="oe_highlight" />
+             or
+            <button string="Cancel" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+     <!-- vue formulaire purchase materials-->
+    <record id="purchase_mat_form" model="ir.ui.view">
+      <field name="name">purchase.mat.form</field>
+      <field name="model" >ap.gao.estim</field>
+      <field name="arch" type="xml">
+        <form string="purchase">
+          <label for='price_line'/>
+          <h3><field name="price_line" readonly="1"/></h3>
+            <field name="mat_line" nolabel="1" widget="one2many_list" >
+              <tree string="Materials lines" editable="bottom" default_order="product_id asc" create="0" delete="0">
+                <field name="estim_id" invisible='1'/>
+                <field name="product_id" readonly="1"/>
+                <field name="pu_composant" readonly="1"/>
+                <field name="unite_id" readonly="1"/>
+                <field name="quantity" readonly="1"/>
+                <field name="qte_request" />
+                <field name="date_planed" />
+              </tree>
+            </field>
+           <footer>
+            <button name='test' string="Précédent" type="object" class="oe_highlight" icon="gtk-go-back" />
+            <button name='test' string="Suivant" type="object" class="oe_highlight" icon="gtk-go-forward"/>
+             or
+            <button string="Cancel" class="oe_link" special="cancel"/>
+          </footer> 
+        </form>
+      </field>
+    </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  		<record id="open_purchase_request" model="ir.actions.act_window">
+            <field name="name">Purchases request</field>
+            <field name="res_model">internal.purchase.request.wizard</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="purchase_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="open_situation" model="ir.actions.act_window">
+            <field name="name">Situation</field>
+            <field name="res_model">apgebat.attachment</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_situation"/>
+            <field name="context">{'search_default_group_project': 1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click to start a new project.
+                </p><p>
+                  Projects are used to organize your activities; plan
+                  tasks, track issues, invoice timesheets. You can define
+                  internal projects (R&amp;D, Improve Sales Process),
+                  private projects (My Todos) or customer ones.
+                </p><p>
+                  You will be able collaborate with internal users on
+                  projects or invite customers to share your activities.
+                </p>
+            </field>
+        </record>
+
+
+
+
+
+
+
+
+
+		<menuitem name="supplying"
+            id="menu_project_supplying"
+            parent="base.menu_main_pm"
+            sequence="2"/>
+  		<menuitem action="open_purchase_request" id="menu_purchase" name="Purchase request" parent="menu_project_supplying" sequence="1"/>
+  		<menuitem name="Situation"
+            id="menu_project_situation"
+            parent="base.menu_main_pm"
+            sequence="3"/>
+  		<menuitem action="open_situation" id="menu_attachment" name="Attachments" parent="menu_project_situation" sequence="1"/>
+  </data>
+</openerp>

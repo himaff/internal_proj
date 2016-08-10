@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<!-- heritage de la vue tree dans hr_attendance afin d'ajouter et remplacer des champs -->
+        <record id="presence_tree" model="ir.ui.view">
+			<field name="name">presence.tree</field>
+			<field name="model">hr.attendance</field>
+			<field name="inherit_id" ref="hr_attendance.view_attendance_who"/>
+			<field name="arch" type="xml">
+                <field name="action" position="after">
+				    <field name="work" sum="total"/>
+				    <field name="week" />
+                </field>
+                <field name="action" position="replace">
+				    <field name="statut" on_change="changeStatus(statut)"/>
+                </field>
+                <tree string="Employee attendances" position="attributes">
+                	<attribute name="editable">top</attribute>
+                </tree>
+               
+              
+			</field>
+		</record>
+<!-- heritage de la vue form dans hr_attendance afin d'ajouter et remplacer des champs -->
+		<record id="presence_form" model="ir.ui.view">
+			<field name="name">presence.form</field>
+			<field name="model">hr.attendance</field>
+			<field name="inherit_id" ref="hr_attendance.view_attendance_form"/>
+			<field name="arch" type="xml">
+                <field name="action" position="after">
+				    <field name="work"/>
+				    <field name="week" />
+                </field>
+                <field name="action" position="replace">
+				    <field name="statut" on_change="changeStatus(statut)"/>
+                </field>
+              	
+                <field name="action_desc" position="attributes">
+                	<attribute name="invisible">1</attribute>
+                </field>
+			</field>
+		</record>
+
+		<!-- heritage de la vue form dans hr_attendance afin d'ajouter et remplacer des champs -->
+		<record id="presence_filter" model="ir.ui.view">
+			<field name="name">presence.filter</field>
+			<field name="model">hr.attendance</field>
+			<field name="inherit_id" ref="hr_attendance.view_hr_attendance_filter"/>
+			<field name="arch" type="xml">
+                        <filter name="groupby_name" string="Month" context="{'group_by':'name'}" position="before">
+                        	<separator/>
+                        	<filter name="groupby_week" string="Week" context="{'group_by':'week'}" />
+                        	<separator/>
+                        </filter>
+                       
+			</field>
+		</record>
+
+		<!-- heritage de la vue graph dans hr_attendance afin d'ajouter et remplacer des champs -->
+        <record id="presence_graph" model="ir.ui.view">
+			<field name="name">presence.graph</field>
+			<field name="model">hr.attendance</field>
+			<field name="inherit_id" ref="hr_attendance.view_hr_attendance_graph"/>
+			<field name="arch" type="xml">
+                <field name="worked_hours" type="measure" position="before">
+				<field name="worked_day" type="measure"/>
+				<field name="worked_miday" type="measure"/>
+                </field>
+                
+              
+			</field>
+		</record>
+
+		<menuitem
+            action="hr_attendance.action_hr_attendance_graph"
+            id="menu_hr_presence_graph1"
+            parent="hr_attendance.menu_hr_attendance"
+            sequence="30"
+        />
+
+		<!--<record id="open_view_attendance" model="ir.actions.act_window">
+            <field name="name">Attendances</field>
+            <field name="res_model">hr.attendance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_today":1,}</field>
+            <field name="search_view_id" ref="view_hr_attendance_filter" />
+            <field name="help">The Time Tracking functionality aims to manage employee attendances from Sign in/Sign out actions. You can also link this feature to an attendance device using Odoo's web service features.</field>
+        </record>-->
+
+    </data>
+</openerp>

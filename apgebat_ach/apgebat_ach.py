@@ -44,6 +44,9 @@ class apgebat_ach(osv.osv):
 
         return True
 
+    def _employee_get(obj, cr, uid, context=None):
+        ids = obj.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)], context=context)
+        return ids and ids[0] or False
 
 
 
@@ -51,7 +54,7 @@ class apgebat_ach(osv.osv):
         'accept': fields.selection([('reject','reject'), ('valid', 'valid'), ('end', 'end')],'accept'),
         'type': fields.selection([('ordinary','Ordinary purchases'),('technical','Technical purchasing')],'Type', required=True),
         'project_id': fields.many2one('project.project', 'Project', domain="[('tender_id', '!=', False)]"),
-        'master': fields.many2one('res.users', 'Project leader', required=True),
+        'master': fields.many2one('hr.employee', 'Project leader', required=True),
         'employee_ids': fields.many2many('hr.employee', 'purchase_employee_rel', 'purchase_id', 'employee_id', string="Contributor"),
         'department_id': fields.many2one('hr.department', 'Department', required=True),
         'dateout': fields.datetime('Date'),
@@ -69,7 +72,7 @@ class apgebat_ach(osv.osv):
 
     _defaults = {
         'dateout': time.strftime('%Y-%m-%d %H:%M:%S',time.localtime()),
-        'master': lambda self, cr, uid, ctx: uid,
+        'master': _employee_get,
         'state': 'draft',
         'accept': 'reject',
         'statet': 'draft'
@@ -77,6 +80,14 @@ class apgebat_ach(osv.osv):
 
 
     }
+
+    def onchange_employee_get(self, cr, uid, ids, employee, context=None):
+        #raise osv.except_osv(_('Error!'), _(employee_ids))
+        employe = self.pool.get('hr.employee').browse(cr, uid, employee, context=context)
+        department=employe.department_id
+        values = {'department_id': department, 'employee_ids': [(6, 0, [employee])]}
+        return {'value': values}
+
 
     def rejected(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'statet': 'reject'})
@@ -105,6 +116,7 @@ class apgebat_ach(osv.osv):
             'date_order': request.dateout,
             'location_id': 12,
             'pricelist_id': 2,
+            'project_id': request.project_id.id
             
         }
         result.append(inv_values)
@@ -122,6 +134,8 @@ class apgebat_ach(osv.osv):
                 'date_planned': infos.date_planned,
                 'product_qty': infos.product_qty,
                 'price_unit': infos.price_unit,
+                'internal_line_id': infos.id,
+                'lot_ligne': infos.lignes_id.price_line
                 
             }
             result.append(line_values)
@@ -156,6 +170,9 @@ class apgebat_ach(osv.osv):
         for line in achat.purchase_line:
             if line.valid == True and line.etat !='oui':
                 line_ids.append(line.id)
+        for line in achat.purchase_line1:
+            if line.valid == True and line.etat !='oui':
+                line_ids.append(line.id)
         if line_ids:
             group_id=self.pool.get('internal.order.line').read_group(cr,uid,[('id','in',line_ids)], ['supplier'], ['supplier'])
 
@@ -167,6 +184,9 @@ class apgebat_ach(osv.osv):
                 group_id=self.pool.get('internal.order.line').read_group(cr,uid,[('id','in',line_ids)], ['supplier'], ['supplier'])
             ligne=[]
             for line in achat.purchase_line:
+                if line.valid == False and line.etat !='oui':
+                    ligne.append(line.id)
+            for line in achat.purchase_line1:
                 if line.valid == False and line.etat !='oui':
                     ligne.append(line.id)
             if len(ligne)>0:
@@ -232,18 +252,32 @@ class internal_order_line(osv.osv):
     def call_accept(self, cr, uid, ids, value, context=None):
         line = self.browse(cr,uid, ids)
         idsi = self.search(cr, uid,[('internal_id', '=', line.internal_id)])
+        idsi1 = self.search(cr, uid,[('internal_id1', '=', line.internal_id1)])
         valide=False
-        for lines in self.browse(cr, uid, idsi, context=None):
-            if lines.id!=ids and lines.valid and lines.etat!='oui':
+        if idsi:
+            for lines in self.browse(cr, uid, idsi, context=None):
+                if lines.id!=ids and lines.valid and lines.etat!='oui':
+                    valide=True
+            if valide and value:
                 valide=True
-        if valide and value:
-            valide=True
-        if value:
-            valide=True
-        if valide:
-            self.pool.get('apgebat.ach').write(cr, uid, line.internal_id,{'accept': 'valid'})
-        else:
-            self.pool.get('apgebat.ach').write(cr, uid, line.internal_id,{'accept': 'reject'})
+            if value:
+                valide=True
+            if valide:
+                self.pool.get('apgebat.ach').write(cr, uid, line.internal_id,{'accept': 'valid'})
+            else:
+                self.pool.get('apgebat.ach').write(cr, uid, line.internal_id,{'accept': 'reject'})
+        if idsi1:
+            for lines in self.browse(cr, uid, idsi1, context=None):
+                if lines.id!=ids and lines.valid and lines.etat!='oui':
+                    valide=True
+            if valide and value:
+                valide=True
+            if value:
+                valide=True
+            if valide:
+                self.pool.get('apgebat.ach').write(cr, uid, line.internal_id1,{'accept': 'valid'})
+            else:
+                self.pool.get('apgebat.ach').write(cr, uid, line.internal_id1,{'accept': 'reject'})
 
     #def line_updater(self, cr, uid, ids, types, context=None):
      #   values = {'updater': types}
@@ -285,3 +319,21 @@ class internal_order_line(osv.osv):
             for product in prod_group:
                 pro.append(product['product_id'][0])
         return {'domain':{'product_id':[('id','in',pro)]}}
+
+
+class purchase_order(osv.osv):
+    _inherit = 'purchase.order'
+
+    _columns = {
+        'project_id':fields.many2one('project.project', 'project'),
+        
+    }
+
+class purchase_order_line(osv.osv):
+    _inherit = 'purchase.order.line'
+
+    _columns = {
+        'internal_line_id':fields.many2one('internal.order.line', 'project'),
+        'lot_ligne': fields.char('ligne de lot'),
+        
+    }

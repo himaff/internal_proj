@@ -1,5 +1,6 @@
 import openerp
 from openerp.osv import fields, osv
+import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 import time
 from datetime import datetime
@@ -10,6 +11,9 @@ _logger = logging.getLogger(__name__)
 class account_asset_asset(osv.osv):
     _inherit = 'account.asset.asset'
 
+    _columns={
+        'purchase_value': fields.float('Gross Value', required=True, readonly=True, states={'draft':[('readonly',False)]}, digits_compute=dp.get_precision('Account')),
+        }
     def compute_depreciation_board(self, cr, uid, ids, context=None):
         depreciation_lin_obj = self.pool.get('account.asset.depreciation.line')
         currency_obj = self.pool.get('res.currency')
@@ -63,3 +67,10 @@ class account_asset_asset(osv.osv):
                 month = depreciation_date.month
                 year = depreciation_date.year
         return True
+
+class account_asset_depreciation_line(osv.osv):
+    _inherit = 'account.asset.depreciation.line'
+
+    _columns={
+    'depreciated_value': fields.float('Amount Already Depreciated', required=True, digits_compute=dp.get_precision('Account')),
+    }
