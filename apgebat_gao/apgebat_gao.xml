@@ -49,7 +49,7 @@
                 <field name="caution" sum="Caution total"/>
                 <field name="date_caution"/>
                 <field name="credit_line" sum="Credit total"/>
-                <field name="dqe"/>
+                <field name="dqe" sum="DQE"/>
               </tree>
             </field>
           </page>

@@ -1,0 +1,350 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* apgebat_ach
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20160719\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-10 12:16+0000\n"
+"PO-Revision-Date: 2016-08-10 12:27+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: en\n"
+"X-Generator: Poedit 1.8.8\n"
+
+#. module: apgebat_ach
+#: model:ir.ui.menu,name:apgebat_ach.menu_action_internal_request
+msgid " Internal purchase request"
+msgstr "Demande  interne"
+
+#. module: apgebat_ach
+#: model:ir.ui.menu,name:apgebat_ach.menu_action_pending_request
+msgid " Pending request"
+msgstr " Demande en attente"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_form
+#: view:apgebat.ach:apgebat_ach.apgebat_pending_form
+msgid "(update)"
+msgstr "(Mise à jour)"
+
+#. module: apgebat_ach
+#: model:ir.actions.act_window,help:apgebat_ach.action_internal_request
+#: model:ir.actions.act_window,help:apgebat_ach.action_pending_request
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"          Click here to Create a new purchase request.\n"
+"        </p>\n"
+"      "
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"          Cliquez ici pour créer une nouvelle demande d'achat.\n"
+"        </p>\n"
+"      "
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,statet:0 selection:internal.order.line,etat:0
+#: field:internal.order.line,valid:0
+msgid "Approuved"
+msgstr "Approuvé"
+
+#. module: apgebat_ach
+#: field:internal.order.line,product_id:0
+msgid "Article"
+msgstr "Article"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_form
+msgid "Articles"
+msgstr "Articles"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,state:0
+msgid "Canceled"
+msgstr "Annulé"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,employee_ids:0
+msgid "Contributor"
+msgstr "Participants"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,create_uid:0 field:internal.order.line,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,create_date:0 field:internal.order.line,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,dateout:0
+msgid "Date"
+msgstr "Date"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,datein:0
+msgid "Delivery date"
+msgstr "Date de livraison"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,department_id:0
+msgid "Department"
+msgstr "Département"
+
+#. module: apgebat_ach
+#: field:internal.order.line,name:0
+msgid "Description"
+msgstr "Description"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,display_name:0 field:internal.order.line,display_name:0
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,state:0 selection:apgebat.ach,statet:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_form
+msgid "Give the draft"
+msgstr "Mettre au brouillon"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,id:0 field:internal.order.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_form
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_tree
+msgid "Internal purchase"
+msgstr "Achat interne"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_form
+#: view:apgebat.ach:apgebat_ach.apgebat_pending_form
+#: model:ir.actions.act_window,name:apgebat_ach.action_internal_request
+msgid "Internal purchase request"
+msgstr "Demande d'achat interne"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,__last_update:0 field:internal.order.line,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,write_uid:0 field:internal.order.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,write_date:0 field:internal.order.line,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: apgebat_ach
+#: field:internal.order.line,lignes_id:0
+msgid "Line rates"
+msgstr "Lignes de prix"
+
+#. module: apgebat_ach
+#: field:internal.order.line,lot_id:0
+msgid "Lot Award"
+msgstr "Lots d'attribution"
+
+#. module: apgebat_ach
+#: selection:internal.order.line,etat:0
+msgid "Not Approuved"
+msgstr "Non Approuvé"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_pending_form
+msgid "Orders"
+msgstr "Orders"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,type:0
+msgid "Ordinary purchases"
+msgstr "Achats ordinaires"
+
+#. module: apgebat_ach
+#: model:ir.actions.act_window,name:apgebat_ach.action_pending_request
+msgid "Pending request"
+msgstr "Demande en attente"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,project_id:0
+msgid "Project"
+msgstr "Projet"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,master:0
+msgid "Project leader"
+msgstr "Chef de projet"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_pending_form
+#: view:apgebat.ach:apgebat_ach.apgebat_pending_tree
+msgid "Purchase"
+msgstr "Achat"
+
+#. module: apgebat_ach
+#: model:ir.model,name:apgebat_ach.model_purchase_order
+msgid "Purchase Order"
+msgstr "Bon de commande"
+
+#. module: apgebat_ach
+#: model:ir.model,name:apgebat_ach.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Ligne de commande d'achat"
+
+#. module: apgebat_ach
+#: field:internal.order.line,product_qty:0
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_pending_form
+msgid "Reject the request"
+msgstr "Rejetter la demande"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,statet:0
+msgid "Rejected"
+msgstr "Rejecté"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,state:0 selection:apgebat.ach,statet:0
+msgid "Sent"
+msgstr "Envoyé"
+
+#. module: apgebat_ach
+#: field:internal.order.line,etat:0
+msgid "State"
+msgstr "Etat"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,state:0 field:apgebat.ach,statet:0
+msgid "States"
+msgstr "Etats"
+
+#. module: apgebat_ach
+#: field:internal.order.line,price_subtotal:0
+msgid "Subtotal"
+msgstr "Sous total"
+
+#. module: apgebat_ach
+#: field:internal.order.line,supplier:0
+msgid "Supplier"
+msgstr "Fournisseurs"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_form
+msgid "Team"
+msgstr "Equipe"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,type:0
+msgid "Technical purchasing"
+msgstr "achats techniques"
+
+#. module: apgebat_ach
+#: help:apgebat.ach,amount_ht:0
+msgid "The amount without tax."
+msgstr "Le montant HT."
+
+#. module: apgebat_ach
+#: field:apgebat.ach,amount_ht:0
+msgid "Total"
+msgstr "Total"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_pending_tree
+msgid "Total HT"
+msgstr "Total HT"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,type:0
+msgid "Type"
+msgstr "Type"
+
+#. module: apgebat_ach
+#: field:internal.order.line,price_unit:0
+msgid "Unit price"
+msgstr "PU"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_pending_form
+msgid "Validate the request"
+msgstr "Valider la demande"
+
+#. module: apgebat_ach
+#: view:apgebat.ach:apgebat_ach.apgebat_ach_form
+msgid "Valided"
+msgstr "Valider"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,accept:0
+msgid "accept"
+msgstr "accepter"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,accept:0
+msgid "end"
+msgstr "fin"
+
+#. module: apgebat_ach
+#: field:internal.order.line,internal_id:0
+#: field:internal.order.line,internal_id1:0
+msgid "internal"
+msgstr "interne"
+
+#. module: apgebat_ach
+#: field:purchase.order.line,lot_ligne:0
+msgid "ligne de lot"
+msgstr "ligne de lot"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,purchase_line:0
+msgid "ordinary line"
+msgstr "ligne ordinaire"
+
+#. module: apgebat_ach
+#: field:internal.order.line,date_planned:0
+msgid "predicted date"
+msgstr "Date prévue"
+
+#. module: apgebat_ach
+#: field:purchase.order,project_id:0
+#: field:purchase.order.line,internal_line_id:0
+msgid "project"
+msgstr "projet"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,accept:0
+msgid "reject"
+msgstr "rejetter"
+
+#. module: apgebat_ach
+#: field:apgebat.ach,purchase_line1:0
+msgid "technical line"
+msgstr "ligne technique"
+
+#. module: apgebat_ach
+#: selection:apgebat.ach,accept:0
+msgid "valid"
+msgstr "valider"

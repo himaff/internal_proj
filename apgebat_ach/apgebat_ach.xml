@@ -40,7 +40,6 @@
               </h2>
               <group col="2">
                 <field name="dateout" attrs="{'readonly':[('state', '=', 'sent')]}"/>
-                <field name="datein" attrs="{'readonly':[('state', '=', 'sent')]}"/>
               </group>
               <group col="2">
               <field name="type" attrs="{'readonly':[('state', '=', 'sent')]}"/>
@@ -83,7 +82,7 @@
                <page string="Team" >
                   <group col="4" >
                 <field name="department_id" colspan="2" attrs="{'readonly': [('state', '=', 'sent')]}"/>
-                <field name="master" colspan="2" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                <field name="master" colspan="2" attrs="{'readonly': [('state', '=', 'sent')]}" on_change="onchange_employee_get(master)"/>
                 <field name="employee_ids" widget="many2many_tags" colspan="4" attrs="{'required': [('type','=','technical')], 'readonly': [('state', '=', 'sent')]}"/>
               </group>
 
@@ -247,7 +246,7 @@
 
     <!-- L'action du menu -->
     <record model="ir.actions.act_window" id="action_internal_request">
-      <field name="name">Internal.purchase.request</field>
+      <field name="name">Internal purchase request</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">apgebat.ach</field>
       <field name="view_type">form</field>
@@ -263,7 +262,7 @@
 
 
     <record model="ir.actions.act_window" id="action_pending_request">
-      <field name="name">Pending.request</field>
+      <field name="name">Pending request</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">apgebat.ach</field>
       <field name="view_type">form</field>

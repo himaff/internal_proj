@@ -193,7 +193,11 @@ class ap_gao(osv.osv):
         tender=self.browse(cr, uid, ids, context=None)
         #raise osv.except_osv(_('Error'), _(tender.estimation_id.id))
         for lot in tender.lot_id:
-            self.pool.get('ap.gao.attr').write(cr, uid, lot.id, {'project_id': pro_id})
+            lot_estim=self.pool.get('ap.gao.estim').search(cr, uid,[ ('lot_id', '=', lot.id)])
+            lot_dqe=0.0
+            for val in lot_estim:
+                lot_dqe+=self.pool.get('ap.gao.estim').browse(cr, uid, val).total_bpu
+            self.pool.get('ap.gao.attr').write(cr, uid, lot.id, {'project_id': pro_id, 'dqe': lot_dqe})
         for estim in tender.estimation_id:
             self.pool.get('ap.gao.estim').write(cr, uid, estim.id, {'project_id': pro_id})
         for send in tender.doc_send:
