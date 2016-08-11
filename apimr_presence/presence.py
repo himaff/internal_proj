@@ -44,7 +44,7 @@ class hr_attendance(osv.osv):
 
     	'name': fields.date('Date', required=True, select=1),
     	'statut': fields.selection([('day', 'Présent(e) toute la journée'), ('middle', 'Présent(e) une demi journée')], 'Status', required=True),
-    	'week': fields.function(_launcher, type='integer', string='Week', store=True, multi=True),
+    	'week': fields.function(_launcher, type='char', string='Week', store=True, multi=True),
     	'work': fields.integer('Heures', required=True),
     	'action': fields.selection([('sign_in', 'Sign In'), ('sign_out', 'Sign Out'), ('action','Action')], 'Action'),
         'worked_hours': fields.function(_launcher, type='integer', string='Worked Hours', store=True, multi=True),
