@@ -21,12 +21,15 @@
               
 			</field>
 		</record>
-<!-- heritage de la vue form dans hr_attendance afin d'ajouter et remplacer des champs -->
+        
+
+<!-- <style>li.oe_attendance_status{display:none !important;}</style>heritage de la vue form dans hr_attendance afin d'ajouter et remplacer des champs -->
 		<record id="presence_form" model="ir.ui.view">
 			<field name="name">presence.form</field>
 			<field name="model">hr.attendance</field>
 			<field name="inherit_id" ref="hr_attendance.view_attendance_form"/>
 			<field name="arch" type="xml">
+
                 <field name="action" position="after">
 				    <field name="work"/>
 				    <field name="week" />
@@ -51,6 +54,7 @@
                         	<separator/>
                         	<filter name="groupby_week" string="Week" context="{'group_by':'week'}" />
                         	<separator/>
+
                         </filter>
                        
 			</field>
@@ -87,6 +91,19 @@
             <field name="search_view_id" ref="view_hr_attendance_filter" />
             <field name="help">The Time Tracking functionality aims to manage employee attendances from Sign in/Sign out actions. You can also link this feature to an attendance device using Odoo's web service features.</field>
         </record>-->
-
+         <record id="disabled_attendance" model="ir.ui.view">
+            <field name="name">hr.employee.form1</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_employee"/>
+            <field name="arch" type="xml">
+                <label for="state" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+                    <div groups="base.group_hr_attendance"  position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </div>
+               
+            </field>
+        </record>
     </data>
 </openerp>
