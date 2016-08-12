@@ -53,7 +53,7 @@ class hr_attendance(osv.osv):
     }
 
     _defaults = {
-        'name': lambda *a: time.strftime('%Y-%m-%d'), #please don't remove the lambda, if you remove it then the current time will not change
+        'name': time.strftime('%Y-%m-%d',time.localtime()),
     }
 
 
