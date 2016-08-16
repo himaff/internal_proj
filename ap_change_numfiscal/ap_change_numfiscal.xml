@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>	
+	  <!--heritage de la vue account_invoice_view-->
+	<record id="ap_num_fiscal" model="ir.ui.view">
+			<field name="name">ap.num.fiscal</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+                <field name="payment_term" position="after">
+				    <field name="reverse_charge_vat" options="{'no_create': True}" />	
+                </field>
+			</field>
+    </record>
+ 
+<!--heritage de la vue view.partner.form -->
+	<record id="ap_pos_fiscal" model="ir.ui.view">
+			<field name="name">ap.num.fiscal</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+                <field name="property_account_position" position="replace">
+				    <field name="reverse_charge_vat" options="{'no_create': True}"/>	
+                </field>
+			</field>
+    </record>
+
+<!--heritage de la vue account_invoice_view et invisibilité du champ existant "fiscal_position"-->
+	<record id="ap_cange_num_fiscal" model="ir.ui.view">
+			<field name="name">ap.num.fiscal</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+                <field name="fiscal_position" position="replace">
+				    <field name="fiscal_position" invisible="1"/>	
+                </field>
+			</field>
+    </record>
+
+  </data>
+</openerp>
