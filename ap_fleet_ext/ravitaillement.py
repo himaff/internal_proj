@@ -25,3 +25,18 @@ class ravitaillemet(osv.osv):
     _sql_constraints = [
         ('uniq_license_plate', 'unique(license_plate)', "A ravitaillement already exists with this license_plate in database. license_plate must be unique!"),
     ]
+	
+	
+class ravitaillement_fleet(osv.osv):
+    _name ='fleet.vehicle.log.fuel'
+    _inherit ='fleet.vehicle.log.fuel'
+	
+    _columns={
+        'vehicle_refueling': fields.float('vehicle refueling', digits=(2,1)),
+        'previous_refueling_km': fields.float('previous refueling km', digits=(2,1)),
+        'current_refueling_km': fields.float('current refueling km', digits=(2,1)),
+        'vehicle_consumption': fields.float('vehicle consumption', digits=(2,1)),		
+    }	
+	
+	
+	
