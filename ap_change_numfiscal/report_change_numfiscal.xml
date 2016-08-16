@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="change_num_fiscal_report" inherit_id="account.report_invoice_document">
+             <xpath expr="//p[@t-if='o.fiscal_position.note']" position="replace">
+			  <p t-if="o.reverse_charge_vat">
+                <strong> Reverse charge V.A.T N°:</strong>
+                <span t-field="o.reverse_charge_vat"/>
+              </p>
+             </xpath>
+        </template>
+    </data>
+</openerp>
