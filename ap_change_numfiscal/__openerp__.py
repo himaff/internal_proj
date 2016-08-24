@@ -12,8 +12,8 @@ Management of numero fiscal
 
 This App change numero fiscal in N° TVA Intracommunautaire
     """,
-    'depends': ['base', 'account'],
-    'data': ['ap_change_numfiscal.xml','report_change_numfiscal.xml',],
+    'depends': ['base', 'base_vat','account'],
+    'data': ['ap_change_numfiscal.xml', 'report_change_numfiscal.xml',],
     'installable': True,
     'application': False,
     'auto_install': False,

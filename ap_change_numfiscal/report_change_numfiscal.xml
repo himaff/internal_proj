@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+	<!--heritage du rapport de template 'report_invoice_document' et deplacement du champ number-->
         <template id="change_num_fiscal_report" inherit_id="account.report_invoice_document">
-             <xpath expr="//p[@t-if='o.fiscal_position.note']" position="replace">
-			  <p t-if="o.reverse_charge_vat">
+             <xpath expr="//p[@t-if='o.payment_term.note']" position="after">
+			  <p>
                 <strong> Reverse charge V.A.T N°:</strong>
-                <span t-field="o.reverse_charge_vat"/>
+                <span t-field="o.partner_id.vat"/>
               </p>
              </xpath>
         </template>
