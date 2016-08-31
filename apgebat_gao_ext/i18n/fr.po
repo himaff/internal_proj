@@ -1,0 +1,378 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* apgebat_gao_ext
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-31 12:45+0000\n"
+"PO-Revision-Date: 2016-08-31 15:12+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr\n"
+"X-Generator: Poedit 1.8.3\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. module: apgebat_gao_ext
+#: model:ir.actions.act_window,help:apgebat_gao_ext.open_situation
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                  Click to start a new project.\n"
+"                </p><p>\n"
+"                  Projects are used to organize your activities; plan\n"
+"                  tasks, track issues, invoice timesheets. You can define\n"
+"                  internal projects (R&amp;D, Improve Sales Process),\n"
+"                  private projects (My Todos) or customer ones.\n"
+"                </p><p>\n"
+"                  You will be able collaborate with internal users on\n"
+"                  projects or invite customers to share your activities.\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                  Cliquez pour démarrer un nouveau projet.\n"
+"                </p><p>\n"
+"                  Les projets sont utilisés pour organiser vos activités, planifier des tâches, \n"
+"                  le suivi des problèmes, facturer le temps passé. Vous pouvez définir des\n"
+"                  projets internes (R&amp;D, améliorer le processus de ventes),\n"
+"                  des projets privés (Mes tâches) ou ceux du client.\n"
+"                </p><p>\n"
+"                  Vous serez en mesure de collaborer avec des utilisateurs internes sur\n"
+"                  des projets ou inviter les clients à partager vos activités.\n"
+"                </p>\n"
+"            "
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,montant_cumul:0 field:apgao.line.att,qte_cumul:0
+msgid "Accrued"
+msgstr "Prevu"
+
+#. module: apgebat_gao_ext
+#: field:project.project,att_list:0
+msgid "Attachements"
+msgstr "Attachements"
+
+#. module: apgebat_gao_ext
+#: model:ir.ui.menu,name:apgebat_gao_ext.menu_attachment
+msgid "Attachments"
+msgstr "Pièces jointes"
+
+#. module: apgebat_gao_ext
+#: field:project.project,crossovered_budget_line:0
+msgid "Budget Lines"
+msgstr "Budget Lines"
+
+#. module: apgebat_gao_ext
+#: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
+#: view:internal.purchase.request.wizard:apgebat_gao_ext.purchase_wizard
+#: view:project.project:apgebat_gao_ext.purchase_line_form
+msgid "Cancel"
+msgstr "Annulé"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,create_uid:0 field:apgebat.attachment,create_uid:0
+#: field:internal.purchase.request.wizard,create_uid:0
+msgid "Created by"
+msgstr "Crée par"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,create_date:0 field:apgebat.attachment,create_date:0
+#: field:internal.purchase.request.wizard,create_date:0
+msgid "Created on"
+msgstr "Crée le"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,lines:0
+msgid "Designation"
+msgstr "Designation"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.estim,qte_request:0 field:ap.gao.mat,qte_request:0
+msgid "Desired qty"
+msgstr "Qté"
+
+#. module: apgebat_gao_ext
+#: selection:apgao.line.att,type:0
+msgid "Details"
+msgstr "Details"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,display_name:0 field:apgebat.attachment,display_name:0
+#: field:internal.purchase.request.wizard,display_name:0
+msgid "Display Name"
+msgstr "Nom"
+
+#. module: apgebat_gao_ext
+#: selection:apgebat.attachment,state:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: apgebat_gao_ext
+#: selection:apgebat.attachment,state:0
+msgid "Finish"
+msgstr "Terminé"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Generate"
+msgstr "Generé"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.gao_ext_sit_filter
+msgid "Group By..."
+msgstr "Group By..."
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,id:0 field:apgebat.attachment,id:0
+#: field:internal.purchase.request.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,__last_update:0
+#: field:apgebat.attachment,__last_update:0
+#: field:internal.purchase.request.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr "Derniere Modification par"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,write_uid:0 field:apgebat.attachment,write_uid:0
+#: field:internal.purchase.request.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,write_date:0 field:apgebat.attachment,write_date:0
+#: field:internal.purchase.request.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,montant_m1:0 field:apgao.line.att,qte_m1:0
+msgid "M-1"
+msgstr "M-1"
+
+#. module: apgebat_gao_ext
+#: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
+msgid "Materials lines"
+msgstr "Lignes Matériaux"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,code:0
+msgid "N°"
+msgstr "N°"
+
+#. module: apgebat_gao_ext
+#: field:apgebat.attachment,att_pos:0
+msgid "Position"
+msgstr "Position"
+
+#. module: apgebat_gao_ext
+#: model:ir.model,name:apgebat_gao_ext.model_project_project
+msgid "Project"
+msgstr "Projet"
+
+#. module: apgebat_gao_ext
+#: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
+msgid "Précédent"
+msgstr "Précédent"
+
+#. module: apgebat_gao_ext
+#: selection:internal.purchase.request.wizard,selector:0
+msgid "Purchase by materials"
+msgstr "Achat par Matériaux"
+
+#. module: apgebat_gao_ext
+#: selection:internal.purchase.request.wizard,selector:0
+msgid "Purchase by price line"
+msgstr "Achat par Ligne Prix"
+
+#. module: apgebat_gao_ext
+#: selection:internal.purchase.request.wizard,selector:0
+msgid "Purchase by project"
+msgstr "Achat par Ligne Projet"
+
+#. module: apgebat_gao_ext
+#: model:ir.ui.menu,name:apgebat_gao_ext.menu_purchase
+msgid "Purchase request"
+msgstr "Demande Achat"
+
+#. module: apgebat_gao_ext
+#: field:internal.purchase.request.wizard,selector:0
+msgid "Purchase request method"
+msgstr "Methode Demande Achat"
+
+#. module: apgebat_gao_ext
+#: view:internal.purchase.request.wizard:apgebat_gao_ext.purchase_wizard
+msgid "Purchases"
+msgstr "Achats"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:275
+#, python-format
+msgid "Purchases Materials"
+msgstr "Achat Matériaux"
+
+#. module: apgebat_gao_ext
+#: view:project.project:apgebat_gao_ext.purchase_project_tree
+msgid "Purchases by Projects"
+msgstr "Achat par Ligne Projet"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:147
+#, python-format
+msgid "Purchases by lines"
+msgstr "Achat par Ligne Prix"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:208
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:244
+#, python-format
+msgid "Purchases by materials"
+msgstr "Achat par Matériaux"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:185
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:327
+#, python-format
+msgid "Purchases project"
+msgstr "Achat Projet"
+
+#. module: apgebat_gao_ext
+#: model:ir.actions.act_window,name:apgebat_gao_ext.open_purchase_request
+msgid "Purchases request"
+msgstr "Demande Achat"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,quantity:0
+msgid "Qty"
+msgstr "Qté"
+
+#. module: apgebat_gao_ext
+#: view:project.project:apgebat_gao_ext.purchase_line_form
+msgid "Qty max"
+msgstr "Qté max"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,taux:0
+msgid "Rate"
+msgstr "Taux"
+
+#. module: apgebat_gao_ext
+#: view:internal.purchase.request.wizard:apgebat_gao_ext.purchase_wizard
+msgid "Selected"
+msgstr "Selection"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.gao_ext_sit_filter
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+#: view:apgebat.attachment:apgebat_gao_ext.view_situation
+#: model:ir.actions.act_window,name:apgebat_gao_ext.open_situation
+#: model:ir.ui.menu,name:apgebat_gao_ext.menu_project_situation
+#: view:project.project:apgebat_gao_ext.purchase_line_form
+msgid "Situation"
+msgstr "Situation"
+
+#. module: apgebat_gao_ext
+#: field:apgebat.attachment,state:0
+msgid "State"
+msgstr "Etat"
+
+#. module: apgebat_gao_ext
+#: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
+msgid "Suivant"
+msgstr "Suivant"
+
+#. module: apgebat_gao_ext
+#: view:project.project:apgebat_gao_ext.ao_projet_form
+msgid "Team"
+msgstr "Équipe"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,total_dqe:0
+msgid "Total"
+msgstr "Total"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,unit_price:0
+msgid "UP"
+msgstr "UP"
+
+#. module: apgebat_gao_ext
+#: field:apgebat.attachment,name:0
+msgid "Untitled attachement"
+msgstr "Libellé Attachement"
+
+#. module: apgebat_gao_ext
+#: view:project.project:apgebat_gao_ext.purchase_line_form
+msgid "Validate request"
+msgstr "Valider Demande"
+
+#. module: apgebat_gao_ext
+#: selection:apgao.line.att,type:0
+msgid "Vue"
+msgstr "Vue"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,att_id:0
+msgid "attachement"
+msgstr "Attachement"
+
+#. module: apgebat_gao_ext
+#: view:project.project:apgebat_gao_ext.ao_projet_form
+msgid "attachments lists"
+msgstr "Liste Attachement"
+
+#. module: apgebat_gao_ext
+#: view:project.project:apgebat_gao_ext.ao_projet_form
+msgid "definition attachments"
+msgstr "Definition Attachment"
+
+#. module: apgebat_gao_ext
+#: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
+#: view:internal.purchase.request.wizard:apgebat_gao_ext.purchase_wizard
+#: view:project.project:apgebat_gao_ext.purchase_line_form
+msgid "or"
+msgstr "ou"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.mat,date_planed:0 field:apgebat.attachment,date_planned:0
+msgid "predicted date"
+msgstr "Date Prevue"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.gao_ext_sit_filter
+#: field:apgebat.attachment,project_id:0
+#: field:internal.purchase.request.wizard,project_id:0
+msgid "project"
+msgstr "Projet"
+
+#. module: apgebat_gao_ext
+#: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
+msgid "purchase"
+msgstr "Achat"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,sequence:0
+msgid "seq"
+msgstr "Seq"
+
+#. module: apgebat_gao_ext
+#: model:ir.ui.menu,name:apgebat_gao_ext.menu_project_supplying
+msgid "supplying"
+msgstr "supplying"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,type:0 field:apgebat.attachment,line_attach:0
+msgid "unknown"
+msgstr "unknown"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "validate"
+msgstr "Valider"
