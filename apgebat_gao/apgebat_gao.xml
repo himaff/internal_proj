@@ -146,6 +146,31 @@
       </field>
     </record>
   
+
+
+
+
+
+
+
+  <!-- vue download report-->
+    <record id="xls_form" model="ir.ui.view">
+      <field name="name">xls.form</field>
+      <field name="model" >gao.xls.report.file</field>
+      <field name="arch" type="xml">
+        <form string="Export file" version="7.0">
+          <group>
+            <label string="SAVE the File with '.xls' extension."/>
+            <field name="file_name" invisible="1" />
+            <field name="file" readonly="1" filename="file_name" nolabel="1" />
+          </group>
+          <footer>
+            <button string="Close" class="oe_highlight" special="cancel" />
+          </footer>
+        </form>
+      </field>
+    </record>
+
   <!-- vue liste -->
     <record id="ap_gao_tree" model="ir.ui.view">
       <field name="name">ap.gao.tree</field>
@@ -177,6 +202,7 @@
             <button string="Validate" type="object" name="accord" class="oe_highlight" attrs="{'invisible': [('state','!=','cons')]}"/>
             <!-- etat planning -->
             <button string="Submission" type="object" name="submited" class="oe_highlight" attrs="{'invisible': [('state','!=','plan')]}"/>
+            <button string="DQE.xls" type="object" name="print_dqexls" attrs="{'invisible': [('state','!=','plan')]}"/>
             <!-- etat soumission -->
             <button string="Accepted" type="object" name="accepted" class="oe_highlight" attrs="{'invisible': [('state','!=','submit')]}"/>
             <button string="Reject" type="object" name="rejected" class="oe_highlight" attrs="{'invisible': [('state','!=','submit')]}"/>
@@ -320,7 +346,7 @@
                       </tree>
 
                     </field>
-                        <b><group class="oe_subtotal_footer oe_right">
+                        <b><group class="oe_subtotal_footer ">
                             <button name="dummy" states="draft,cons,plan,submit"
                                         string="(update)" class="oe_link oe_edit_only"
                                         type="object" help="save type parent" colspan="2"/>

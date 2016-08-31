@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+import xlwt
+from cStringIO import StringIO
+import base64
 import openerp
 from openerp import api
 from openerp.osv import fields, osv
@@ -10,6 +12,28 @@ import datetime
 import calendar
 import logging
 _logger = logging.getLogger(__name__)
+
+
+class gao_xls_report_file(osv.osv_memory):
+    _name = 'gao.xls.report.file'
+
+    def default_get(self, cr, uid, fields, context=None):
+        if context is None:
+            context = {}
+        res = super(gao_xls_report_file, self).default_get(cr, uid, fields, context=context)
+        res.update({'file_name': 'DQE.xls'})
+
+        if context.get('file'):
+            res.update({'file': context['file']})
+        return res
+
+
+    _columns = {
+        'file': fields.binary('File'),
+        'file_name': fields.char('File Name', size=64),
+    }
+
+
 
 class ap_gao(osv.osv):
     _name = 'ap.gao'
@@ -232,6 +256,187 @@ class ap_gao(osv.osv):
             elif end:
                 cr.execute('''UPDATE project_project SET date_end = %s, delai = %s WHERE tender_id=%s''', (end, daily, ids[0]))
         return {'value': values}
+
+
+
+
+
+    #generateur de rapport xls
+    def print_dqexls(self, cr, uid, ids, context=None):
+        ao=self.browse(cr, uid, ids)
+        fl = StringIO()
+        if context is None: context = {}
+        wbk = xlwt.Workbook(encoding="UTF-8")
+        
+        font = xlwt.Font()
+        font.bold = True
+        xlwt.add_palette_colour("vert_claire", 0x21)
+        wbk.set_colour_RGB(0x21, 146, 208, 80)
+        borders = xlwt.Borders()
+        bold_style = xlwt.XFStyle()
+        bold_style.font= font
+        style = xlwt.easyxf('align:wrap no')
+        new_style6=xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: wrap No;border: top hair, right hair')
+        new_style7=xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: wrap No;border: top hair, right medium')
+        new_style6en=xlwt.easyxf('font:height 180, colour_index black, name Arial; align: wrap No;border: top hair, right hair')
+        new_style7en=xlwt.easyxf('font:height 180, colour_index black, name Arial; align: wrap No;border: top hair, right medium')
+        entete=xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;pattern: pattern solid, fore_colour vert_claire;border: bottom thin')#fusionne des lignes (l1, l2, c1, c2)
+        bordtop = xlwt.easyxf('font: name Arial,height 180, color-index black, bold on;border: top medium, right hair;align: vert centre, horiz center')
+        stotal = xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: vert centre, horiz right;border: top hair, right hair;pattern: pattern solid, fore_colour gray25;')
+        stotalf = xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: vert centre, horiz right;border: top hair, right medium;pattern: pattern solid, fore_colour gray25;')
+        footer = xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: vert centre, horiz right;border: top medium, right thin;')
+        footers = xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: vert centre, horiz right;border: top thin, right thin;')
+        footerss = xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: vert centre, horiz right;border: top thin, right thin, bottom thin;')
+        basdepage1=xlwt.easyxf('font:height 200, colour_index black, name Arial; align: wrap No;align: vert centre, horiz right')
+        basdepage2=xlwt.easyxf('font:height 200, colour_index black, name Arial; align: wrap No;align: vert centre, horiz left')
+        i=0
+        for lots in ao.lot_id:
+            i+=1
+            vars()["lot{}".format(i)] = wbk.add_sheet(lots.code, cell_overwrite_ok=True)#creation de la feuille
+            lot=eval("lot{}".format(i))
+            lot.col(1).width= 500*41 #size de la column
+            lot.col(0).width= 500*8 #size de la column
+            
+            #1pt=20
+            #entete du DQE en vert
+            lot.write_merge(0, 0, 0, 6, ao.name, entete)
+            lot.write_merge(1, 1, 0, 6, lots.code+': '+lots.lot_name, xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin;align: vert centre, horiz center')) 
+            lot.write_merge(2, 2, 0, 6, 'SERIE :', xlwt.easyxf('font: name Arial,height 220, color-index black, bold on;border: bottom thin;align: vert centre, horiz center'))
+            lot.write_merge(3, 3, 0, 6, 'DETAIL QUANTITATIF ET ESTIMATIF', xlwt.easyxf('font: name Arial,height 280, color-index black, bold on, underline single;align: vert centre, horiz center'))
+            
+            #tableau des lignes
+                #entete du tableau
+            lot.write_merge(5, 6, 0, 0, 'N° PRIX', bordtop)
+            lot.write_merge(5, 6, 1, 1, 'DESIGNATION', bordtop)
+            lot.write_merge(5, 6, 2, 2, 'QUANTITE', bordtop)
+            lot.write_merge(5, 6, 3, 3, 'UNITE', bordtop)
+            lot.write_merge(5, 6, 4, 4, '', bordtop)
+            lot.write_merge(5, 5, 5, 6, 'PRIX EN F CFA HT/HD', xlwt.easyxf('font: name Arial,height 180, color-index black, bold on;border: top medium, right medium;align: vert centre, horiz center'))
+            lot.write(6,5,'Prix unitaire', new_style6)
+            lot.write(6,6,'Prix total', new_style7)
+
+            parent_code=''
+            a=0
+            b=6
+            nbr=0
+            lisum=[]
+            estimation_id=self.pool.get('ap.gao.estim').search(cr, uid,[('tender_id', '=', ao.id), ('lot_id', '=', lots.id)], order='sequences' )
+            for estim in self.pool.get('ap.gao.estim').browse(cr, uid, estimation_id):
+                
+                a+=1
+                b+=1
+                if estim.type=="vue":
+                #ligne de tableau 'parent'
+                    lot.write(b, 0, estim.code, new_style6)
+                    lot.write(b, 1, estim.price_line, new_style6)
+                    lot.write(b, 2, '', new_style6)
+                    lot.write(b, 3, '', new_style6)
+                    lot.write(b, 4, '', new_style6)
+                    lot.write(b, 5, '', new_style6)
+                    lot.write(b, 6, '', new_style7)
+                    if not estim.parent_id:
+                        parent=estim.id
+                        enf=self.pool.get('ap.gao.estim').read_group(cr,uid,[('parent_id', '=', parent)], ['parent_id'], ['parent_id'])
+                        if enf:
+                            parent_code=estim.code
+                            niv1=0
+                            niv2=0
+                            niv3=0
+                            niv4=0
+                            niv5=0
+                            
+                            for enf in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', parent)]):
+                                niv1+=1
+                                for enf1 in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', enf)]):
+                                    niv2+=1
+                                    for enf2 in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', enf1)]):
+                                        niv3+=1
+                                        for enf3 in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', enf2)]):
+                                            niv4+=1
+                                            for enf4 in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', enf3)]):
+                                                niv5+=1
+                            nbr=niv1+niv2+niv3+niv4+niv5
+                            
+                else:
+
+                #ligne de tableau 'enfant'
+                    lot.write(b, 0, estim.code, new_style6en)
+                    lot.write(b, 1, estim.price_line, new_style6en)
+                    lot.write(b, 2, estim.quantity, new_style6en)
+                    lot.write(b, 3, estim.unite_id.name, new_style6en)
+                    lot.write(b, 4, '', new_style6en)
+                    lot.write(b, 5, estim.bpu, new_style6en)
+                    lot.write(b, 6, xlwt.Formula("C"+str(b+1)+"*F"+str(b+1)), new_style7en)
+
+                #ligne de tableau sous total 'parent'
+                if parent_code and nbr==a-1:
+                    b+=1
+                    lot.write_merge(b, b, 0, 3, 'SOUS TOTAL '+parent_code, stotal)
+                    lot.write(b, 4, '', stotal)
+                    lot.write(b, 5, '', stotal)
+                    lot.write(b, 6, xlwt.Formula("SUM(G"+str(b-nbr+1)+":G"+str(b)+")"), stotalf)
+                    lisum.append(b+1)
+                    a=0
+                    nbr=0
+
+
+                #ligne de tableau le footer
+            lot.write_merge(b+1, b+1, 0, 3, 'TOTAL '+lots.lot_name+', HT/HD', footer)
+            lot.write(b+1, 4, '', footer)
+            lot.write(b+1, 5, '', footer)
+            val=''
+            o=1
+            for lig in lisum:
+                if len(lisum)==o:
+                    val+="G"+str(lig)
+                else:
+                    val+="G"+str(lig)+"+"
+            if val:
+                lot.write(b+1, 6, xlwt.Formula(val), footer)
+            else:
+                lot.write(b+1, 6, 0, footer)
+
+            lot.write_merge(b+2, b+2, 0, 3, 'TVA (18%)', footers)
+            lot.write(b+2, 4, '', footers)
+            lot.write(b+2,5, '', footers)
+            lot.write(b+2,6, xlwt.Formula("G"+str(b+2)+"*0.18"), footers)
+
+            lot.write_merge(b+3, b+3, 0, 3, 'TOTAL '+lots.lot_name+', TTC', footerss)
+            lot.write(b+3, 4, '', footerss)
+            lot.write(b+3, 5, '', footerss)
+            lot.write(b+3, 6, xlwt.Formula("G"+str(b+2)+"+G"+str(b+3)), footerss)
+            #fin du tableau
+
+            #bas de page
+            lot.write(b+6, 1, 'Fait à Abidjan, le ', basdepage1)
+            lot.write(b+8, 2, 'Le Soumissionnaire', basdepage2)
+
+        
+            
+        wbk.save(fl) # for save le fichier
+        fl.seek(0)
+        buf = base64.encodestring(fl.read())
+        ctx = dict(context)
+        ctx.update({'file': buf})
+        if context is None:
+            context = {}
+        data = {}
+        res = self.read(cr, uid, ids, [], context=context)
+        res = res and res[0] or {}
+        data['form'] = res
+        try:
+            form_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'apgebat_gao', 'xls_form')[1]
+        except ValueError:
+            form_id = False
+        return {
+        'type': 'ir.actions.act_window',
+        'view_type': 'form',
+        'view_mode': 'form',
+        'res_model': 'gao.xls.report.file',
+        'views': [(form_id, 'form')],
+        'target': 'new',
+        'context': ctx,
+        }
 
     
 

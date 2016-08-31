@@ -1,5 +1,15 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
+<<<<<<< HEAD
+#	* apgebat_gao_ext
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20160719\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-31 19:04+0000\n"
+"PO-Revision-Date: 2016-08-31 19:04+0000\n"
+=======
 # 	* apgebat_gao_ext
 #
 msgid ""
@@ -8,10 +18,40 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-31 12:45+0000\n"
 "PO-Revision-Date: 2016-08-31 15:12+0000\n"
+>>>>>>> master
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
+<<<<<<< HEAD
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: apgebat_gao_ext
+#: model:ir.ui.menu,name:apgebat_gao_ext.project_menu_action_internal_request
+msgid " Internal purchase request"
+msgstr "Demande  interne"
+
+#. module: apgebat_gao_ext
+#: field:project.project,purchase_count:0
+msgid "# of purchase Order"
+msgstr "# of purchase Order"
+
+#. module: apgebat_gao_ext
+#: field:project.project,situation_count:0
+msgid "# of situation Order"
+msgstr "# of situation Order"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "(update)"
+msgstr "(mise à jour)"
+
+#. module: apgebat_gao_ext
+#: model:ir.actions.act_window,help:apgebat_gao_ext.open_define
+#: model:ir.actions.act_window,help:apgebat_gao_ext.open_situation
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+=======
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language: fr\n"
@@ -22,6 +62,7 @@ msgstr ""
 #: model:ir.actions.act_window,help:apgebat_gao_ext.open_situation
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
+>>>>>>> master
 "                  Click to start a new project.\n"
 "                </p><p>\n"
 "                  Projects are used to organize your activities; plan\n"
@@ -33,8 +74,12 @@ msgid ""
 "                  projects or invite customers to share your activities.\n"
 "                </p>\n"
 "            "
+<<<<<<< HEAD
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+=======
 msgstr ""
 "<p class=\"oe_view_nocontent_create\">\n"
+>>>>>>> master
 "                  Cliquez pour démarrer un nouveau projet.\n"
 "                </p><p>\n"
 "                  Les projets sont utilisés pour organiser vos activités, planifier des tâches, \n"
@@ -48,11 +93,140 @@ msgstr ""
 "            "
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: model:ir.actions.act_window,help:apgebat_gao_ext.action_invoice_tree_view
+msgid "<p>\n"
+"                Here come the startup advance of all projects.\n"
+"              </p>\n"
+"            "
+msgstr "<p>\n"
+"                Here come the startup advance of all projects.\n"
+"              </p>\n"
+"            "
+
+#. module: apgebat_gao_ext
+#: model:ir.model,name:apgebat_gao_ext.model_account_move
+msgid "Account Entry"
+msgstr "Pièce comptable"
+
+#. module: apgebat_gao_ext
+#: field:gao.project.account.conf,advance:0
+msgid "Account N° for advance"
+msgstr "Account N° for advance"
+
+#. module: apgebat_gao_ext
+#: field:gao.project.account.conf,retenu:0
+msgid "Account N° for holdback"
+msgstr "Account N° for holdback"
+
+#. module: apgebat_gao_ext
+#: field:gao.project.account.conf,penalite:0
+msgid "Account N° for late penaltie"
+msgstr "Account N° for late penaltie"
+
+#. module: apgebat_gao_ext
+#: field:gao.project.account.conf,risk:0
+msgid "Account N° for risks"
+msgstr "Account N° for risks"
+
+#. module: apgebat_gao_ext
+#: field:gao.project.account.conf,line_attach:0
+msgid "Account N° for situation"
+msgstr "Account N° for situation"
+
+#. module: apgebat_gao_ext
+#: view:gao.project.account.conf:apgebat_gao_ext.view_account_conf
+msgid "Account settings"
+msgstr "Account settings"
+
+#. module: apgebat_gao_ext
+#: model:ir.ui.menu,name:apgebat_gao_ext.menu_project_accounting
+#: view:project.project:apgebat_gao_ext.ao_projet_form
+msgid "Accounting"
+msgstr "Comptabilité"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Accounting Period"
+msgstr "Période comptable"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,montant_cumul:0
+#: field:apgao.line.att,qte_cumul:0
+=======
 #: field:apgao.line.att,montant_cumul:0 field:apgao.line.att,qte_cumul:0
+>>>>>>> master
 msgid "Accrued"
 msgstr "Prevu"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Additional notes..."
+msgstr "Notes supplémentaires..."
+
+#. module: apgebat_gao_ext
+#: model:ir.actions.act_window,name:apgebat_gao_ext.action_invoice_tree_view
+msgid "Advance Boot"
+msgstr "Advance Boot"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:718
+#, python-format
+msgid "Advance Invoice"
+msgstr "Advance Invoice"
+
+#. module: apgebat_gao_ext
+#: model:ir.ui.menu,name:apgebat_gao_ext.menu_accounting_advance
+msgid "Advance boot"
+msgstr "Advance boot"
+
+#. module: apgebat_gao_ext
+#: field:project.project,avance:0
+msgid "Advance payment %"
+msgstr "Advance payment %"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Amount (M)"
+msgstr "Amount (M)"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Amount (M-1)"
+msgstr "Amount (M-1)"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Amount DQE"
+msgstr "Amount DQE"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Amount accrued"
+msgstr "Amount accrued"
+
+#. module: apgebat_gao_ext
+#: model:ir.actions.act_window,name:apgebat_gao_ext.open_define
+msgid "Attachement"
+msgstr "Attachement"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.define_form
+#: view:apgebat.attachment:apgebat_gao_ext.define_tree
+msgid "Attachements Define"
+msgstr "Attachements Define"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.gao_ext_sit_filter
+msgid "Attachments"
+msgstr "Attachments"
+
+#. module: apgebat_gao_ext
+#: model:ir.ui.menu,name:apgebat_gao_ext.menu_attachment
+msgid "Attachments define"
+msgstr "Attachments define"
+=======
 #: field:project.project,att_list:0
 msgid "Attachements"
 msgstr "Attachements"
@@ -66,6 +240,7 @@ msgstr "Pièces jointes"
 #: field:project.project,crossovered_budget_line:0
 msgid "Budget Lines"
 msgstr "Budget Lines"
+>>>>>>> master
 
 #. module: apgebat_gao_ext
 #: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
@@ -75,24 +250,104 @@ msgid "Cancel"
 msgstr "Annulé"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Cancel Invoice"
+msgstr "Annuler la facture"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:836
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:855
+#, python-format
+msgid "Cannot find a chart of accounts for this company, You should configure it. \n"
+"Please go to Account Configuration."
+msgstr "Cannot find a chart of accounts for this company, You should configure it. \n"
+"Please go to Account Configuration."
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:880
+#, python-format
+msgid "Cannot find any account journal of type \"%s\" for this company, You should create one.\n"
+" Please go to Journal Configuration"
+msgstr "Cannot find any account journal of type \"%s\" for this company, You should create one.\n"
+" Please go to Journal Configuration"
+
+#. module: apgebat_gao_ext
+#: model:ir.actions.act_window,name:apgebat_gao_ext.open_conf_accounting
+msgid "Configuration"
+msgstr "Configuration"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:864
+#, python-format
+msgid "Configuration Error!"
+msgstr "Configuration Error!"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,qte_cons:0
+msgid "Consumed"
+msgstr "Consumed"
+
+#. module: apgebat_gao_ext
+#: view:project.project:apgebat_gao_ext.ao_projet_form
+msgid "Create an advance invoice"
+msgstr "Create an advance invoice"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Create invoice"
+msgstr "Create invoice"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,create_uid:0
+#: field:apgao.line.att,create_uid:0
+#: field:apgebat.attachment.list,create_uid:0
+#: field:gao.project.account.conf,create_uid:0
+=======
 #: field:apgao.line.att,create_uid:0 field:apgebat.attachment,create_uid:0
+>>>>>>> master
 #: field:internal.purchase.request.wizard,create_uid:0
 msgid "Created by"
 msgstr "Crée par"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:ap.gao.ext.mat,create_date:0
+#: field:apgao.line.att,create_date:0
+#: field:apgebat.attachment.list,create_date:0
+#: field:gao.project.account.conf,create_date:0
+=======
 #: field:apgao.line.att,create_date:0 field:apgebat.attachment,create_date:0
+>>>>>>> master
 #: field:internal.purchase.request.wizard,create_date:0
 msgid "Created on"
 msgstr "Crée le"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Customer"
+msgstr "Client"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "DQE"
+msgstr "DQE"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: field:apgao.line.att,lines:0
 msgid "Designation"
 msgstr "Designation"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:ap.gao.estim,qte_request:0
+#: field:ap.gao.mat,qte_request:0
+=======
 #: field:ap.gao.estim,qte_request:0 field:ap.gao.mat,qte_request:0
+>>>>>>> master
 msgid "Desired qty"
 msgstr "Qté"
 
@@ -102,12 +357,46 @@ msgid "Details"
 msgstr "Details"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:account.invoice,discount:0
+msgid "Discount"
+msgstr "Discount"
+
+#. module: apgebat_gao_ext
+#: field:project.project,remise:0
+msgid "Discounts %"
+msgstr "Discounts %"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,display_name:0
+#: field:apgao.line.att,display_name:0
+#: field:apgebat.attachment.list,display_name:0
+#: field:gao.project.account.conf,display_name:0
+=======
 #: field:apgao.line.att,display_name:0 field:apgebat.attachment,display_name:0
+>>>>>>> master
 #: field:internal.purchase.request.wizard,display_name:0
 msgid "Display Name"
 msgstr "Nom"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Draft Refund"
+msgstr "Avoir brouillon"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Draft advance Invoice"
+msgstr "Draft advance Invoice"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:935
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:953
+#, python-format
+msgid "Error!"
+msgstr "Error!"
+=======
 #: selection:apgebat.attachment,state:0
 msgid "Draft"
 msgstr "Brouillon"
@@ -116,6 +405,7 @@ msgstr "Brouillon"
 #: selection:apgebat.attachment,state:0
 msgid "Finish"
 msgstr "Terminé"
+>>>>>>> master
 
 #. module: apgebat_gao_ext
 #: view:apgebat.attachment:apgebat_gao_ext.situation_form
@@ -123,66 +413,258 @@ msgid "Generate"
 msgstr "Generé"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:837
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:856
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:881
+#, python-format
+msgid "Go to the configuration panel"
+msgstr "Go to the configuration panel"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:apgebat.attachment:apgebat_gao_ext.gao_ext_sit_filter
 msgid "Group By..."
 msgstr "Group By..."
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:project.project,garanti:0
+msgid "Holdback %"
+msgstr "Holdback %"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,id:0
+#: field:apgao.line.att,id:0
+#: field:apgebat.attachment.list,id:0
+#: field:gao.project.account.conf,id:0
+=======
 #: field:apgao.line.att,id:0 field:apgebat.attachment,id:0
+>>>>>>> master
 #: field:internal.purchase.request.wizard,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:582
+#, python-format
+msgid "Internal purchase request"
+msgstr "Internal purchase request"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+#: view:account.invoice:apgebat_gao_ext.advance_tree
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:717
+#: model:ir.model,name:apgebat_gao_ext.model_account_invoice
+#, python-format
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: apgebat_gao_ext
+#: model:ir.model,name:apgebat_gao_ext.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Lignes de facture"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Invoice Lines"
+msgstr "Lignes de facture"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:865
+#, python-format
+msgid "Invoice line account's company and invoice's company does not match."
+msgstr "Invoice line account's company and invoice's company does not match."
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,__last_update:0
+#: field:apgao.line.att,__last_update:0
+#: field:apgebat.attachment.list,__last_update:0
+#: field:gao.project.account.conf,__last_update:0
+=======
 #: field:apgao.line.att,__last_update:0
 #: field:apgebat.attachment,__last_update:0
+>>>>>>> master
 #: field:internal.purchase.request.wizard,__last_update:0
 msgid "Last Modified on"
 msgstr "Derniere Modification par"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:ap.gao.ext.mat,write_uid:0
+#: field:apgao.line.att,write_uid:0
+#: field:apgebat.attachment.list,write_uid:0
+#: field:gao.project.account.conf,write_uid:0
+=======
 #: field:apgao.line.att,write_uid:0 field:apgebat.attachment,write_uid:0
+>>>>>>> master
 #: field:internal.purchase.request.wizard,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:ap.gao.ext.mat,write_date:0
+#: field:apgao.line.att,write_date:0
+#: field:apgebat.attachment.list,write_date:0
+#: field:gao.project.account.conf,write_date:0
+=======
 #: field:apgao.line.att,write_date:0 field:apgebat.attachment,write_date:0
+>>>>>>> master
 #: field:internal.purchase.request.wizard,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:project.project,retard:0
+msgid "Late penalties %"
+msgstr "Late penalties %"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Lines qty"
+msgstr "Lines qty"
+
+#. module: apgebat_gao_ext
+#: field:account.invoice,lot_id:0
+#: field:apgebat.attachment,lot_id:0
+msgid "Lot"
+msgstr "Lot"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:71
+#, python-format
+msgid "Lot selected"
+msgstr "Lot selected"
+
+#. module: apgebat_gao_ext
+#: field:apgao.line.att,montant_m1:0
+#: field:apgao.line.att,qte_m1:0
+=======
 #: field:apgao.line.att,montant_m1:0 field:apgao.line.att,qte_m1:0
+>>>>>>> master
 msgid "M-1"
 msgstr "M-1"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:account.invoice,market_value:0
+msgid "Market value TTC"
+msgstr "Market value TTC"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
 msgid "Materials lines"
 msgstr "Lignes Matériaux"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:project.project:apgebat_gao_ext.ao_projet_form
+msgid "Miscellaneous"
+msgstr "Divers"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.ao_accountinvoice_form
+msgid "Net pay TTC"
+msgstr "Net pay TTC"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: field:apgao.line.att,code:0
 msgid "N°"
 msgstr "N°"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Other Info"
+msgstr "Autres informations"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "PRO-FORMA"
+msgstr "PRO-FORMA"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Payments"
+msgstr "Règlements"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:953
+#, python-format
+msgid "Please define a sequence on the journal."
+msgstr "Please define a sequence on the journal."
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: field:apgebat.attachment,att_pos:0
 msgid "Position"
 msgstr "Position"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Prestation"
+msgstr "Prestation"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Print"
+msgstr "Imprimer"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Print Invoice"
+msgstr "Imprimer la facture"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Pro Forma Invoice"
+msgstr "Facture Pro-Forma"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,estim:0
+msgid "Product UoM"
+msgstr "Product UoM"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: model:ir.model,name:apgebat_gao_ext.model_project_project
 msgid "Project"
 msgstr "Projet"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:60
+#, python-format
+msgid "Project value"
+msgstr "Project value"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
 msgid "Précédent"
 msgstr "Précédent"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:project.project:apgebat_gao_ext.ao_projet_form
+msgid "Purchase"
+msgstr "Purchase"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: selection:internal.purchase.request.wizard,selector:0
 msgid "Purchase by materials"
 msgstr "Achat par Matériaux"
@@ -193,11 +675,14 @@ msgid "Purchase by price line"
 msgstr "Achat par Ligne Prix"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+=======
 #: selection:internal.purchase.request.wizard,selector:0
 msgid "Purchase by project"
 msgstr "Achat par Ligne Projet"
 
 #. module: apgebat_gao_ext
+>>>>>>> master
 #: model:ir.ui.menu,name:apgebat_gao_ext.menu_purchase
 msgid "Purchase request"
 msgstr "Demande Achat"
@@ -213,7 +698,11 @@ msgid "Purchases"
 msgstr "Achats"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:528
+=======
 #: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:275
+>>>>>>> master
 #, python-format
 msgid "Purchases Materials"
 msgstr "Achat Matériaux"
@@ -224,21 +713,34 @@ msgid "Purchases by Projects"
 msgstr "Achat par Ligne Projet"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:439
+=======
 #: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:147
+>>>>>>> master
 #, python-format
 msgid "Purchases by lines"
 msgstr "Achat par Ligne Prix"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:461
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:497
+=======
 #: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:208
 #: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:244
+>>>>>>> master
 #, python-format
 msgid "Purchases by materials"
 msgstr "Achat par Matériaux"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:659
+=======
 #: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:185
 #: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:327
+>>>>>>> master
 #, python-format
 msgid "Purchases project"
 msgstr "Achat Projet"
@@ -254,59 +756,232 @@ msgid "Qty"
 msgstr "Qté"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Qty (M)"
+msgstr "Qty (M)"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Qty (M-1)"
+msgstr "Qty (M-1)"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Qty accrued"
+msgstr "Qty accrued"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:project.project:apgebat_gao_ext.purchase_line_form
 msgid "Qty max"
 msgstr "Qté max"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:ap.gao.ext.mat,quantity:0
+msgid "Quantity"
+msgstr "Quantity"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,taux:0
+=======
+>>>>>>> master
 #: field:apgao.line.att,taux:0
 msgid "Rate"
 msgstr "Taux"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Recompute taxes and total"
+msgstr "Recalculer les taxes et le total"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:720
+#, python-format
+msgid "Refund"
+msgstr "Avoir"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Reset to Draft"
+msgstr "Remettre en brouillon"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_tree
+msgid "Residual Amount"
+msgstr "Montant résiduel"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:60
+#, python-format
+msgid "Select a project primarily"
+msgstr "Select a project primarily"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:internal.purchase.request.wizard:apgebat_gao_ext.purchase_wizard
 msgid "Selected"
 msgstr "Selection"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "Send"
+msgstr "Send"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Send by Email"
+msgstr "Envoyer par courriel"
+
+#. module: apgebat_gao_ext
+#: field:account.invoice,att_id:0
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:602
+=======
+>>>>>>> master
 #: view:apgebat.attachment:apgebat_gao_ext.gao_ext_sit_filter
 #: view:apgebat.attachment:apgebat_gao_ext.situation_form
 #: view:apgebat.attachment:apgebat_gao_ext.view_situation
 #: model:ir.actions.act_window,name:apgebat_gao_ext.open_situation
 #: model:ir.ui.menu,name:apgebat_gao_ext.menu_project_situation
+<<<<<<< HEAD
+#: model:ir.ui.menu,name:apgebat_gao_ext.menu_situation
+#: view:project.project:apgebat_gao_ext.ao_projet_form
 #: view:project.project:apgebat_gao_ext.purchase_line_form
+#, python-format
+=======
+#: view:project.project:apgebat_gao_ext.purchase_line_form
+>>>>>>> master
 msgid "Situation"
 msgstr "Situation"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+=======
 #: field:apgebat.attachment,state:0
 msgid "State"
 msgstr "Etat"
 
 #. module: apgebat_gao_ext
+>>>>>>> master
 #: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
 msgid "Suivant"
 msgstr "Suivant"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:719
+#, python-format
+msgid "Supplier Invoice"
+msgstr "Supplier Invoice"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:721
+#, python-format
+msgid "Supplier Refund"
+msgstr "Supplier Refund"
+
+#. module: apgebat_gao_ext
+#: field:account.invoice,expense_tva:0
+msgid "TVA 18% of expenses"
+msgstr "TVA 18% of expenses"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Taxes"
+msgstr "Taxes"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:project.project:apgebat_gao_ext.ao_projet_form
 msgid "Team"
 msgstr "Équipe"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:207
+#, python-format
+msgid "Tender project"
+msgstr "Tender project"
+
+#. module: apgebat_gao_ext
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:71
+#, python-format
+msgid "This Lot is already for this attachment, please select other for your attachment define"
+msgstr "This Lot is already for this attachment, please select other for your attachment define"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: field:apgao.line.att,total_dqe:0
 msgid "Total"
 msgstr "Total"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:account.invoice:apgebat_gao_ext.advance_tree
+msgid "Total Amount"
+msgstr "Montant Total"
+
+#. module: apgebat_gao_ext
+#: field:account.invoice,amount_holback:0
+msgid "Total Holdback"
+msgstr "Total Holdback"
+
+#. module: apgebat_gao_ext
+#: field:account.invoice,expense:0
+msgid "Total of expenses HT"
+msgstr "Total of expenses HT"
+
+#. module: apgebat_gao_ext
+#: field:account.invoice,expense_ttc:0
+msgid "Total of expenses TTC"
+msgstr "Total of expenses TTC"
+
+#. module: apgebat_gao_ext
+#: field:account.invoice,total_acompte_prec:0
+msgid "Total previous installments"
+msgstr "Total previous installments"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: field:apgao.line.att,unit_price:0
 msgid "UP"
 msgstr "UP"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "UP DQE"
+msgstr "UP DQE"
+
+#. module: apgebat_gao_ext
+#: field:apgebat.attachment,attachement_id:0
+#: field:apgebat.attachment.list,name:0
+msgid "Untitled attachement"
+msgstr "Untitled attachement"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,unite_id:0
+msgid "UoM"
+msgstr "UoM"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "Validate"
+msgstr "Valider"
+=======
 #: field:apgebat.attachment,name:0
 msgid "Untitled attachement"
 msgstr "Libellé Attachement"
+>>>>>>> master
 
 #. module: apgebat_gao_ext
 #: view:project.project:apgebat_gao_ext.purchase_line_form
@@ -319,11 +994,42 @@ msgid "Vue"
 msgstr "Vue"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: code:addons/apgebat_gao_ext/apgebat_gao_ext.py:935
+#, python-format
+msgid "You cannot validate a non-balanced entry.\n"
+"Make sure you have configured payment terms properly.\n"
+"The latest payment term line should be of the \"Balance\" type."
+msgstr "You cannot validate a non-balanced entry.\n"
+"Make sure you have configured payment terms properly.\n"
+"The latest payment term line should be of the \"Balance\" type."
+
+#. module: apgebat_gao_ext
+#: field:account.invoice,advance_begin:0
+msgid "advance payment TTC"
+msgstr "advance payment TTC"
+
+#. module: apgebat_gao_ext
+#: field:ap.gao.ext.mat,att_line_id:0
+msgid "att"
+msgstr "att"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: field:apgao.line.att,att_id:0
 msgid "attachement"
 msgstr "Attachement"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "attachment line details"
+msgstr "attachment line details"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:project.project:apgebat_gao_ext.ao_projet_form
 msgid "attachments lists"
 msgstr "Liste Attachement"
@@ -334,6 +1040,39 @@ msgid "definition attachments"
 msgstr "Definition Attachment"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:ap.gao.ext.mat,product_id:0
+msgid "equipments / materials"
+msgstr "equipments / materials"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.advance_form
+msgid "force period"
+msgstr "forcer la période"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.ao_accountinvoice_form
+msgid "invoiced VAT"
+msgstr "invoiced VAT"
+
+#. module: apgebat_gao_ext
+#: view:account.invoice:apgebat_gao_ext.ao_accountinvoice_form
+msgid "invoiced amount to pay HT"
+msgstr "invoiced amount to pay HT"
+
+#. module: apgebat_gao_ext
+#: view:apgebat.attachment:apgebat_gao_ext.situation_form
+msgid "name:"
+msgstr "name:"
+
+#. module: apgebat_gao_ext
+#: field:gao.project.account.conf,name:0
+msgid "nom"
+msgstr "nom"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
 #: view:internal.purchase.request.wizard:apgebat_gao_ext.purchase_wizard
 #: view:project.project:apgebat_gao_ext.purchase_line_form
@@ -341,23 +1080,49 @@ msgid "or"
 msgstr "ou"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:ap.gao.mat,date_planed:0
+#: field:apgebat.attachment.list,date_planned:0
+=======
 #: field:ap.gao.mat,date_planed:0 field:apgebat.attachment,date_planned:0
+>>>>>>> master
 msgid "predicted date"
 msgstr "Date Prevue"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:account.invoice,project_id:0
+#: field:apgebat.attachment.list,project_id:0
+=======
 #: view:apgebat.attachment:apgebat_gao_ext.gao_ext_sit_filter
 #: field:apgebat.attachment,project_id:0
+>>>>>>> master
 #: field:internal.purchase.request.wizard,project_id:0
 msgid "project"
 msgstr "Projet"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: view:apgebat.attachment:apgebat_gao_ext.gao_ext_sit_filter
+msgid "projects"
+msgstr "projects"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: view:ap.gao.estim:apgebat_gao_ext.purchase_mat_form
 msgid "purchase"
 msgstr "Achat"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:project.project,risque:0
+msgid "risks %"
+msgstr "risks %"
+
+#. module: apgebat_gao_ext
+=======
+>>>>>>> master
 #: field:apgao.line.att,sequence:0
 msgid "seq"
 msgstr "Seq"
@@ -368,7 +1133,13 @@ msgid "supplying"
 msgstr "supplying"
 
 #. module: apgebat_gao_ext
+<<<<<<< HEAD
+#: field:apgao.line.att,mat_id:0
+#: field:apgao.line.att,type:0
+#: field:apgebat.attachment,line_attach:0
+=======
 #: field:apgao.line.att,type:0 field:apgebat.attachment,line_attach:0
+>>>>>>> master
 msgid "unknown"
 msgstr "unknown"
 
@@ -376,3 +1147,7 @@ msgstr "unknown"
 #: view:apgebat.attachment:apgebat_gao_ext.situation_form
 msgid "validate"
 msgstr "Valider"
+<<<<<<< HEAD
+
+=======
+>>>>>>> master

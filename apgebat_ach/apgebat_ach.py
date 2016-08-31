@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class apgebat_ach(osv.osv):
     _name = 'apgebat.ach'
-   # _order = 'name asc'
+    _rec_name = 'project_id'
 
 
     def _amount_all_wrapper(self, cr, uid, ids, field_name, arg, context=None):
@@ -54,9 +54,8 @@ class apgebat_ach(osv.osv):
         'accept': fields.selection([('reject','reject'), ('valid', 'valid'), ('end', 'end')],'accept'),
         'type': fields.selection([('ordinary','Ordinary purchases'),('technical','Technical purchasing')],'Type', required=True),
         'project_id': fields.many2one('project.project', 'Project', domain="[('tender_id', '!=', False)]"),
-        'master': fields.many2one('hr.employee', 'Project leader', required=True),
-        'employee_ids': fields.many2many('hr.employee', 'purchase_employee_rel', 'purchase_id', 'employee_id', string="Contributor"),
-        'department_id': fields.many2one('hr.department', 'Department', required=True),
+        'master': fields.many2one('hr.employee', 'user', required=True),
+        'department_id': fields.many2one('hr.department', 'Department'),
         'dateout': fields.datetime('Date'),
         'datein': fields.date('Delivery date'),
         'purchase_line': fields.one2many('internal.order.line', 'internal_id', string="ordinary line"),
@@ -85,7 +84,7 @@ class apgebat_ach(osv.osv):
         #raise osv.except_osv(_('Error!'), _(employee_ids))
         employe = self.pool.get('hr.employee').browse(cr, uid, employee, context=context)
         department=employe.department_id
-        values = {'department_id': department, 'employee_ids': [(6, 0, [employee])]}
+        values = {'department_id': department}
         return {'value': values}
 
 
