@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>	
+  
+ 
+	 
+<!--heritage de la vue base_vat_view-->
+	<record id="ap_change_num_fiscal" model="ir.ui.view">
+			<field name="name">ap.change.numfiscal</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base_vat.view_partner_form"/>
+			<field name="arch" type="xml">
+                <field name="vat" position="replace">
+                    <field name="vat" on_change="vat_change(vatnumber)" placeholder="e.g. BE0477472701" class="oe_inline"/>		  
+                </field>
+			</field>
+    </record>
+
+  </data>
+</openerp>

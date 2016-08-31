@@ -8,9 +8,9 @@
       <field name="model">movement</field>
       <field name="arch" type="xml">
         <tree string="movement of vehicle" editable="top">
-          <field name="applicant"/> 
+          <field name="vehicle"/> 
           <field name="project_name"/> 
-          <field name="operation_nature" />
+          <field name="movement_object" />
           <field name="license_plate" />
           <field name="driver_id" />
           <field name="start_date" />
@@ -26,6 +26,29 @@
       </field>
     </record>
 	
+	  <!--heritage de la vue fleet_vehicule_odometer_tree-->
+	<record id="movement_fleet" model="ir.ui.view">
+			<field name="name">movement.fleet.tree</field>
+			<field name="model">fleet.vehicle.odometer</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_odometer_tree"/>
+			<field name="arch" type="xml">
+                <field name="date" position="replace">
+				    <field name="movement_object"/>
+                    <field name="project_name"/>
+					<field name="driver_id"/>
+					<field name="start_date"/>
+					<field name="return_date"/>
+					<field name="km_start"/>
+					<field name="return_km"/>
+					<field name="traveled_km"/>
+					<field name="leasing_duraton"/>
+					<field name="price_list"/>
+					<field name="leasing_amount"/>
+					<field name="maintenance_amount"/>
+                </field>
+			</field>
+    </record>
+
 	
 		<!-- vue graphique et vue pivot -->
     <record id="movement_graph" model="ir.ui.view">
@@ -35,8 +58,8 @@
 		<graph string="vehicle movement Analysis" type="pivot">
 		            <field name="project_name" type="row"/>
 					<field name="license_plate" type="row"/>
-					<field name="applicant" type="col"/>
-                    <field name="operation_nature" type="col"/>
+					<field name="vehicle" type="col"/>
+                    <field name="movement_object" type="col"/>
                     <field name="driver_id" type="col"/>
                     <field name="start_date" type="col"/>
                     <field name="return_date" type="col"/>
@@ -84,12 +107,12 @@
             id="menu_action_movement_ref"
             parent="menu_movement_ref"
             />
-    <menuitem
+    <!--<menuitem
             name="Deplacement du vehicule"
             id="menu_action_movement_update"
             action="action_movement"
             parent="fleet.fleet_vehicles"
-            />
+            />-->
     <!-- # -->
   </data>
 </openerp>

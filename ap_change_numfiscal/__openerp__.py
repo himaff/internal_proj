@@ -1,25 +1,19 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'fleet extension',
+    'name': 'ap change numfiscal',
     'version': '1.0.0',
     'category': 'Liste',
     'sequence': 3,
     'author': 'Africa performances',
-    'summary': 'Management of the vehicle',
+    'summary': 'change numero fiscal',
     'description': """
-Management of vehicle
+Management of numero fiscal
 =======================================
 
-This App for manage vehicle 
+This App change numero fiscal in N° TVA Intracommunautaire
     """,
-    'depends': ['base','fleet'],
-    'data': [
-	    'movement.xml',
-		'ravitaillement.xml',
-		'rechargement.xml',
-        'reparation.xml',
-		
-    ],
+    'depends': ['base', 'base_vat','account'],
+    'data': ['ap_change_numfiscal.xml', 'report_change_numfiscal.xml',],
     'installable': True,
     'application': False,
     'auto_install': False,
