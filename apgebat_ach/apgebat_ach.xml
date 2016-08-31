@@ -81,9 +81,9 @@
               </page>
                <page string="Team" >
                   <group col="4" >
-                <field name="department_id" colspan="2" attrs="{'readonly': [('state', '=', 'sent')]}"/>
+                <field name="department_id" colspan="2" required="1" attrs="{'readonly': [('state', '=', 'sent')]}"/>
                 <field name="master" colspan="2" attrs="{'readonly': [('state', '=', 'sent')]}" on_change="onchange_employee_get(master)"/>
-                <field name="employee_ids" widget="many2many_tags" colspan="4" attrs="{'required': [('type','=','technical')], 'readonly': [('state', '=', 'sent')]}"/>
+                
               </group>
 
               </page>
@@ -168,7 +168,6 @@
                 <field name="datein" attrs="{'readonly':[('statet', '=', 'reject')]}"/>
                 <field name="department_id" colspan="2" readonly="1"/>
                 <field name="master" colspan="2" readonly="1"/>
-                <field name="employee_ids" widget="many2many_tags" colspan="4" readonly="1"/>
               </group>
             <newline/>
               

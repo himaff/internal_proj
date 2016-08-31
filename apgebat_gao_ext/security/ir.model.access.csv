@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_apgebat_attachment_list,acces.ap.ext,model_apgebat_attachment_list,project.group_project_user,1,1,1,1
+access_apgebat_attachment,access.ap.gao.ext,model_apgebat_attachment,project.group_project_user,1,1,1,1
+access_apgao_ligne_att,access.ap.ext.line,model_apgao_line_att,project.group_project_user,1,1,1,1
+access_internal_purchase_request_wizard,access.ap.ga.wiz,model_internal_purchase_request_wizard,project.group_project_user,1,1,1,1
+access_ap_gao_estim,access.ap.ir.est,model_ap_gao_estim,project.group_project_user,1,1,1,1
+access_ap_gao_inherit_project,access.project.project,model_project_project,project.group_project_user,1,1,1,1
+access_ap_gao_mat,access.ap.ext.mat,model_ap_gao_mat,project.group_project_user,1,1,1,1
+access_ap_gao_ext_mat,access.project.mat,model_ap_gao_ext_mat,project.group_project_user,1,1,1,1
+access_fact,access.ap.ext.fact,model_account_invoice,project.group_project_user,1,1,1,1
+access_fact_line,access.project.factline,model_account_invoice_line,project.group_project_user,1,1,1,1
+access_conf,access.project.conf,model_gao_project_account_conf,project.group_project_user,1,1,1,1
+access_move,access.ap.acount.move,model_account_move,project.group_project_user,1,1,1,1

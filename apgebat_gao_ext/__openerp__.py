@@ -18,6 +18,8 @@ and allows the manager to monitor the dedicated team throughout this process.
     'depends': ["base","apgebat_gao", "apgebat_ach"],
     'data': [
         'apgebat_gao_ext.xml',
+        'data/gao_ext_data.xml',
+        'security/ir.model.access.csv'
     ],
     
     'installable': True,

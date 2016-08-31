@@ -2,6 +2,8 @@
 <openerp>
   <data>
 
+
+
   	<!-- Heritage de vue sur les projets pour afficher les estimation et autres fichiers de LAO -->
     <record id="ao_projet_form" model="ir.ui.view">
       <field name="name">project.project.form</field>
@@ -21,21 +23,160 @@
           </page>
 
         </page>
+        <button  class="oe_inline oe_stat_button" name="attachment_tree_view"  type="object" icon="fa-files-o" position="after">
+          <br/>
+          <button class="oe_inline oe_stat_button" type="object" name="project_purchase_valid" icon="fa-shopping-cart" context="{'c_project':id}">
+            <field string="Purchase" name="purchase_count" widget="statinfo"/>
+          </button>
+          <button class="oe_inline oe_stat_button" type="object" name="project_situation_valid" icon="fa-check-square-o" context="{'c_project':id}">
+            <field string="Situation" name="situation_count" widget="statinfo"/>
+          </button>
+        </button>
+<!-- positionnement de accounting dans autre info de projet -->
+        <group string="Miscellaneous" name="misc" position="before">
+
+          <group string="Accounting" col="5">
+            <field name="avance" placeholder="%" />
+            <button string="Create an advance invoice" type="object" class="oe_highlight"/>
+            
+            <group col="2" colspan="3">
+              <field name="garanti" placeholder="%" />
+              <field name="risque" placeholder="%" />
+              <field name="remise" placeholder="%" />
+              <field name="retard" placeholder="%" />
+            </group>
+          </group>
+
+        </group>
         
       </field>
     </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Heritage de vue sur les projets pour afficher les estimation et autres fichiers de LAO -->
+    <record id="ao_accountinvoice_form" model="ir.ui.view">
+      <field name="name">project.invoice.form</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_form"/>
+      <field name="arch" type="xml">
+
+        <field name="fiscal_position" options="{'no_create': True}" position="after">
+           <field name="project_id"  readonly="1" />
+           <field name="lot_id"  readonly="1" />
+        </field>
+
+        <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]" name="account_id" groups="account.group_account_user" context="{'periods_special': False, 'all_fiscalyear': True}" position="after">
+          <field name="market_value"  readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="advance_begin" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+        </field>
+
+        <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" position="before">
+          <field name="discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="amount_holback" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="expense" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="expense_tva" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="expense_ttc" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="total_acompte_prec" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+        
+        </field>
+
+        <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" position="attributes">
+          <attribute name="string">invoiced amount to pay HT</attribute>
+        </field>
+
+        <label for="amount_tax" position="attributes">
+          <attribute name="string">invoiced VAT</attribute>
+        </label>
+
+        <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" position="attributes">
+          <attribute name="string">Net pay TTC</attribute>
+        </field>
+        
+      </field>
+    </record>
+
+
+
+
+
+
+
 
 	<record model="ir.ui.view" id="gao_ext_sit_filter">
 	  <field name="name">gao.ext.sit.search</field>
 	  <field name="model">apgebat.attachment</field>
 	  <field name="arch" type="xml">
 	    <search string="Situation">
+      
 	      <group expand="0" string="Group By...">
-	        <filter name="group_project" string="project" domain="[]" context="{'group_by': 'project_id'}" />
+	        <filter name="group_project" string="projects" domain="[]" context="{'group_by': 'project_id'}" />
+          <filter name="group_att" string="Attachments" domain="[]" context="{'group_by': 'attachement_id'}" />
 	      </group>
 	    </search>
 	  </field>
 	</record>
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- vue liste define-->
+    <record id="define_tree" model="ir.ui.view">
+      <field name="name">ap.gao.tree</field>
+      <field name="model">apgebat.attachment</field>
+      <field name="arch" type="xml">
+        <tree string="Attachements Define" >
+          <field name="project_id" invisible="1"/>
+          <field name="attachement_id" invisible="1"/>
+          <field name="lot_id"/>
+          
+        </tree>
+      </field>
+    </record>
+
+    <!-- vue formulaire define -->
+    <record id="define_form" model="ir.ui.view">
+      <field name="name">ap.gao.form</field>
+      <field name="model" >apgebat.attachment</field>
+      <field name="arch" type="xml">
+        <form string="Attachements Define" >
+          <sheet>
+            <group>
+              <field name="project_id" />
+              <field name="attachement_id" />
+              <field name="lot_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/>
+              <field name="date_planned"/>
+            </group>
+          
+          </sheet>
+
+        </form>
+      </field>
+    </record>
+
+
+
+
+
+
 
 
 
@@ -48,9 +189,11 @@
       <field name="name">ap.gao.tree</field>
       <field name="model">apgebat.attachment</field>
       <field name="arch" type="xml">
-        <tree string="Situation" >
+        <tree string="Situation" create="0">
 	        <field name="project_id" invisible="1"/>
-	        <field name="name"/>
+	        <field name="attachement_id" invisible="1"/>
+          <field name="lot_id"/>
+          <field name="date_planned"/>
 	        <field name="state"/>
         </tree>
       </field>
@@ -61,37 +204,113 @@
       <field name="name">ap.gao.form</field>
       <field name="model" >apgebat.attachment</field>
       <field name="arch" type="xml">
-        <form string="Situation" >
+        <form string="Situation" create="0">
         <header>
-          <button name="" string="validate" type='object' class="oe_highlight" />
-          <field name="state" widget='statusbar'/>
+          <button name="send" string="Send" type='object' class="oe_highlight" attrs="{'invisible': [('state','in',['end','sent','invoice'])]}"/>
+
+          <button name="valid" string="validate" type='object' class="oe_highlight" attrs="{'invisible': [('state','in',['end','draft','invoice'])]}"/>
+
+          <button name="create_invoice" string="Create invoice" type='object' class="oe_highlight" attrs="{'invisible': [('state','!=','end')]}"/>
+
+          <field name="state" widget='statusbar' statusbar_visible="draft,sent,finish"/>
         </header>   
-        	<h4><field name="project_id" readonly="1"/></h4>
-	        <h1 style="text-align:center"><field name="name" readonly="1"/></h1>
-	        <button name="importer" type="object" string="Generate" class="oe_highlight" />
-	       	<field name="line_attach" widget="one2many_list"> 
-		       	<tree default_order="sequence asc" colors="blue:type=='vue'">
-		       		<field name="code"/>
-		       		<field name="lines" />
-		       		<field name="unit_id"/>
-		       		<field name="quantity" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="unit_price" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="total_dqe" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="qte_m1" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="qte_m" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="qte_cumul" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="montant_m1" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="montant_m" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="montant_cumul" attrs="{'invisible': [('type','in','vue')]}"/>
-		       		<field name="taux" attrs="{'invisible': [('type','in','vue')]}"/>
+
+
+        	<br/><br/>
+	        <h2 style="text-align:center"><label string="name:" style="display:inline-block"/><field name="attachement_id" readonly="1" style="display:inline"/></h2>
+          <group >
+            <field name="project_id" readonly="1"/>
+            <field name="lot_id" readonly="1"/>
+            <field name="date_planned" attrs="{'readonly': [('state','in',['end','invoice'])]}"/>
+          </group>
+	        <button name="importer" type="object" string="Generate" class="oe_highlight" attrs="{'invisible': [('state','in',['end','sent','invoice'])]}"/>
+	       	<field name="line_attach" widget="one2many_list" attrs="{'readonly': [('state','in',['end','invoice'])]}"> 
+            <style>
+              td[data-field="qte_m"],td[data-field="montant_m"]{font-weight : bold;}
+              th[data-id="lines"],th[data-id="total_dqe"],th[data-id="qte_cumul"],th[data-id="montant_cumul"]{border-right : 1px solid #b0b0b0;}
+              td[data-field="lines"],td[data-field="total_dqe"],td[data-field="qte_cumul"],td[data-field="montant_cumul"]{border-right : 1px solid #b0b0b0;}
+            </style>
+		       	<tree default_order="sequence asc" colors="blue:type=='vue'" create="0" >
+		       		<field name="code" />
+		       		<field name="lines" readonly="1"/>
+		       		<field name="unit_id" readonly="1"/>
+		       		<field name="quantity" attrs="{'invisible': [('type','in','vue')]}" readonly="1"/>
+		       		<field name="unit_price" attrs="{'invisible': [('type','in','vue')]}" readonly="1"/>
+		       		<field name="total_dqe" attrs="{'invisible': [('type','in','vue')]}" readonly="1" sum="DQE"/>
+		       		<field name="qte_m1" attrs="{'invisible': [('type','in','vue')]}" readonly="1"/>
+		       		<field name="qte_m" attrs="{'invisible': [('type','in','vue')]}" on_change="onchange_qte(qte_m1,qte_m, unit_price, total_dqe)" />
+		       		<field name="qte_cumul" attrs="{'invisible': [('type','in','vue')]}" readonly="1"/>
+		       		<field name="montant_m1" attrs="{'invisible': [('type','in','vue')]}" readonly="1"/>
+		       		<field name="montant_m" attrs="{'invisible': [('type','in','vue')]}" readonly="1" sum="Prestation"/>
+		       		<field name="montant_cumul" attrs="{'invisible': [('type','in','vue')]}" readonly="1"/>
+		       		<field name="taux" attrs="{'invisible': [('type','in','vue')]}" readonly="1"/>
 		       		<field name="att_id" invisible="1"/>
 		       		<field name="sequence" invisible="1"/>
 		       		<field name="type" invisible="1"/>
 		       	</tree>
+
+            <form create="0" string="attachment line details">
+              <group col="3">
+                <field name="code" />
+                <newline/>
+                <field name="lines" readonly="1" colspan="2"/>
+                <group colspan="3" col="5">
+                  <field name="unit_price" attrs="{'invisible': [('type','in','vue')]}" readonly="1" string="UP DQE"/>
+                  <field name="quantity" attrs="{'invisible': [('type','in','vue')]}" readonly="1" string="Lines qty"/>
+                  <field name="unit_id" readonly="1" nolabel="1" />
+                </group>
+
+                
+                <group colspan="2"><field name="total_dqe" attrs="{'invisible': [('type','in','vue')]}" readonly="1"  colspan="3" string="Amount DQE" style="font-size: 16px;"/></group>
+                
+
+                <group colspan="3" col="4">
+                  <field name="qte_m1" attrs="{'invisible': [('type','in','vue')]}"  string="Qty (M-1)" readonly="1"/>
+                  <field name="montant_m1" attrs="{'invisible': [('type','in','vue')]}" readonly="1" string="Amount (M-1)"/>
+                  <newline/>
+                  <field name="qte_m" attrs="{'invisible': [('type','in','vue')]}" on_change="onchange_qte(qte_m1,qte_m, unit_price, total_dqe)" string="Qty (M)"/>
+                  <field name="montant_m" attrs="{'invisible': [('type','in','vue')]}" readonly="1" string="Amount (M)"/>
+                  <newline/>
+                  <field name="qte_cumul" attrs="{'invisible': [('type','in','vue')]}" readonly="1" string="Qty accrued"/>
+                  <field name="montant_cumul" attrs="{'invisible': [('type','in','vue')]}" readonly="1" string="Amount accrued"/>
+                </group>
+                <field name="type" invisible="1"/>
+                <newline/>
+                <field name="mat_id" attrs="{'invisible': [('type','in','vue')]}" readonly="1" nolabel="1" widget="one2many_list" colspan="3">
+                  <tree create='0' delete='0'>
+                    <field name="product_id" />
+                    <field name="quantity" />
+                    <field name="unite_id" />
+                    <field name="qte_cons" />
+                    <field name="taux" />
+       
+                  </tree>
+                </field>
+              </group>
+            </form>
+
+
 	       	</field>
         </form>
       </field>
     </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -150,7 +369,7 @@
                 </tree>
               </field>
            <footer>
-            <button name='selector_choice' string="Validate request" type="object" class="oe_highlight" />
+            <button name='choice_purchase' string="Validate request" type="object" class="oe_highlight" />
              or
             <button string="Cancel" class="oe_link" special="cancel"/>
           </footer>
@@ -188,6 +407,217 @@
     </record>
 
 
+  
+
+
+
+
+
+
+
+     <!-- vue formulaire configuration-->
+    <record id="view_account_conf" model="ir.ui.view">
+      <field name="name">conf.account.form</field>
+      <field name="model" >gao.project.account.conf</field>
+      <field name="arch" type="xml">
+        <form string="Account settings" create="0" delete="0">
+          <group string="Account settings">
+            <field name="line_attach"/>
+            <field name="advance"/>
+            <field name="retenu"/>
+            <field name="penalite"/>
+            <field name="risk"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- avance de demarrage facturation-->
+
+    <record id="advance_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state == 'open'" string="Invoice">
+                    <field name="partner_id" groups="base.group_user"/>
+                    <field name="date_invoice"/>
+                    <field name="origin"/>
+                    <field name="residual" sum="Residual Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+    <record id="advance_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+               <form string="Invoice">
+                <header>
+                    <button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_print" string="Print" type="object" attrs="{'invisible':['|',('sent','=',True), ('state', '!=', 'open')]}" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                    <button name="invoice_print" string="Print Invoice" type="object" attrs="{'invisible':['|',('sent','=',False), ('state', '!=', 'open')]}" groups="base.group_user"/>
+                    <button name="invoice_open" states="draft" string="Validate" class="oe_highlight" groups="base.group_user"/>
+                    <button name="invoice_open" states="proforma2" string="Validate" groups="base.group_user"/>
+                    <button name="invoice_proforma2" states="draft" string="PRO-FORMA" groups="account.group_proforma_invoices"/>
+                    
+                    <button name="invoice_cancel" states="draft,proforma2,open" string="Cancel Invoice" groups="base.group_no_one"/>
+                    <button name="action_cancel_draft" states="cancel" string="Reset to Draft" type="object" groups="base.group_user"/>
+                    
+                    
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/>
+                </header>
+                <sheet string="Invoice">
+                    <h1>
+                        <label string="Draft advance Invoice" attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','out_advance_invoice')]}"/>
+                        <label string="Draft Refund" attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','out_refund')]}"/>
+                        <label string="Pro Forma Invoice" attrs="{'invisible': [('state','not in',('proforma','proforma2'))]}"/>
+                        <label string="Invoice" attrs="{'invisible': ['|',('state','in',('draft','proforma','proforma2')), ('type','&lt;&gt;','out_invoice')]}"/>
+                        <label string="Refund" attrs="{'invisible': ['|',('state','in',('draft','proforma','proforma2')), ('type','&lt;&gt;','out_refund')]}"/>
+                        <field name="number" readonly="1" class="oe_inline"/>
+                    </h1>
+                    <field name="type" invisible="1"/>
+                    <group>
+                        <group>
+                            <field string="Customer" name="partner_id"
+                                on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id, context)"
+                                context="{'search_default_customer':1, 'show_address': 1}"
+                                options='{"always_reload": True}'
+                                domain="[('customer', '=', True)]"/>
+                            <field name="fiscal_position" options="{'no_create': True}" />
+                        </group>
+                        <group>
+                            <field name="date_invoice" on_change="onchange_payment_term_date_invoice(payment_term, date_invoice)" />
+                            <field name="internal_number" invisible="1"/>
+                            <field name="journal_id" groups="account.group_account_user"
+                                on_change="onchange_journal_id(journal_id)" options="{'no_create': True}"
+                                attrs="{'readonly':[('internal_number','!=',False)]}"/>
+                            <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]"
+                                name="account_id" groups="account.group_account_user"
+                                context="{'periods_special': False, 'all_fiscalyear': True}"/>
+
+                            <label for="currency_id" groups="base.group_multi_currency"/>
+                            <div groups="base.group_multi_currency">
+                                <field name="currency_id" class="oe_inline"/>
+                                
+                            </div>
+                        </group>
+                    </group>
+                    <field name="sent" invisible="1"/>
+                    <notebook colspan="4">
+                        <page string="Invoice Lines">
+                            <field name="invoice_line" nolabel="1" widget="one2many_list" context="{'type': type}">
+                                <tree string="Invoice Lines" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"
+                                        on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, context)" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="account_id" groups="account.group_account_user"
+                                        domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '=', 'other')]"
+                                        on_change="onchange_account_id(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id)"/>
+                                    <field name="account_analytic_id" groups="analytic.group_analytic_accounting"
+                                        domain="[('type','!=','view'), ('company_id', '=', parent.company_id), ('state','not in',('close','cancelled'))]"/>
+                                    <field name="quantity" />
+                                    <field name="uos_id" groups="product.group_uom"
+                                        on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, context)" invisible="1"/>
+                                    <field name="price_unit"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line" invisible="1"/>
+                                    <field name="invoice_line_tax_id" widget="many2many_tags" context="{'type':parent.type}"
+                                        domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]" invisible="1"/>
+                                    <field name="price_subtotal"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <div>
+                                    <label for="amount_tax" invisible="1"/>
+                                    <button name="button_reset_taxes" states="draft,proforma2"
+                                        string="(update)" class="oe_link oe_edit_only"
+                                        type="object" help="Recompute taxes and total" invisible="1"/>
+                                </div>
+                                <field name="amount_tax" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="residual" groups="account.group_account_user" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="reconciled" invisible="1"/>
+                            </group>
+                            <group>
+                                    <field name="payment_term" class="oe_inline" on_change="onchange_payment_term_date_invoice(payment_term, date_invoice)"/>
+                            </group>
+                            <div class="oe_clear">
+                                <label for="comment"/>
+                            </div>
+                            <field name="comment" class="oe_inline" placeholder="Additional notes..."/>
+                        </page>
+                        <page string="Other Info">
+                            <group col="4">
+                                <group>
+                                    <field name="company_id" on_change="onchange_company_id(company_id,partner_id,type,invoice_line,currency_id)" widget="selection" groups="base.group_multi_company"/>
+                                    <field name="user_id" groups="base.group_user" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'account.group_account_invoice']}"/>
+                                    <field domain="[('partner_id.ref_companies', 'in', [company_id])]" name="partner_bank_id"/>
+                                    <field name="period_id" domain="[('state', '=', 'draft'), ('company_id', '=', company_id)]"
+                                        groups="account.group_account_manager"
+                                        string="Accounting Period"
+                                        placeholder="force period"/>
+                                    <field name="date_due"/>
+                                </group>
+                                <group>
+                                    <field name="origin" groups="base.group_user"/>
+                                    <field name="name"/>
+                                    <field name="move_id" groups="account.group_account_user"/>
+                                </group>
+                            </group>
+                            <field name="tax_line">
+                                <tree editable="bottom" string="Taxes">
+                                    <field name="name"/>
+                                    <field name="account_id" groups="account.group_account_user"/>
+                                    <field name="base" on_change="base_change(base,parent.currency_id,parent.company_id,parent.date_invoice)" readonly="1"/>
+                                    <field name="amount" on_change="amount_change(amount,parent.currency_id,parent.company_id,parent.date_invoice)"/>
+                                    <field invisible="True" name="base_amount"/>
+                                    <field invisible="True" name="tax_amount"/>
+                                    <field name="factor_base" invisible="True"/>
+                                    <field name="factor_tax" invisible="True"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Payments" groups="base.group_user">
+                            <field name="payment_ids">
+                                <tree string="Payments">
+                                    <field name="date"/>
+                                    <field name="move_id"/>
+                                    <field name="ref"/>
+                                    <field name="name"/>
+                                    <field name="journal_id" groups="base.group_user"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="amount_currency" groups="base.group_multi_currency"/>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+
 
 
 
@@ -210,6 +640,7 @@
             <field name="target">new</field>
         </record>
 
+
         <record id="open_situation" model="ir.actions.act_window">
             <field name="name">Situation</field>
             <field name="res_model">apgebat.attachment</field>
@@ -217,7 +648,33 @@
             <field name="domain">[]</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_situation"/>
-            <field name="context">{'search_default_group_project': 1}</field>
+            <field name="context">{'search_default_group_project': 1,'search_default_another_group': 1, 'search_default_yet_another_group': 1, 'search_default_group_att': 1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click to start a new project.
+                </p><p>
+                  Projects are used to organize your activities; plan
+                  tasks, track issues, invoice timesheets. You can define
+                  internal projects (R&amp;D, Improve Sales Process),
+                  private projects (My Todos) or customer ones.
+                </p><p>
+                  You will be able collaborate with internal users on
+                  projects or invite customers to share your activities.
+                </p>
+            </field>
+        </record>
+        
+
+
+
+        <record id="open_define" model="ir.actions.act_window">
+            <field name="name">Attachement</field>
+            <field name="res_model">apgebat.attachment</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="define_tree"/>
+            <field name="context">{'search_default_group_project': 1,'search_default_another_group': 1, 'search_default_yet_another_group': 1, 'search_default_group_att': 1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                   Click to start a new project.
@@ -234,6 +691,75 @@
         </record>
 
 
+        <record id="open_conf_accounting" model="ir.actions.act_window">
+            <field name="name">Configuration</field>
+            <field name="res_model">gao.project.account.conf</field>
+            <field name="res_id">1</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_account_conf"/>
+        </record>
+
+
+        <record id="action_invoice_tree_view" model="ir.actions.act_window">
+            <field name="name">Advance Boot</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="advance_tree"/>
+            <field name="domain">[('type','=','out_advance_invoice')]</field>
+            <field name="context">{'default_type':'out_advance_invoice', 'type':'out_advance_invoice', 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p>
+                Here come the startup advance of all projects.
+              </p>
+            </field>
+        </record>
+
+        <!-- vue advance dans account -->
+        <record id="action_invoice_advance_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="advance_tree"/>
+            <field name="act_window_id" ref="action_invoice_tree_view"/>
+        </record>
+
+        <record id="action_invoice_advance_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="advance_form"/>
+            <field name="act_window_id" ref="action_invoice_tree_view"/>
+        </record>
+
+        <!-- vue des situations attachements definitions -->
+        <record id="action_define_att_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="define_tree"/>
+            <field name="act_window_id" ref="open_define"/>
+        </record>
+
+        <record id="action_define_att_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="define_form"/>
+            <field name="act_window_id" ref="open_define"/>
+        </record>
+<!-- vue des situations  -->
+        <record id="action_situation_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="situation_form"/>
+            <field name="act_window_id" ref="open_situation"/>
+        </record>
+        <record id="action_situation_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_situation"/>
+            <field name="act_window_id" ref="open_situation"/>
+        </record>
 
 
 
@@ -245,11 +771,25 @@
             id="menu_project_supplying"
             parent="base.menu_main_pm"
             sequence="2"/>
-  		<menuitem action="open_purchase_request" id="menu_purchase" name="Purchase request" parent="menu_project_supplying" sequence="1"/>
+
+      <menuitem
+            name=" Internal purchase request"
+            id="project_menu_action_internal_request"
+            parent="menu_project_supplying"
+            action="apgebat_ach.action_internal_request"
+            sequence="1"
+            />
+  		<menuitem action="open_purchase_request" id="menu_purchase" name="Purchase request" parent="menu_project_supplying" sequence="2"/>
+
+
   		<menuitem name="Situation"
             id="menu_project_situation"
             parent="base.menu_main_pm"
             sequence="3"/>
-  		<menuitem action="open_situation" id="menu_attachment" name="Attachments" parent="menu_project_situation" sequence="1"/>
+      <menuitem action="open_define" id="menu_attachment" name="Attachments define" parent="menu_project_situation" sequence="1"/>
+  		<menuitem action="open_situation" id="menu_situation" name="Situation" parent="menu_project_situation" sequence="2"/>
+
+      <menuitem name="Accounting" action="open_conf_accounting" id="menu_project_accounting" parent="base.menu_definitions"/>
+      <menuitem name="Advance boot" action="action_invoice_tree_view" id="menu_accounting_advance" parent="account.menu_finance_receivables" sequence="0"/>
   </data>
 </openerp>
