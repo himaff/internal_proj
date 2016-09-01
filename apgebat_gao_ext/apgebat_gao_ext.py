@@ -332,7 +332,7 @@ class apgebat_attachment(osv.osv):
                         if estim.pu_ds:
                             qte_cumul=ligne_qte[estim.price_line]/estim.pu_ds
                         else:
-                            raise osv.except_osv(_('Valeur incorrect'), _('Le Prix unitaire DS ne peut être égal à zéro. ref:'+estim.price_line))
+                            raise osv.except_osv(_('Valeur incorrect'), _('Le Prix unitaire DS ne peut etre egal a zero. ref:'+estim.price_line))
 
                         mont_cumul=qte_cumul*estim.bpu
                         #raise osv.except_osv(_('Error!'), _(qte_cumul))
@@ -344,7 +344,7 @@ class apgebat_attachment(osv.osv):
                         if estim.total_bpu:
                             taux= mont_cumul/estim.total_bpu
                         else:
-                            raise osv.except_osv(_('Valeur incorrect'), _('Le total BPU(DQE) ne peut être égal à zéro. ref:'+estim.price_line))
+                            raise osv.except_osv(_('Valeur incorrect'), _('Le total BPU(DQE) ne peut etre egal a zero. ref:'+estim.price_line))
                     else:
                         taux=0.0
                     self.write(cr, uid, ids, {'att_pos': 1})
