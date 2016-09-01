@@ -13,6 +13,51 @@ import calendar
 import logging
 _logger = logging.getLogger(__name__)
 
+schu=["","UN ","DEUX ","TROIS ","QUATRE ","CINQ ","SIX ","SEPT ","HUIT ","NEUF "]
+schud=["DIX ","ONZE ","DOUZE ","TREIZE ","QUATORZE ","QUINZE ","SEIZE ","DIX SEPT ","DIX HUIT ","DIX NEUF "]
+schd=["","DIX ","VINGT ","TRENTE ","QUARANTE ","CINQUANTE ","SOIXANTE ","SOIXANTE ","QUATRE VINGT ","QUATRE VINGT "]
+def convNombre2lettres(nombre):
+    s=''
+    reste=nombre
+    i=1000000000 
+    while i>0:
+        y=reste/i
+        if y!=0:
+            centaine=y/100
+            dizaine=(y - centaine*100)/10
+            unite=y-centaine*100-dizaine*10
+            if centaine==1:
+                s+="CENT "
+            elif centaine!=0:
+                s+=schu[centaine]+"CENT "
+                if dizaine==0 and unite==0: s=s[:-1]+"S " 
+            if dizaine not in [0,1]: s+=schd[dizaine] 
+            if unite==0:
+                if dizaine in [1,7,9]: s+="DIX "
+                elif dizaine==8: s=s[:-1]+"S "
+            elif unite==1:   
+                if dizaine in [1,9]: s+="ONZE "
+                elif dizaine==7: s+="ET ONZE "
+                elif dizaine in [2,3,4,5,6]: s+="ET UN "
+                elif dizaine in [0,8]: s+="UN "
+            elif unite in [2,3,4,5,6,7,8,9]: 
+                if dizaine in [1,7,9]: s+=schud[unite] 
+                else: s+=schu[unite] 
+            if i==1000000000:
+                if y>1: s+="MILLIARDS "
+                else: s+="MILLIARD "
+            if i==1000000:
+                if y>1: s+="MILLIONS "
+                else: s+="MILLION "
+            if i==1000:
+                s+="MILLE "
+        #end if y!=0
+        reste -= y*i
+        dix=False
+        i/=1000;
+    #end while
+    if len(s)==0: s+="ZERO "
+    return s
 
 class gao_xls_report_file(osv.osv_memory):
     _name = 'gao.xls.report.file'
@@ -21,7 +66,7 @@ class gao_xls_report_file(osv.osv_memory):
         if context is None:
             context = {}
         res = super(gao_xls_report_file, self).default_get(cr, uid, fields, context=context)
-        res.update({'file_name': 'DQE.xls'})
+        res.update({'file_name': context.get('file_name', 'DEMO')+'.xls'})
 
         if context.get('file'):
             res.update({'file': context['file']})
@@ -270,8 +315,8 @@ class ap_gao(osv.osv):
         
         font = xlwt.Font()
         font.bold = True
-        xlwt.add_palette_colour("vert_claire", 0x21)
-        wbk.set_colour_RGB(0x21, 146, 208, 80)
+        #xlwt.add_palette_colour("vert_claire", 0x21)
+        #wbk.set_colour_RGB(0x21, 146, 208, 80)
         borders = xlwt.Borders()
         bold_style = xlwt.XFStyle()
         bold_style.font= font
@@ -280,7 +325,7 @@ class ap_gao(osv.osv):
         new_style7=xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: wrap No;border: top hair, right medium')
         new_style6en=xlwt.easyxf('font:height 180, colour_index black, name Arial; align: wrap No;border: top hair, right hair')
         new_style7en=xlwt.easyxf('font:height 180, colour_index black, name Arial; align: wrap No;border: top hair, right medium')
-        entete=xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;pattern: pattern solid, fore_colour vert_claire;border: bottom thin')#fusionne des lignes (l1, l2, c1, c2)
+        entete=xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;pattern: pattern solid, fore_colour dark_green_ega ;border: bottom thin')#fusionne des lignes (l1, l2, c1, c2)
         bordtop = xlwt.easyxf('font: name Arial,height 180, color-index black, bold on;border: top medium, right hair;align: vert centre, horiz center')
         stotal = xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: vert centre, horiz right;border: top hair, right hair;pattern: pattern solid, fore_colour gray25;')
         stotalf = xlwt.easyxf('font:height 180, colour_index black, name Arial, bold on; align: vert centre, horiz right;border: top hair, right medium;pattern: pattern solid, fore_colour gray25;')
@@ -408,7 +453,15 @@ class ap_gao(osv.osv):
             #fin du tableau
 
             #bas de page
+            #date=time.strftime('%d %B %Y',time.localtime())
+            #text=str(date).encode('utf-8')
+            #text=unicode(text, encoding='utf-8', errors='ignore')
+            date_format = xlwt.XFStyle()
+            #date_format.
+            basdepage3=xlwt.easyxf('font:height 200, colour_index black, name Arial; align: wrap No;align: vert centre, horiz left', num_format_str='dd mmmm yyyy')
+        
             lot.write(b+6, 1, 'Fait à Abidjan, le ', basdepage1)
+            lot.write_merge(b+6, b+6, 2, 3, xlwt.Formula('now()'), basdepage3)
             lot.write(b+8, 2, 'Le Soumissionnaire', basdepage2)
 
         
@@ -417,7 +470,7 @@ class ap_gao(osv.osv):
         fl.seek(0)
         buf = base64.encodestring(fl.read())
         ctx = dict(context)
-        ctx.update({'file': buf})
+        ctx.update({'file': buf, 'file_name': context.get('file_name', 'test')})
         if context is None:
             context = {}
         data = {}
@@ -439,6 +492,97 @@ class ap_gao(osv.osv):
         }
 
     
+
+
+    def print_bpuxls(self, cr, uid, ids, context=None):
+        ao=self.browse(cr, uid, ids)
+        fl = StringIO()
+        if context is None: context = {}
+        wbk = xlwt.Workbook(encoding="UTF-8")
+        
+        font = xlwt.Font()
+        font.bold = True
+        entete=xlwt.easyxf('font: name Calibri,height 320, color-index black, bold on;pattern: pattern solid, fore_colour gray25;align: vert centre, horiz centre')#fusionne des lignes (l1, l2, c1, c2)
+        bordtop = xlwt.easyxf('font: name Calibri,height 280, color-index black, bold on;border: top thin, right thin;align: wrap on, vert centre, horiz center')
+        linevue = xlwt.easyxf('font: name Calibri,height 240, color-index black, bold on;border: top thin, right thin;')
+        linechild = xlwt.easyxf('font: name Calibri,height 240, color-index black;border: top thin, right thin;align: wrap on')
+        lastline = xlwt.easyxf('font: name Calibri,height 240, color-index black;border: top thin, right thin,bottom thin, left thin;align: wrap on')
+        linechild1 = xlwt.easyxf('font: name Calibri,height 240, color-index black;border: top thin, right thin;align: wrap on, vert centre, horiz center')
+        lastline1 = xlwt.easyxf('font: name Calibri,height 240, color-index black;border: top thin, right thin,bottom thin, left thin;align: wrap on, vert centre, horiz center')
+        
+        i=0
+        for lots in ao.lot_id:
+            i+=1
+            vars()["lot{}".format(i)] = wbk.add_sheet(lots.code, cell_overwrite_ok=True)#creation de la feuille
+            lot=eval("lot{}".format(i))
+
+            lot.col(1).width= 500*38
+            lot.col(2).width= 500*11
+            lot.col(3).width= 500*28 #size de la column
+            lot.col(0).width= 500*8
+            
+
+            #entete de la page
+            lot.write_merge(0, 0, 0, 3, ao.name, entete)
+            lot.write_merge(2, 2, 0, 3, "BORDEREAU DE PRIX UNITAIRE("+lots.code+")", xlwt.easyxf('font: name Calibri,height 280, color-index black, bold on;align: vert centre, horiz centre'))#fusionne des lignes (l1, l2, c1, c2)  
+
+            #entete tableau
+            lot.write(6, 0, "N°", bordtop)
+            lot.write(6, 1, "DESIGNATION", bordtop)
+            lot.write(6, 2, "MONTANT EN CHIFFRE", bordtop)
+            lot.write(6, 3, "MONTANT EN LETTRES", bordtop)
+
+            #si ligne parent
+            estimation_id=self.pool.get('ap.gao.estim').search(cr, uid,[('tender_id', '=', ao.id), ('lot_id', '=', lots.id)], order='sequences' )
+            o=0
+            b=6
+            for estim in self.pool.get('ap.gao.estim').browse(cr, uid, estimation_id):
+                o+=1
+                b+=1
+                if estim.type=="vue":
+                    lot.write(b, 0, estim.code, linevue)
+                    lot.write(b, 1, estim.price_line, linevue)
+                    lot.write(b, 2, "", linevue)
+                    lot.write(b, 3, "", linevue)
+                else:
+                    #si ligne enfant
+                    lot.write(b, 0, estim.code, linechild)
+                    lot.write(b, 1, estim.price_line, linechild)
+                    lot.write(b, 2, estim.bpu, linechild1)
+                    lot.write(b, 3, convNombre2lettres(int(estim.bpu)).lower(), linechild1)
+                          
+                if len(self.pool.get('ap.gao.estim').browse(cr, uid, estimation_id))==o:
+                    #derniere ligne
+                    lot.write(b, 0, estim.code, lastline)
+                    lot.write(b, 1, estim.price_line, lastline)
+                    lot.write(b, 2, estim.bpu, lastline1)
+                    lot.write(b, 3, convNombre2lettres(int(estim.bpu)).lower(), lastline1)
+
+        
+        wbk.save(fl) # for save le fichier
+        fl.seek(0)
+        buf = base64.encodestring(fl.read())
+        ctx = dict(context)
+        ctx.update({'file': buf, 'file_name': context.get('file_name', 'DEMO')})
+        if context is None:
+            context = {}
+        data = {}
+        res = self.read(cr, uid, ids, [], context=context)
+        res = res and res[0] or {}
+        data['form'] = res
+        try:
+            form_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'apgebat_gao', 'xls_form')[1]
+        except ValueError:
+            form_id = False
+        return {
+        'type': 'ir.actions.act_window',
+        'view_type': 'form',
+        'view_mode': 'form',
+        'res_model': 'gao.xls.report.file',
+        'views': [(form_id, 'form')],
+        'target': 'new',
+        'context': ctx,
+        }
 
 
 
