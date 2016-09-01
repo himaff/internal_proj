@@ -442,6 +442,8 @@ class ap_gao(osv.osv):
             else:
                 if b>=7:
                     lot.write(b+1, 6, xlwt.Formula('SUM(G8:G'+str(b+1)+')'), footer)
+                else:
+                    lot.write(b+1, 6, 0, footer)
 
             lot.write_merge(b+2, b+2, 0, 3, 'TVA (18%)', footers)
             lot.write(b+2, 4, '', footers)
