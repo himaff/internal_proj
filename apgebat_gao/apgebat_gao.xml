@@ -202,7 +202,7 @@
             <button string="Validate" type="object" name="accord" class="oe_highlight" attrs="{'invisible': [('state','!=','cons')]}"/>
             <!-- etat planning -->
             <button string="Submission" type="object" name="submited" class="oe_highlight" attrs="{'invisible': [('state','!=','plan')]}"/>
-            <button string="DQE.xls" type="object" name="print_dqexls" attrs="{'invisible': [('state','!=','plan')]}"/>
+            
             <!-- etat soumission -->
             <button string="Accepted" type="object" name="accepted" class="oe_highlight" attrs="{'invisible': [('state','!=','submit')]}"/>
             <button string="Reject" type="object" name="rejected" class="oe_highlight" attrs="{'invisible': [('state','!=','submit')]}"/>
@@ -212,6 +212,10 @@
             <button string="Open Project" type="object" name="affiche" class="oe_highlight" attrs="{'invisible': [('state','!=','accepted')]}" context="{'open_project': project_id}"/>
             <!-- etat canceled -->
             <button string="Give the draft" type="object" name="draft" class="oe_highlight" attrs="{'invisible': [('state','!=','cancel')]}"/>
+
+            <button string="DS.xls" type="object" name="print_dqexls" attrs="{'invisible': [('state','in',['draft', 'cons', 'cancel'])]}" context="{'file_name': 'DS'}" invisible="1"/>
+            <button string="BPU.xls" type="object" name="print_bpuxls" attrs="{'invisible': [('state','in',['draft', 'cons', 'cancel'])]}" context="{'file_name': 'BPU'}"/>
+            <button string="DQE.xls" type="object" name="print_dqexls" attrs="{'invisible': [('state','in',['draft', 'cons', 'cancel'])]}" context="{'file_name': 'DQE'}"/>
 
             <button string="Cancel" type="object" name="cancel" attrs="{'invisible': [('state','in',['draft','cancel','accepted'])]}"/>
             <button string="Cancel" type="object" name="canceled" confirm="Are you sure? because the event related project is also deleted." attrs="{'invisible': [('state','not in','accepted')]}" context="{'open_project': project_id}"/>
