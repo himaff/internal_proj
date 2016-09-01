@@ -432,7 +432,7 @@ class ap_gao(osv.osv):
             val=''
             x=1
             for lig in lisum:
-                if len(lisum)==o:
+                if len(lisum)==x:
                     val+="G"+str(lig)
                 else:
                     val+="G"+str(lig)+"+"
