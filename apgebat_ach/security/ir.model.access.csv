@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_ap_ach,acces.ap.ach,model_apgebat_ach,purchase.group_purchase_user,1,1,1,1
-access_ap_ach_line,access.ap.ach.line,model_model_internal_order_line,purchase.group_purchase_user,1,1,1,1
+access_ap_ach_line,access.ap.ach.line,model_internal_order_line,purchase.group_purchase_user,1,1,1,1
 access_ap_purchase_order,access.ap.purchase.order,model_purchase_order,purchase.group_purchase_user,1,1,1,1
 access_ap_purchase_order_line,access.ap.purchase.order.line,model_purchase_order_line,purchase.group_purchase_user,1,1,1,1
