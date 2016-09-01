@@ -593,7 +593,7 @@ class ap_gao_attr(osv.osv):
 
 
     _columns = {
-        'code': fields.char('Batch number'),
+        'code': fields.char('Batch number', size=20),  #to do: interdire les caractere speciaux dans ce champ car il pose un probleme a la generation excel
         'lot_name': fields.char('Titled lot of tender', required=True),
         'caution': fields.float('interim bail', required=True),
         'credit_line': fields.float('credit line'),

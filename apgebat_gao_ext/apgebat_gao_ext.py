@@ -374,7 +374,7 @@ class apgao_ligne_att(osv.osv):
     _name='apgao.line.att'
 
     _columns = {
-        'code': fields.char('N°'),
+        'code': fields.char('N°', size=20), #to do: interdire les caractere speciaux dans ce champ car il pose un probleme a la generation excel
         'lines': fields.char('Designation'),
 #QDE du marché
         'unit_id': fields.many2one('product.uom', 'U'),
