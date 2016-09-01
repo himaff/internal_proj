@@ -430,12 +430,13 @@ class ap_gao(osv.osv):
             lot.write(b+1, 4, '', footer)
             lot.write(b+1, 5, '', footer)
             val=''
-            o=1
+            x=1
             for lig in lisum:
                 if len(lisum)==o:
                     val+="G"+str(lig)
                 else:
                     val+="G"+str(lig)+"+"
+                x+=1
             if val:
                 lot.write(b+1, 6, xlwt.Formula(val), footer)
             else:
