@@ -350,7 +350,7 @@
                       </tree>
 
                     </field>
-                        <b><group class="oe_subtotal_footer ">
+                        <b><group style="text-align:right">
                             <button name="dummy" states="draft,cons,plan,submit"
                                         string="(update)" class="oe_link oe_edit_only"
                                         type="object" help="save type parent" colspan="2"/>
