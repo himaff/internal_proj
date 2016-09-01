@@ -430,16 +430,20 @@ class ap_gao(osv.osv):
             lot.write(b+1, 4, '', footer)
             lot.write(b+1, 5, '', footer)
             val=''
-            o=1
+            x=1
             for lig in lisum:
-                if len(lisum)==o:
+                if len(lisum)==x:
                     val+="G"+str(lig)
                 else:
                     val+="G"+str(lig)+"+"
+                x+=1
             if val:
                 lot.write(b+1, 6, xlwt.Formula(val), footer)
             else:
-                lot.write(b+1, 6, 0, footer)
+                if b>=7:
+                    lot.write(b+1, 6, xlwt.Formula('SUM(G8:G'+str(b+1)+')'), footer)
+                else:
+                    lot.write(b+1, 6, 0, footer)
 
             lot.write_merge(b+2, b+2, 0, 3, 'TVA (18%)', footers)
             lot.write(b+2, 4, '', footers)
@@ -593,7 +597,7 @@ class ap_gao_attr(osv.osv):
 
 
     _columns = {
-        'code': fields.char('Batch number'),
+        'code': fields.char('Batch number', size=20),  #to do: interdire les caractere speciaux dans ce champ car il pose un probleme a la generation excel
         'lot_name': fields.char('Titled lot of tender', required=True),
         'caution': fields.float('interim bail', required=True),
         'credit_line': fields.float('credit line'),
