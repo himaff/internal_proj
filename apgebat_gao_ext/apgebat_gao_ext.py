@@ -241,6 +241,7 @@ class apgebat_attachment(osv.osv):
                         
                         if att.lot_id.id==lot.id:
                             #pour chaque ligne fait la somme des qté commandé
+                            pu=0
                             if line.lot_ligne in ligne_qte:
                                 #aussi on recupere le prix unitaire du produit lors de la creation de LAO
                                 ligneid= self.pool.get('ap.gao.estim').search(cr, uid,[('project_id', '=', att.project_id.id), ('price_line', '=', line.lot_ligne)])
@@ -328,7 +329,10 @@ class apgebat_attachment(osv.osv):
                 if att.lot_id.id==estim.lot_id.id:
                 #raise osv.except_osv(_('Error!'), _(estim))
                     if estim.price_line in ligne_qte:
-                        qte_cumul=ligne_qte[estim.price_line]/estim.pu_ds
+                        if estim.pu_ds:
+                            qte_cumul=ligne_qte[estim.price_line]/estim.pu_ds
+                        else:
+                            raise osv.except_osv(_('Valeur incorrect'), _('Le Prix unitaire DS ne peut être égal à zéro. ref:'+estim.price_line))
 
                         mont_cumul=qte_cumul*estim.bpu
                         #raise osv.except_osv(_('Error!'), _(qte_cumul))
@@ -337,7 +341,10 @@ class apgebat_attachment(osv.osv):
                         qte_cumul=0.0
                     #raise osv.except_osv(_('Error!'), _(qte_cumul))
                     if mont_cumul:
-                        taux= mont_cumul/estim.total_bpu
+                        if estim.total_bpu:
+                            taux= mont_cumul/estim.total_bpu
+                        else:
+                            raise osv.except_osv(_('Valeur incorrect'), _('Le total BPU(DQE) ne peut être égal à zéro. ref:'+estim.price_line))
                     else:
                         taux=0.0
                     self.write(cr, uid, ids, {'att_pos': 1})
