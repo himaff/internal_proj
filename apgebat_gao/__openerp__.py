@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'AP Gestion des appels d\'offres',
-    'version': '1.0.0',
+    'version': '1.0.2',
     'category': 'Liste',
     'sequence': 3,
     'author': 'Africa performances',
