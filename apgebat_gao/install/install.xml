@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+        
+        <record id="view_test_configuration_installer" model="ir.ui.view">
+          <field name="name">tender.installer.form</field>
+          <field name="model">tender.installer</field>
+          <field name="inherit_id" ref="base.res_config_installer"/>
+          <field name="arch" type="xml">
+              <form position="inside">
+                <script>
+                  $(document).ready(function(){
+                  $('.modal .modal-body').css({'min-height': '10px'});
+                  });
+                </script>
+              </form>
+              <form position="attributes">
+                <attribute name="string">Tender type Configuration</attribute>
+              </form>
+              <footer position="replace">
+                  <footer>
+                    <button name="action_next" type="object" string="Continue" class="oe_highlight"/>
+                  </footer>
+              </footer>
+              <separator string="title" position="replace">
+                  <p class="oe_grey">
+                      Select a checkbox package to setup automatically your
+                      tender type.
+                  </p>
+                  <field name="activity" widget="many2many_checkboxes" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}" />
+              </separator>
+          </field>
+        </record>
+
+        <record id="action_test_configuration_installer" model="ir.actions.act_window">
+            <field name="name">Configure Tender Data</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tender.installer</field>
+            <field name="view_id" ref="view_test_configuration_installer"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="test_configuration_installer_todo" model="ir.actions.todo">
+            <field name="action_id" ref="action_test_configuration_installer"/>
+            <field name="sequence">50</field>
+            <field name="type">automatic</field>
+        </record>
+    
+  </data>
+  <data noupdate="1">
+      <!--
+        Creation de nouvel enregistrement pour le type d'appel d'offre qui servira a generer les attachements.
+        if record sont modifié pensez a mettre a jour aussi le fichier apgebat_gao_ext.py {print_attxls}
+        -->
+        <record id="default_group_pro" model="group.proj.dep">
+            <field name="name">Bâtiments</field>
+            <field name="code">bat</field>
+        </record>
+        <record id="default_group_pro1" model="group.proj.dep">
+            <field name="name">Electricité</field>
+            <field name="code">elec</field>
+        </record>
+        <record id="default_group_pro2" model="group.proj.dep">
+            <field name="name">Routes</field>
+            <field name="code">rout</field>
+        </record>
+        <record id="default_group_pro3" model="group.proj.dep">
+            <field name="name">Menuiserie</field>
+            <field name="code">menui</field>
+        </record>
+
+  </data>
+</openerp>

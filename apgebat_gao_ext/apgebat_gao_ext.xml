@@ -3,7 +3,6 @@
   <data>
 
 
-
   	<!-- Heritage de vue sur les projets pour afficher les estimation et autres fichiers de LAO -->
     <record id="ao_projet_form" model="ir.ui.view">
       <field name="name">project.project.form</field>
@@ -211,6 +210,7 @@
           <button name="valid" string="validate" type='object' class="oe_highlight" attrs="{'invisible': [('state','in',['end','draft','invoice'])]}"/>
 
           <button name="create_invoice" string="Create invoice" type='object' class="oe_highlight" attrs="{'invisible': [('state','!=','end')]}"/>
+          <button name="print_attxls" string="Attachements.xls" type='object' attrs="{'invisible': [('state','in',['draft'])]}" context="{'file_name': 'ATTACHEMENTS'}"/>
 
           <field name="state" widget='statusbar' statusbar_visible="draft,sent,finish"/>
         </header>   

@@ -20,7 +20,10 @@
           <newline/>
           <field name="final_date" />
         </field>
-
+        <field name="user_id" position="before">
+          <field name="tender_type" readonly="1"/>
+          <newline/>
+        </field>
         <p attrs="{'invisible': [('analytic_account_id','=',False)]}" position="replace">
           <field name="note" nolabel='1' placeholder="Description" on_change="save_note(note)" widget="html"/>
         </p>
@@ -55,70 +58,194 @@
           </page>
 
           <page string="Estimates">
-            <field name="estimation_id" nolabel="1" widget="one2many_list" >
-              
-              <form string="Estimates">
-                <group col="2">
-                  <group col="6" colspan="2">
-                    <field name="sequences" required="1"/>
-                    <field name="type" colspan="2" on_change="lot_for_tender()"/>
-                    <field name="parent_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/> <!-- domain a ajouter pour filter uniquement les parents lié au tender -->
-                  </group>
-                  
-                  <group col="4" colspan="2">
-                    <field name="code"/>
-                    <field name="lot_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/>
-                  </group>
-                  <group col="2">
-                    <field name="price_line" colspan="2"/>
-                  </group>
-                  
-                  <group col="4" colspan="2" >
-                    <field name="unite_id" attrs="{'invisible': [('type','in','vue')]}"/>
-                     <field name="quantity"  attrs="{'invisible': [('type','in','vue')], 'required': [('type','not in','vue')]}" />
-                  </group>
-                  
-                  <newline/>
-                  <group colspan="2">
-                    <field name="mat_line" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': [('type','in','vue')], 'required': [('type','not in','vue')]}">
-                      <tree string="Materials lines" editable="bottom" default_order="product_id asc">
-                        <field name="product_id" />
-                        <field name="pu_composant" />
-                        <field name="unite_id"/>
-                        <field name="quantity" />
-                        <field name="mat_total" sum="Amount DS"/>
-                      </tree>
-                    </field>
-                  </group>
-                 
-                  <group colspan="2" class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type','in','vue')]}">
-                    <field name="pu_ds" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" />
-                    <field name="coef" />
-                    <field name="bpu" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" />
-                      <field name="total_ds" invisible="1" />
-                      <field name="total_bpu" invisible="1"/>
-                      <field name="ecart" invisible="1"/>
-                      <field name="rent" invisible="1"/>
-                      
-                  </group>
-                </group>
-              </form>
+            <field name="estimation_id" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state','in', ['cancel','reject'])], 'invisible': [('tender_type', '=', 'Electricité')]}" context="{'tender': id}" >
+                     <form string="Estimates">
+                        <group col="2">
+                          <group col="6" colspan="2">
+                            <field name="sequences" required="1"/>
+                            <field name="type" colspan="2" on_change="lot_for_tender()"/>
+                            <field name="parent_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/> <!-- domain a ajouter pour filter uniquement les parents lié au tender -->
+                          </group>
+                          
+                          <group col="4" colspan="2">
+                            <field name="code"/>
+                            <field name="lot_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/>
+                          </group>
+                          <group colspan="2">
+                            <field name="price_line" />
+                          </group>
+                          
+                          <group col="4" colspan="2" >
+                            <field name="unite_id" attrs="{'invisible': [('type','in','vue')]}"/>
+                             <field name="quantity"  attrs="{'invisible': [('type','in','vue')], 'required': [('type','not in','vue')]}" />
+                          </group>
+                          <group colspan="2">
+                            <field name="type_k" attrs="{'invisible': [ ('type','in','vue')]}"/>
+                          </group>
+                          
+                          <newline/>
+                          <group colspan="2">
+                            <field name="mat_line" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','=',True)]}">
+                              <tree string="Materials lines" editable="bottom" default_order="product_id asc">
+                                <field name="product_id" required="1"/>
+                                <field name="pu_composant" />
+                                <field name="unite_id"/>
+                                <field name="quantity"  />
+                                <field name="mat_total" sum="Amount DS"/>
+                              </tree>
+                            </field>
+                            <field name="mat_line1" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','!=',True)]}">
+                              <tree string="Materials lines" editable="bottom" default_order="product_id asc">
+                                <field name="product_id" required="1"/>
+                                <field name="pu_composant" />
+                                <field name="unite_id"/>
+                                <field name="quantity"  />
+                                <field name="mat_total" sum="Amount DS" string="line DS"/>
+                                <field name="coef_line" required="1"/>
+                                <field name="coef_total" sum="Amount DQE"/>
+                              </tree>
+                            </field>
+                          </group>
+                         
+                          <group class="oe_subtotal_footer oe_left" attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="pu_ds" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="font-size: 14px !important;"/>
+                              <field name="coef" string="K" required="1" attrs="{'invisible': [('type_k','=',True)]}"/>
+                            <field name="bpu" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="width:100%"/>
+                              
+                          </group>
 
-              <tree default_order="sequences asc" colors="blue:type=='vue'" >
-                <field name="type" invisible="1" />
-                <field name="sequences" invisible="1"/>
-                <field name="code"/>
-                <field name="lot_id"/>
-                <field name="price_line" />
-                <field name="mat_line" invisible="1"/> <!-- tester si possible mettre en many2many pour afficher plusieurs ligne de prix -->
-                <field name="unite_id"  />
-                <field name="quantity" attrs="{'invisible': [('type','in','vue')]}"/>
-                <field name="pu_ds" attrs="{'invisible': [('type','in','vue')]}" />
-                <field name="total_ds" attrs="{'invisible': [('type','in','vue')]}" sum='Total DS'/>
-                <field name="bpu" attrs="{'invisible': [('type','in','vue')]}" />
-                <field name="total_bpu" attrs="{'invisible': [('type','in','vue')]}" sum='Total DQE'/>
-              </tree>
-            </field>
+                          <group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="total_ds" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"  readonly="1" style="font-size: 16px !important;font-weight:normal !important"/>
+                            <field name="total_bpu" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1" style="font-size: 16px !important;width:100%"/>
+                              
+                          </group>
+                          <newline/>
+                          <group col="6" colspan="2" attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="ecart" />
+                            <field name="rent" />
+                          </group>
+                        </group>
+                    </form>
+
+                      <tree default_order="sequences asc" colors="blue:type=='vue';red:type=='draft'" >
+                        <field name="type" invisible="1" />
+                        <field name="type_k" invisible="1" />
+                        <field name="sequences" />
+                        <field name="code"/>
+                        <field name="lot_id"/>
+                        <field name="price_line"/>
+                        <field name="mat_line" invisible="1"/> <!-- tester si possible mettre en many2many pour afficher plusieurs ligne de prix -->
+                        <field name="unite_id"  />
+                        <field name="quantity" attrs="{'invisible': [('type','in','vue')]}"/>
+                        <field name="pu_ds" attrs="{'invisible': [('type','in','vue')]}" />
+                        <field name="total_ds" attrs="{'invisible': [('type','in','vue')]}" sum="DS Total"/>
+                        <field name="coef" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','=',True)]}"/>
+                        <field name="bpu" attrs="{'invisible': [('type','in','vue')]}" />
+                        <field name="total_bpu" attrs="{'invisible': [('type','in','vue')]}" sum="DQE Total"/>
+                        
+                      </tree>
+
+                    </field>
+
+
+
+                    <field name="estimation_id1" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state','in', ['cancel','reject'])], 'invisible': [('tender_type', '!=', 'Electricité')]}" context="{'tender': id}" >
+                     <form string="Estimates">
+                        <group col="2">
+                          <group col="6" colspan="2">
+                            <field name="sequences" required="1"/>
+                            <field name="type" colspan="2" on_change="lot_for_tender()"/>
+                            <field name="parent_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/> <!-- domain a ajouter pour filter uniquement les parents lié au tender -->
+                          </group>
+                          
+                          <group col="4" colspan="2">
+                            <field name="code"/>
+                            <field name="lot_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/>
+                          </group>
+                          <group colspan="2">
+                            <field name="price_line" />
+                          </group>
+                          
+                          <group col="4" colspan="2" >
+                            <field name="unite_id" attrs="{'invisible': [('type','in','vue')]}"/>
+                             <field name="quantity"  attrs="{'invisible': [('type','in','vue')], 'required': [('type','not in','vue')]}" />
+                          </group>
+                          <group colspan="2">
+                            <field name="type_k" attrs="{'invisible': [ ('type','in','vue')]}" />
+                          </group>
+                          
+                          <newline/>
+                          <group colspan="2">
+                            <field name="mat_line" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','=',True)]}">
+                              <tree string="Materials lines" editable="bottom" default_order="product_id asc">
+                                <field name="product_id" required="1"/>
+                                <field name="pu_composant" />
+                                <field name="unite_id"/>
+                                <field name="quantity"  />
+                                <field name="mat_total" sum="Amount DS"/>
+                                <field name="type" required="1" />
+                              </tree>
+                            </field>
+                            <field name="mat_line1" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','!=',True)]}">
+                              <tree string="Materials lines" editable="bottom" default_order="product_id asc">
+                                <field name="product_id" required="1"/>
+                                <field name="pu_composant" />
+                                <field name="unite_id"/>
+                                <field name="quantity"  />
+                                <field name="mat_total" sum="Amount DS" string="line DS"/>
+                                <field name="coef_line" required="1" />
+                                <field name="coef_total" sum="Amount DQE"/>
+                                <field name="type" required="1" />
+                              </tree>
+                            </field>
+                          </group>
+                         
+                          <group class="oe_subtotal_footer oe_left " attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="pu_dst" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="font-size: 14px !important;"/>
+                              <field name="coef_t" string="K" required="1" attrs="{'invisible': [('type_k','=',True)]}"/>
+                            <field name="bpu_t" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="width:100%"/>
+                              <field name="total_dst" readonly="1"/>
+                              <field name="total_bput" readonly="1"/>
+                              <field name="ecart_t" />
+                          </group>
+
+                          <group class="oe_subtotal_footer oe_right " attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="pu_dsf" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="font-size: 14px !important;"/>
+                              <field name="coef_f" string="K" required="1" attrs="{'invisible': [('type_k','=',True)]}"/>
+                            <field name="bpu_f" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="width:100%"/>
+                              <field name="total_dsf"  readonly="1"/>
+                              <field name="total_bpuf" readonly="1"/>
+                              <field name="ecart_f" />
+                              
+                          </group>
+                          <newline/>
+                          <group col="6" colspan="2" attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="ecart" />
+                            <field name="rent" />
+                          </group>
+                        </group>
+                    </form>
+
+                      <tree default_order="sequences asc" colors="blue:type=='vue';red:type=='draft'" >
+                        <field name="type" invisible="1" />
+                        <field name="sequences" />
+                        <field name="code"/>
+                        <field name="lot_id"/>
+                        <field name="price_line"/>
+                        <field name="mat_line" invisible="1"/> <!-- tester si possible mettre en many2many pour afficher plusieurs ligne de prix -->
+                        <field name="unite_id"  />
+                        <field name="quantity" attrs="{'invisible': [('type','in','vue')]}"/>
+                        <field name="total_dsf" attrs="{'invisible': [('type','in','vue')]}" sum="DS Fournitures"/>
+                        <field name="total_dst" attrs="{'invisible': [('type','in','vue')]}" sum="DS Travaux"/>
+                        <field name="total_bpuf" attrs="{'invisible': [('type','in','vue')]}" sum="DQE Fournitures"/>
+                        <field name="total_bput" attrs="{'invisible': [('type','in','vue')]}" sum="DQE Travaux" />
+                        
+                      </tree>
+
+                    </field>
+
+
+
           </page>
 
           <page string="Documents received">
@@ -213,7 +340,7 @@
             <!-- etat canceled -->
             <button string="Give the draft" type="object" name="draft" class="oe_highlight" attrs="{'invisible': [('state','!=','cancel')]}"/>
 
-            <button string="DS.xls" type="object" name="print_dqexls" attrs="{'invisible': [('state','in',['draft', 'cons', 'cancel'])]}" context="{'file_name': 'DS'}" invisible="1"/>
+            <button string="DS.xls" type="object" name="print_dsxls" attrs="{'invisible': [('state','in',['draft', 'cons', 'cancel'])]}" context="{'file_name': 'DS'}" />
             <button string="BPU.xls" type="object" name="print_bpuxls" attrs="{'invisible': [('state','in',['draft', 'cons', 'cancel'])]}" context="{'file_name': 'BPU'}"/>
             <button string="DQE.xls" type="object" name="print_dqexls" attrs="{'invisible': [('state','in',['draft', 'cons', 'cancel'])]}" context="{'file_name': 'DQE'}"/>
 
@@ -251,6 +378,7 @@
                 <field name="master_contact" /> 
               </group>
               <group col="2" string="Tender Processus">
+                <field name="tender_type" attrs="{'readonly': [('state','in', ['cancel','reject'])]}" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}" />
                 <field name="type" attrs="{'readonly': [('state','in', ['cancel','reject'])]}"/>
                 <field name="date_meeting" attrs="{'readonly': [('state','in', ['cancel', 'reject'])]}"/>
                 <field name="date_depot" attrs="{'readonly': [('state','in',['cancel', 'reject'])]}"/>
@@ -280,10 +408,11 @@
                     </field>
                 </page>
                 
-                <page string="Estimates" attrs="{'invisible': [('state','in',['draft', 'cons'])]}">
+                <page string="Estimates" attrs="{'invisible': [('state','in',['draft', 'cons'])]}" >
                   <separator string="Estimates" />
+                  <button string="Importer" type="object" name="importestim" class="oe_highlight" attrs="{'invisible': [('state','in', ['cancel','reject'])]}"  context="{'tender': id}"/>
                    <!-- <field name="id" /> -->
-                    <field name="estimation_id" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state','in', ['cancel','reject'])]}" context="{'tender': id}" >
+                    <field name="estimation_id" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state','in', ['cancel','reject'])], 'invisible': [('tender_type', '=', 2)]}" context="{'tender': id}" >
                      <form string="Estimates">
                         <group col="2">
                           <group col="6" colspan="2">
@@ -296,18 +425,21 @@
                             <field name="code"/>
                             <field name="lot_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/>
                           </group>
-                          <group col="2">
-                            <field name="price_line" colspan="2"/>
+                          <group colspan="2">
+                            <field name="price_line" />
                           </group>
                           
                           <group col="4" colspan="2" >
                             <field name="unite_id" attrs="{'invisible': [('type','in','vue')]}"/>
                              <field name="quantity"  attrs="{'invisible': [('type','in','vue')], 'required': [('type','not in','vue')]}" />
                           </group>
+                          <group colspan="2">
+                            <field name="type_k" attrs="{'invisible': [ ('type','in','vue')]}"/>
+                          </group>
                           
                           <newline/>
                           <group colspan="2">
-                            <field name="mat_line" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': [('type','in','vue')], 'required': [('type','not in','vue')]}">
+                            <field name="mat_line" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','=',True)]}">
                               <tree string="Materials lines" editable="bottom" default_order="product_id asc">
                                 <field name="product_id" required="1"/>
                                 <field name="pu_composant" />
@@ -316,22 +448,42 @@
                                 <field name="mat_total" sum="Amount DS"/>
                               </tree>
                             </field>
+                            <field name="mat_line1" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','!=',True)]}">
+                              <tree string="Materials lines" editable="bottom" default_order="product_id asc">
+                                <field name="product_id" required="1"/>
+                                <field name="pu_composant" />
+                                <field name="unite_id"/>
+                                <field name="quantity"  />
+                                <field name="mat_total" sum="Amount DS" string="line DS"/>
+                                <field name="coef_line" required="1"/>
+                                <field name="coef_total" sum="Amount DQE"/>
+                              </tree>
+                            </field>
                           </group>
                          
-                          <group colspan="2" class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type','in','vue')]}">
-                            <field name="pu_ds" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" />
-                              <field name="coef" string="K" required="1"/>
+                          <group class="oe_subtotal_footer oe_left" attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="pu_ds" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="font-size: 14px !important;"/>
+                              <field name="coef" string="K" required="1" attrs="{'invisible': [('type_k','=',True)]}"/>
                             <field name="bpu" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="width:100%"/>
-                              <field name="total_ds" invisible="1" />
-                              <field name="total_bpu" invisible="1"/>
-                              <field name="ecart" invisible="1"/>
-                              <field name="rent" invisible="1"/>
+                              
+                          </group>
+
+                          <group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="total_ds" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"  readonly="1" style="font-size: 16px !important;font-weight:normal !important"/>
+                            <field name="total_bpu" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1" style="font-size: 16px !important;width:100%"/>
+                              
+                          </group>
+                          <newline/>
+                          <group col="6" colspan="2" attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="ecart" />
+                            <field name="rent" />
                           </group>
                         </group>
                     </form>
 
-                      <tree default_order="sequences asc" colors="blue:type=='vue'" >
+                      <tree default_order="sequences asc" colors="blue:type=='vue';red:type=='draft'" >
                         <field name="type" invisible="1" />
+                        <field name="type_k" invisible="1" />
                         <field name="sequences" />
                         <field name="code"/>
                         <field name="lot_id"/>
@@ -341,23 +493,132 @@
                         <field name="quantity" attrs="{'invisible': [('type','in','vue')]}"/>
                         <field name="pu_ds" attrs="{'invisible': [('type','in','vue')]}" />
                         <field name="total_ds" attrs="{'invisible': [('type','in','vue')]}"/>
-                        <field name="coef" attrs="{'invisible': [('type','in','vue')]}"/>
+                        <field name="coef" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','=',True)]}"/>
                         <field name="bpu" attrs="{'invisible': [('type','in','vue')]}" />
                         <field name="total_bpu" attrs="{'invisible': [('type','in','vue')]}"/>
-                        <field name="ecart" attrs="{'invisible': [('type','in','vue')]}"/>
-                        <field name="rent" attrs="{'invisible': [('type','in','vue')]}" />
                         
                       </tree>
 
                     </field>
-                        <b><group style="text-align:right">
+
+
+
+                    <field name="estimation_id1" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state','in', ['cancel','reject'])], 'invisible': [('tender_type', '!=', 2)]}" context="{'tender': id}" >
+                     <form string="Estimates">
+                        <group col="2">
+                          <group col="6" colspan="2">
+                            <field name="sequences" required="1"/>
+                            <field name="type" colspan="2" on_change="lot_for_tender()"/>
+                            <field name="parent_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/> <!-- domain a ajouter pour filter uniquement les parents lié au tender -->
+                          </group>
+                          
+                          <group col="4" colspan="2">
+                            <field name="code"/>
+                            <field name="lot_id" options="{'no_open': True,'no_create': 1, 'no_create_edit': 1}"/>
+                          </group>
+                          <group colspan="2">
+                            <field name="price_line" />
+                          </group>
+                          
+                          <group col="4" colspan="2" >
+                            <field name="unite_id" attrs="{'invisible': [('type','in','vue')]}"/>
+                             <field name="quantity"  attrs="{'invisible': [('type','in','vue')], 'required': [('type','not in','vue')]}" />
+                          </group>
+                          <group colspan="2">
+                            <field name="type_k" attrs="{'invisible': [ ('type','in','vue')]}" />
+                          </group>
+                          
+                          <newline/>
+                          <group colspan="2">
+                            <field name="mat_line" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','=',True)]}">
+                              <tree string="Materials lines" editable="bottom" default_order="product_id asc">
+                                <field name="product_id" required="1"/>
+                                <field name="pu_composant" />
+                                <field name="unite_id"/>
+                                <field name="quantity"  />
+                                <field name="mat_total" sum="Amount DS"/>
+                                <field name="type" required="1" />
+                              </tree>
+                            </field>
+                            <field name="mat_line1" colspan="2" nolabel="1" widget="one2many_list" attrs="{'invisible': ['|', ('type','in','vue'),('type_k','!=',True)]}">
+                              <tree string="Materials lines" editable="bottom" default_order="product_id asc">
+                                <field name="product_id" required="1"/>
+                                <field name="pu_composant" />
+                                <field name="unite_id"/>
+                                <field name="quantity"  />
+                                <field name="mat_total" sum="Amount DS" string="line DS"/>
+                                <field name="coef_line" required="1" />
+                                <field name="coef_total" sum="Amount DQE"/>
+                                <field name="type" required="1" />
+                              </tree>
+                            </field>
+                          </group>
+                         
+                          <group class="oe_subtotal_footer oe_left " attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="pu_dst" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="font-size: 14px !important;"/>
+                              <field name="coef_t" string="K" required="1" attrs="{'invisible': [('type_k','=',True)]}"/>
+                            <field name="bpu_t" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="width:100%"/>
+                              <field name="total_dst" readonly="1"/>
+                              <field name="total_bput" readonly="1"/>
+                              <field name="ecart_t" />
+                          </group>
+
+                          <group class="oe_subtotal_footer oe_right " attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="pu_dsf" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="font-size: 14px !important;"/>
+                              <field name="coef_f" string="K" required="1" attrs="{'invisible': [('type_k','=',True)]}"/>
+                            <field name="bpu_f" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'required': [('type','not in','vue')]}" style="width:100%"/>
+                              <field name="total_dsf"  readonly="1"/>
+                              <field name="total_bpuf" readonly="1"/>
+                              <field name="ecart_f" />
+                              
+                          </group>
+                          <newline/>
+                          <group col="6" colspan="2" attrs="{'invisible': [('type','in','vue')]}">
+                            <field name="ecart" />
+                            <field name="rent" />
+                          </group>
+                        </group>
+                    </form>
+
+                      <tree default_order="sequences asc" colors="blue:type=='vue';red:type=='draft'" >
+                        <field name="type" invisible="1" />
+                        <field name="sequences" />
+                        <field name="code"/>
+                        <field name="lot_id"/>
+                        <field name="price_line"/>
+                        <field name="mat_line" invisible="1"/> <!-- tester si possible mettre en many2many pour afficher plusieurs ligne de prix -->
+                        <field name="unite_id"  />
+                        <field name="quantity" attrs="{'invisible': [('type','in','vue')]}"/>
+                        <field name="total_dsf" attrs="{'invisible': [('type','in','vue')]}"/>
+                        <field name="total_dst" attrs="{'invisible': [('type','in','vue')]}"/>
+                        <field name="total_bpuf" attrs="{'invisible': [('type','in','vue')]}" />
+                        <field name="total_bput" attrs="{'invisible': [('type','in','vue')]}" />
+                        
+                      </tree>
+
+                    </field>
+
+
+
+                      <b>
+                        <group>
+                          <group>
                             <button name="dummy" states="draft,cons,plan,submit"
                                         string="(update)" class="oe_link oe_edit_only"
                                         type="object" help="save type parent" colspan="2"/>
                                         <newline/>                       
+                            <field name="amount_ht_dsf" attrs="{'invisible': [('tender_type','!=', 2)]}"/>
+                            <field name="amount_ht_dst" attrs="{'invisible': [('tender_type','!=', 2)]}"/>
                             <field name="amount_ht_ds" />
+                          </group>
+                          <group>
+                                                  
+                            <field name="amount_ht_dqef" attrs="{'invisible': [('tender_type','!=', 2)]}"/>
+                            <field name="amount_ht_dqet" attrs="{'invisible': [('tender_type','!=', 2)]}"/>
                             <field name="amount_ht_dqe" />
-                        </group></b>
+                          </group>
+                        </group>
+                      </b>
                     
                 </page>
 

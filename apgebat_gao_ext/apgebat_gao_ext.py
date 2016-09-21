@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import xlwt
+from cStringIO import StringIO
+import base64
 import openerp
 from openerp import api
 from openerp.osv import fields, osv
@@ -230,7 +233,7 @@ class apgebat_attachment(osv.osv):
         #pour chaque bon de commande approuved on recupere la facture concerné et on verifie quel est validé
         for bc in self.pool.get('purchase.order').browse(cr, uid, bc_ids, context=context):
             fact_id=self.pool.get('account.invoice').search(cr, uid,[('origin', '=', bc.name),('state','in', ['open','paid'])])
-            _logger.error("fact : %r ", fact_id)
+            
             if fact_id:
                 #si la facture est validé on recupere les lignes du bon de commande
                 for bc_line in self.pool.get('purchase.order.line').search(cr, uid,[('order_id', '=', bc.id)]):
@@ -303,7 +306,11 @@ class apgebat_attachment(osv.osv):
                     qm=qte_cumul-qm1
                     m=mont_cumul-m1
                     self.write(cr, uid, ids, {'att_pos': att_pos})
-                    cr.execute('''INSERT INTO apgao_line_att (code, lines, type, quantity, sequence, unit_price, total_dqe, qte_m1, qte_m, qte_cumul, montant_m1, montant_m, montant_cumul, taux, att_id) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', (estim.code, estim.price_line, estim.type, estim.quantity, estim.sequences, estim.bpu, estim.total_bpu, qm1, qm, qte_cumul, m1, m, mont_cumul, taux, ids[0]))
+                    if estim.parent_id:
+                        cr.execute('''INSERT INTO apgao_line_att (code, lines, type, quantity, sequence, unit_price, total_dqe, qte_m1, qte_m, qte_cumul, montant_m1, montant_m, montant_cumul, taux, att_id, parent_id) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', (estim.code, estim.price_line, estim.type, estim.quantity, estim.sequences, estim.bpu, estim.total_bpu, qm1, qm, qte_cumul, m1, m, mont_cumul, taux, ids[0], estim.parent_id.id))
+                    else:
+                        cr.execute('''INSERT INTO apgao_line_att (code, lines, type, quantity, sequence, unit_price, total_dqe, qte_m1, qte_m, qte_cumul, montant_m1, montant_m, montant_cumul, taux, att_id) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', (estim.code, estim.price_line, estim.type, estim.quantity, estim.sequences, estim.bpu, estim.total_bpu, qm1, qm, qte_cumul, m1, m, mont_cumul, taux, ids[0]))
+                    
                     cr.execute('''SELECT id FROM apgao_line_att ORDER BY id DESC''')
                     #recupere le dernier id inseré
                     id_new = cr.fetchone()[0]
@@ -311,11 +318,13 @@ class apgebat_attachment(osv.osv):
                     self.pool.get('ap.gao.ext.mat').write(cr, uid, matid, {'att_line_id' : id_new})
                     for matids in self.pool.get('ap.gao.mat').search(cr, uid,[('estim_id', '=', estim.id)]):
                         mat=self.pool.get('ap.gao.mat').browse(cr, uid, matids)
-                        if matid:
+                        if matid and mat:
                             for matext in self.pool.get('ap.gao.ext.mat').browse(cr, uid, matid):
-                               # _logger.error("mat : %r ", mat.product_id.id)
+                                
+                                #raise osv.except_osv(_('eru'), _(matext.product_id))
                                 if mat.product_id.id==matext.product_id.id:
                                     mat=''
+                                    break 
                         if mat:
                             self.pool.get('ap.gao.ext.mat').create(cr, uid, { 'product_id':mat.product_id.id, 'quantity': mat.quantity, 'unite_id': mat.unite_id.id, 'qte_cons': 0, 'taux': 0, 'estim': estim.id, 'att_line_id': id_new})
                                
@@ -348,7 +357,11 @@ class apgebat_attachment(osv.osv):
                     else:
                         taux=0.0
                     self.write(cr, uid, ids, {'att_pos': 1})
-                    cr.execute('''INSERT INTO apgao_line_att (code, lines, type, quantity, sequence, unit_price, total_dqe, qte_m, qte_cumul, montant_m, montant_cumul, taux, att_id) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', (estim.code, estim.price_line, estim.type, estim.quantity, estim.sequences, estim.bpu, estim.total_bpu, qte_cumul, qte_cumul, mont_cumul, mont_cumul, taux, ids[0]))
+                    if estim.parent_id:
+                        cr.execute('''INSERT INTO apgao_line_att (code, lines, type, quantity, sequence, unit_price, total_dqe, qte_m, qte_cumul, montant_m, montant_cumul, taux, att_id, parent_id) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', (estim.code, estim.price_line, estim.type, estim.quantity, estim.sequences, estim.bpu, estim.total_bpu, qte_cumul, qte_cumul, mont_cumul, mont_cumul, taux, ids[0], estim.parent_id.id ))
+                    else:
+                        cr.execute('''INSERT INTO apgao_line_att (code, lines, type, quantity, sequence, unit_price, total_dqe, qte_m, qte_cumul, montant_m, montant_cumul, taux, att_id) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', (estim.code, estim.price_line, estim.type, estim.quantity, estim.sequences, estim.bpu, estim.total_bpu, qte_cumul, qte_cumul, mont_cumul, mont_cumul, taux, ids[0]))
+                    
                     cr.execute('''SELECT id FROM apgao_line_att ORDER BY id DESC''')
                     #recupere le dernier id inseré
                     id_new = cr.fetchone()[0]
@@ -377,6 +390,333 @@ class apgebat_attachment(osv.osv):
 
 
 
+
+
+    def print_attxls(self, cr, uid, ids, context=None):
+        att=self.browse(cr, uid, ids)
+        fl = StringIO()
+        if context is None: context = {}
+        wbk = xlwt.Workbook(encoding="UTF-8")
+        
+        font = xlwt.Font()
+        font.bold = True
+        entete=xlwt.easyxf('font: name Calibri,height 320, color-index black, bold on;align: vert centre, horiz centre;border: bottom medium, left medium, right medium;')#fusionne des lignes (l1, l2, c1, c2)
+        bordtopor = xlwt.easyxf('font: name Arial,height 280, color-index black, bold on;border: top medium, right medium, bottom medium, left medium;align: vert centre, horiz center;pattern: pattern solid, fore_colour gold ;')
+        bordtopbl = xlwt.easyxf('font: name Arial,height 280, color-index black, bold on;border: top medium, right medium, bottom medium, left medium;align: vert centre, horiz center;pattern: pattern solid, fore_colour pale_blue ;')
+        sbord = xlwt.easyxf('font: name Arial,height 280, color-index black, bold on;border: bottom thin, right thin;align: vert centre, horiz center;pattern: pattern solid, fore_colour pale_blue ;')
+        lipar = xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right thin;')
+        lienf = xlwt.easyxf('font: name Arial,height 240, color-index black;border: bottom thin, right thin;')
+        liht = xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right thin;')
+        
+        linechild = xlwt.easyxf('font: name Calibri,height 240, color-index black;border: top thin, right thin;align: wrap on')
+        lastline = xlwt.easyxf('font: name Calibri,height 240, color-index black;border: top thin, right thin,bottom thin, left thin;align: wrap on')
+        linechild1 = xlwt.easyxf('font: name Calibri,height 240, color-index black;border: top thin, right thin;align: wrap on, vert centre, horiz center')
+        lastline1 = xlwt.easyxf('font: name Calibri,height 240, color-index black;border: top thin, right thin,bottom thin, left thin;align: wrap on, vert centre, horiz center')
+        
+        
+        lot = wbk.add_sheet(att.lot_id.code, cell_overwrite_ok=True)#creation de la feuille
+
+        lot.col(0).width= 500*4
+        lot.col(1).width= int(500*47.16)
+
+        lot.col(2).width= int(500*4.90) #size de la column
+        lot.col(3).width= int(500*7.33)
+        lot.col(4).width= int(500*10.21)
+        lot.col(5).width= int(500*10.21)
+
+        lot.col(6).width= int(500*4.50)
+        lot.col(7).width= int(500*4.50)
+        lot.col(8).width= int(500*7.65)
+
+        lot.col(9).width= int(500*10.21)
+        lot.col(10).width= int(500*10.21)
+        lot.col(11).width= int(500*10.21)
+
+        lot.col(12).width= int(500*5.46)
+      
+
+        #entete de la page
+        lot.write_merge(0, 0, 2, 10, att.attachement_id.name , entete)
+        
+        #entete tableau
+                                              
+                                                    
+        lot.write_merge(2, 3, 0, 0, "N°", bordtopor)
+        lot.write_merge(2, 3, 1, 1, "DESIGNATION", bordtopor)
+        lot.write_merge(2, 2, 2, 5, "DQE DU MARCHE", bordtopbl)
+        #sous elements DQE DU MARCHE
+        lot.write(3, 2, "Unité", sbord)
+        lot.write(3, 3, "Quantité", sbord)
+        lot.write(3, 4, "Prix Unitaire", sbord)
+        lot.write(3, 5, "Prix Total", xlwt.easyxf('font: name Arial,height 280, color-index black, bold on;border: bottom thin, right medium;align: vert centre, horiz center;pattern: pattern solid, fore_colour pale_blue ;'))
+
+        lot.write_merge(2, 2, 6, 8, "QUANTITES", bordtopbl)
+        #sous element QUANTITES
+        lot.write(3, 6, "M-1", sbord)
+        lot.write(3, 7, "M", sbord)
+        lot.write(3, 8, "CUMULE", xlwt.easyxf('font: name Arial,height 280, color-index black, bold on;border: bottom thin, right medium;align: vert centre, horiz center;pattern: pattern solid, fore_colour pale_blue ;'))
+
+        lot.write_merge(2, 2, 9, 11, "MONTANTS", bordtopbl)
+        #sosu elements MONTANTS
+        lot.write(3, 9, "M-1", sbord)
+        lot.write(3, 10, "M", sbord)
+        lot.write(3, 11, "CUMULE", sbord)
+
+        lot.write_merge(2, 3, 12, 12, "TAUX", bordtopbl)
+
+        line_id=self.pool.get('apgao.line.att').search(cr, uid,[('att_id', '=', att.id)], order='sequence' )
+        par={}
+        vue={}
+        seq={}
+        formuledqe={}
+        formulem1={}
+        formulem={}
+        formulecum={}
+        a=0
+        b=3
+        c=0
+        for line in self.pool.get('apgao.line.att').browse(cr, uid, line_id):
+            a+=1
+            b+=1
+            #ligne du tableau 
+            if line.type=="vue":
+                   
+                    #ligne parent
+                lot.write(b, 0, line.code, lipar)
+                lot.write(b, 1, line.lines.upper(), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on, underline single;border: bottom thin, right thin;'))
+                lot.write(b, 2, line.unit_id and  line.unit_id.name or '', lipar)
+                lot.write(b, 3, '', lipar)
+                lot.write(b, 4, '', lipar)
+                lot.write(b, 5, '', xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                lot.write(b, 6, '', lipar)
+                lot.write(b, 7, '', lipar)
+                lot.write(b, 8, '', xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                lot.write(b, 9, '', lipar)
+                lot.write(b, 10, '', lipar)
+                lot.write(b, 11, '', xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                lot.write(b, 12, '', xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                
+                parent=self.pool.get('ap.gao.estim').search(cr, uid,[('price_line', '=', line.lines), ('type', '=', 'vue'), ('sequences', '=', line.sequence)])
+                enfid=self.pool.get('ap.gao.estim').read_group(cr,uid,[('parent_id', '=', parent[0]), ('type', '=', 'vue')], ['parent_id'], ['parent_id'])
+                if enfid:
+                    enfpar=enfid[0]['parent_id_count']
+                else:
+                    enfpar=-15
+                enf=self.pool.get('ap.gao.estim').read_group(cr,uid,[('parent_id', '=', parent[0])], ['parent_id'], ['parent_id'])
+
+                if enf:
+
+                    niv1=0
+                    niv2=0
+                    niv3=0
+                    niv4=0
+                    niv5=0
+                    
+                    for enf in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', parent)]):
+                        niv1+=1
+                        for enf1 in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', enf)]):
+                            niv2+=1
+                            for enf2 in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', enf1)]):
+                                niv3+=1
+                                for enf3 in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', enf2)]):
+                                    niv4+=1
+                                    for enf4 in self.pool.get('ap.gao.estim').search(cr, uid,[('parent_id', '=', enf3)]):
+                                        niv5+=1
+                    nbr=niv1+niv2+niv3+niv4+niv5
+                    if line.parent_id:
+                        par[str(nbr)+line.lines+str(a)]=line.code+' / '+line.lines
+                    else:
+                        vue[str(nbr)]=line.code+' / '+line.lines
+
+            else:
+                 #ligne enfant
+                lot.write(b, 0, line.code, lienf)
+                lot.write(b, 1, line.lines.capitalize(), lienf)
+                lot.write(b, 2, line.unit_id and  line.unit_id.name or '', lienf)
+                lot.write(b, 3, line.quantity, lienf)
+                lot.write(b, 4, line.unit_price, lienf)
+                lot.write(b, 5, xlwt.Formula("D"+str(b+1)+"*E"+str(b+1)+""), xlwt.easyxf('font: name Arial,height 240, color-index black;border: bottom thin, right medium;'))
+                lot.write(b, 6, line.qte_m1, lienf)
+                lot.write(b, 7, line.qte_m, lienf)
+                lot.write(b, 8, xlwt.Formula("G"+str(b+1)+"+H"+str(b+1)+""), xlwt.easyxf('font: name Arial,height 240, color-index black;border: bottom thin, right medium;'))
+                lot.write(b, 9, xlwt.Formula("G"+str(b+1)+"*E"+str(b+1)+""), lienf)
+                lot.write(b, 10,  xlwt.Formula("E"+str(b+1)+"*H"+str(b+1)+""), lienf)
+                lot.write(b, 11, xlwt.Formula("K"+str(b+1)+"*J"+str(b+1)+""), xlwt.easyxf('font: name Arial,height 240, color-index black;border: bottom thin, right medium;'))
+                lot.write(b, 12, xlwt.Formula("L"+str(b+1)+"/F"+str(b+1)+""), xlwt.easyxf('font: name Arial,height 240, color-index black;border: bottom thin, right medium;'))
+                if line.parent_id.price_line in formuledqe:
+                    formuledqe[line.parent_id.price_line]+= "+F"+str(b+1)
+                    formulem1[line.parent_id.price_line]+= "+J"+str(b+1)
+                    formulem[line.parent_id.price_line]+= "+K"+str(b+1)
+                    formulecum[line.parent_id.price_line]+= "+L"+str(b+1)
+                else:
+                    formuledqe[line.parent_id.price_line]= "F"+str(b+1)
+                    formulem1[line.parent_id.price_line]= "J"+str(b+1)
+                    formulem[line.parent_id.price_line]= "K"+str(b+1)
+                    formulecum[line.parent_id.price_line]= "L"+str(b+1)
+
+            if vue: 
+                for x in range(1, a):
+
+                    if line.parent_id:
+                        for y in range(1, a):
+                            if str(x)+line.parent_id.price_line+str(y) in par:
+                                if par[str(x)+line.parent_id.price_line+str(y)]:
+                                    if a-y==x:
+                                         #ligne sous total
+                                        b+=1
+                                        c+=1
+                                        lot.write(b, 0, "", lipar)
+                                        lot.write(b, 1, "TOTAL "+par[str(x)+line.parent_id.price_line+str(y)]+"".upper(), lipar)
+                                        lot.write(b, 2, "", lipar)
+                                        lot.write(b, 3, "", lipar)
+                                        lot.write(b, 4, "", lipar)
+                                        if line.parent_id.price_line in formuledqe:
+                                            lot.write(b, 5, xlwt.Formula(formuledqe[line.parent_id.price_line]), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                                            lot.write(b, 9, xlwt.Formula(formulem1[line.parent_id.price_line]), lipar)
+                                            lot.write(b, 10, xlwt.Formula(formulem[line.parent_id.price_line]), lipar)
+                                            lot.write(b, 11, xlwt.Formula(formulecum[line.parent_id.price_line]), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                                        
+                                        else:
+                                            lot.write(b, 5, 0, xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                                            lot.write(b, 9, 0, lipar)
+                                            lot.write(b, 10, 0, lipar)
+                                            lot.write(b, 11, 0, xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                                        
+                                        lot.write(b, 6, "", lipar)
+                                        lot.write(b, 7, "", lipar)
+                                        lot.write(b, 8, "", xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                                        lot.write(b, 12, xlwt.Formula("L"+str(b+1)+"/F"+str(b+1)+""), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                                        par[str(x)+line.parent_id.price_line+str(y)]=''
+                                        
+                                        if line.parent_id.parent_id.price_line in formuledqe:
+                                            formuledqe[line.parent_id.parent_id.price_line]+= "+F"+str(b)
+                                            formulem1[line.parent_id.parent_id.price_line]+= "+J"+str(b)
+                                            formulem[line.parent_id.parent_id.price_line]+= "+K"+str(b)
+                                            formulecum[line.parent_id.parent_id.price_line]+= "+L"+str(b)
+                                        else:
+                                            formuledqe[line.parent_id.parent_id.price_line]= "F"+str(b)
+                                            formulem1[line.parent_id.parent_id.price_line]= "J"+str(b)
+                                            formulem[line.parent_id.parent_id.price_line]= "K"+str(b)
+                                            formulecum[line.parent_id.parent_id.price_line]= "L"+str(b)
+
+            
+                    if str(x) in vue:
+                        if vue[str(x)] and (enfpar==c or enfpar==-15):
+                            b+=1
+                             #ligne sous total
+                        
+                            lot.write(b, 0, "", lipar)
+                            lot.write(b, 1, "TOTAL "+vue[str(x)]+"".upper(), lipar)
+                            lot.write(b, 2, "", lipar)
+                            lot.write(b, 3, "", lipar)
+                            lot.write(b, 4, "", lipar)
+                            
+                            if vue[str(x)].split(' / ')[1] in formuledqe:
+                                lot.write(b, 5, xlwt.Formula(formuledqe[vue[str(x)].split(' / ')[1]]), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                                lot.write(b, 9, xlwt.Formula(formulem1[vue[str(x)].split(' / ')[1]]), lipar)
+                                lot.write(b, 10, xlwt.Formula(formulem[vue[str(x)].split(' / ')[1]]), lipar)
+                                lot.write(b, 11, xlwt.Formula(formulecum[vue[str(x)].split(' / ')[1]]), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                            
+                            else:
+                                lot.write(b, 5, 0, xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                                lot.write(b, 9, 0, lipar)
+                                lot.write(b, 10, 0, lipar)
+                                lot.write(b, 11, 0, xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                            
+                            lot.write(b, 6, "", lipar)
+                            lot.write(b, 7, "", lipar)
+                            lot.write(b, 8, "", xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                            lot.write(b, 12, xlwt.Formula("L"+str(b+1)+"/F"+str(b+1)+""), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+                            vue[x]=''
+                            a=0
+                            c=0
+                            
+                            if "TOTAL GENERAL HT" in formuledqe:
+                                formuledqe["TOTAL GENERAL HT"]+= "+F"+str(b)
+                                formulem1["TOTAL GENERAL HT"]+= "+J"+str(b)
+                                formulem["TOTAL GENERAL HT"]+= "+K"+str(b)
+                                formulecum["TOTAL GENERAL HT"]+= "+L"+str(b)
+                            else:
+                                formuledqe["TOTAL GENERAL HT"]= "F"+str(b)
+                                formulem1["TOTAL GENERAL HT"]= "J"+str(b)
+                                formulem["TOTAL GENERAL HT"]= "K"+str(b)
+                                formulecum["TOTAL GENERAL HT"]= "L"+str(b)
+                            break
+                
+         #ligne total ht
+
+        lot.write(b, 0, "", lipar)
+        lot.write_merge(b, b, 1, 5, "", xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+        lot.write_merge(b, b, 6, 8, "", xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+        lot.write_merge(b, b, 9, 11, "", xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+        lot.write(b, 12, "", xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom thin, right medium;'))
+        b+=1                   
+        lot.write(b, 0, "", liht)
+        lot.write(b, 1, "TOTAL GENERAL HT ", liht)
+        lot.write(b, 2, "", liht)
+        lot.write(b, 3, "", liht)
+        lot.write(b, 4, "", liht)
+        if "TOTAL GENERAL HT" in formuledqe:
+            lot.write(b, 5, xlwt.Formula(formuledqe["TOTAL GENERAL HT"]), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right medium;'))
+            lot.write(b, 9, xlwt.Formula(formulem1["TOTAL GENERAL HT"]), liht)
+            lot.write(b, 10, xlwt.Formula(formulem["TOTAL GENERAL HT"]), liht)
+            lot.write(b, 11, xlwt.Formula(formulecum["TOTAL GENERAL HT"]), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right medium;'))
+        
+        else:
+            if b>7:
+                lot.write(b, 5, xlwt.Formula("SUM(F7:F"+str(b)+")"), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right medium;'))
+                lot.write(b, 9, xlwt.Formula("SUM(J7:J"+str(b)+")"), liht)
+                lot.write(b, 10, xlwt.Formula("SUM(K7:K"+str(b)+")"), liht)
+                lot.write(b, 11, xlwt.Formula("SUM(L7:L"+str(b)+")"), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right medium;'))
+                
+            else:
+                lot.write(b, 5, 0, xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right medium;'))
+                lot.write(b, 9, 0, liht)
+                lot.write(b, 10, 0, liht)
+                lot.write(b, 11, 0, xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right medium;'))
+                                
+        lot.write(b, 6, "", liht)
+        lot.write(b, 7, "", liht)
+        lot.write(b, 8, "", xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right medium;'))
+        lot.write(b, 12, xlwt.Formula("L"+str(b+1)+"/F"+str(b+1)+""), xlwt.easyxf('font: name Arial,height 240, color-index black, bold on;border: bottom medium, right medium;'))
+
+
+
+
+        lot.normal_magn = 60
+
+        
+        wbk.save(fl) # for save le fichier
+        fl.seek(0)
+        buf = base64.encodestring(fl.read())
+        ctx = dict(context)
+        ctx.update({'file': buf, 'file_name': context.get('file_name', 'DEMO')})
+        if context is None:
+            context = {}
+        data = {}
+        res = self.read(cr, uid, ids, [], context=context)
+        res = res and res[0] or {}
+        data['form'] = res
+        try:
+            form_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'apgebat_gao', 'xls_form')[1]
+        except ValueError:
+            form_id = False
+        return {
+        'type': 'ir.actions.act_window',
+        'view_type': 'form',
+        'view_mode': 'form',
+        'res_model': 'gao.xls.report.file',
+        'views': [(form_id, 'form')],
+        'target': 'new',
+        'context': ctx,
+        }
+
+
+
+
+
+
+
 class apgao_ligne_att(osv.osv):
     _name='apgao.line.att'
 
@@ -399,6 +739,7 @@ class apgao_ligne_att(osv.osv):
 #le taux 
         'taux': fields.float('Rate'),
 
+        'parent_id': fields.many2one('ap.gao.estim', 'parent'),
         'att_id': fields.many2one('apgebat.attachment', 'attachement'),
         'mat_id': fields.one2many('ap.gao.ext.mat', 'att_line_id', ondelete="cascade"),
         'type': fields.selection([('vue','Vue'), ('child', 'Details')]),
@@ -969,3 +1310,6 @@ class account_move(osv.osv):
         self.invalidate_cache(cr, uid, ['state', ], valid_moves, context=context)
         return True
 
+
+class gao_xls_report_file(osv.osv_memory):
+    _inherit = 'gao.xls.report.file'
