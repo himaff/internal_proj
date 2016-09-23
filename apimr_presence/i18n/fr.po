@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* apimr_presence
+#	* apimr_presence
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20160719\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-10 11:07+0000\n"
-"PO-Revision-Date: 2016-08-10 11:12+0000\n"
+"POT-Creation-Date: 2016-09-23 18:27+0000\n"
+"PO-Revision-Date: 2016-09-23 18:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: fr\n"
-"X-Generator: Poedit 1.8.8\n"
 
 #. module: apimr_presence
 #: model:ir.model,name:apimr_presence.model_hr_attendance
@@ -28,9 +26,29 @@ msgid "Attendance Analysis"
 msgstr "Analyse des présences"
 
 #. module: apimr_presence
+#: view:hr_timesheet_sheet.sheet:apimr_presence.timesheet_form
+msgid "Attendances"
+msgstr "Présences"
+
+#. module: apimr_presence
+#: field:hr.attendance,day:0
+msgid "Date"
+msgstr "Date"
+
+#. module: apimr_presence
+#: view:hr_timesheet_sheet.sheet:apimr_presence.timesheet_form
+msgid "Differences"
+msgstr "Différences"
+
+#. module: apimr_presence
 #: view:hr.attendance:apimr_presence.presence_tree
 msgid "Employee attendances"
 msgstr "Pointages des employés"
+
+#. module: apimr_presence
+#: constraint:hr.attendance:0
+msgid "Error ! Sign in (resp. Sign out) must follow Sign out (resp. Sign in)"
+msgstr "Erreur ! Une entrée (une sortie) doit être suivie d'une sortie (une entrée)."
 
 #. module: apimr_presence
 #: field:hr.attendance,work:0
@@ -41,6 +59,11 @@ msgstr "Heures"
 #: view:hr.attendance:apimr_presence.presence_filter
 msgid "Month"
 msgstr "Mois"
+
+#. module: apimr_presence
+#: view:hr_timesheet_sheet.sheet:apimr_presence.timesheet_form
+msgid "Period"
+msgstr "Période"
 
 #. module: apimr_presence
 #: selection:hr.attendance,statut:0
@@ -58,7 +81,23 @@ msgid "Status"
 msgstr "Status"
 
 #. module: apimr_presence
-#: view:hr.attendance:apimr_presence.presence_filter field:hr.attendance,week:0
+#: model:ir.model,name:apimr_presence.model_hr_timesheet_sheet_sheet
+msgid "Timesheet"
+msgstr "Feuille de présence"
+
+#. module: apimr_presence
+#: view:hr_timesheet_sheet.sheet:apimr_presence.timesheet_form
+msgid "Timesheets"
+msgstr "Feuille de présence"
+
+#. module: apimr_presence
+#: model:ir.model,name:apimr_presence.model_hr_timesheet_sheet_sheet_day
+msgid "Timesheets by Period"
+msgstr "Feuilles de temps par période"
+
+#. module: apimr_presence
+#: view:hr.attendance:apimr_presence.presence_filter
+#: field:hr.attendance,week:0
 msgid "Week"
 msgstr "Semaine"
 
@@ -81,3 +120,4 @@ msgstr "top"
 #: view:hr.attendance:apimr_presence.presence_tree
 msgid "total"
 msgstr "Total"
+

@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <record id="timesheet_form" model="ir.ui.view">
+            <field name="name">hr.timesheet.sheet.form</field>
+            <field name="model">hr_timesheet_sheet.sheet</field>
+            <field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>
+            <field name="arch" type="xml">
+                        <page string="Attendances" groups="base.group_hr_attendance" position="replace">
+                                <page string="Attendances" groups="base.group_hr_attendance">
+                                <group>
+                                    <field context="{'default_employee_id': employee_id, 'user_id':user_id}" name="attendances_ids" nolabel="1">
+                                        <tree string="Attendances" editable="bottom">
+                                            <field name="name"/>
+                                            <field name="action"/>
+                                            <field invisible="1" name="employee_id"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        
+                                    </group>
+                                </group>
+                                <field name="period_ids">
+                                    <tree colors="red:total_difference&lt;0.1;blue:total_difference&gt;=0.1" string="Period">
+                                        <field name="name"/>
+                                        <field name="total_attendance" widget="float_time" sum="Attendances"/>
+                                        <field name="total_timesheet" widget="float_time" sum="Timesheets"/>
+                                        <field name="total_difference" widget="float_time" sum="Differences"/>
+                                    </tree>
+                                </field>
+                                </page>
+                        </page>
+                    </field>
+                </record>
+
+
+                
+
     	<!-- heritage de la vue tree dans hr_attendance afin d'ajouter et remplacer des champs -->
         <record id="presence_tree" model="ir.ui.view">
 			<field name="name">presence.tree</field>
@@ -9,10 +44,19 @@
 			<field name="arch" type="xml">
                 <field name="action" position="after">
 				    <field name="work" sum="total"/>
-				    <field name="week" />
+				    <field name="week"/>
                 </field>
-                <field name="action" position="replace">
+                <field name="name" position="after">
+                    <field name="day"/>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="action" position="after">
 				    <field name="statut" on_change="changeStatus(statut)"/>
+                </field>
+                <field name="action" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </field>
                 <tree string="Employee attendances" position="attributes">
                 	<attribute name="editable">top</attribute>
@@ -21,7 +65,18 @@
               
 			</field>
 		</record>
-        
+
+        <record id="presence_tree2" model="ir.ui.view">
+            <field name="name">hr.attendance.tree</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_timesheet_sheet.view_attendance_tree_who"/>
+            <field name="arch" type="xml">
+                <field name="sheet_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+         
 
 <!-- <style>li.oe_attendance_status{display:none !important;}</style>heritage de la vue form dans hr_attendance afin d'ajouter et remplacer des champs -->
 		<record id="presence_form" model="ir.ui.view">
@@ -34,10 +89,18 @@
 				    <field name="work"/>
 				    <field name="week" />
                 </field>
+                <field name="name" position="after">
+                    <field name="day"/>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <field name="action" position="replace">
 				    <field name="statut" on_change="changeStatus(statut)"/>
                 </field>
-              	
+              	<field name="sheet_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <field name="action_desc" position="attributes">
                 	<attribute name="invisible">1</attribute>
                 </field>
@@ -105,5 +168,6 @@
                
             </field>
         </record>
+
     </data>
 </openerp>

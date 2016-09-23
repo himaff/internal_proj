@@ -12,11 +12,13 @@ Manage several employee
 
 This App for account asset and update amort date at 31/12
     """,
-    'depends': ["base", "hr_attendance"],
+    'depends': ["base", "hr", "hr_attendance", "hr_timesheet_sheet",],
     'data': [
         'presence.xml',
     ],
     'installable': True,
     'application': False,
     'auto_install': False,
+
+    'qweb': ["static/src/xml/attendance.xml"],
 }
