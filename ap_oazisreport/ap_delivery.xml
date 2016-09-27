@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<template id="ap_delivery_custom" inherit_id="stock.report_picking">
+			<div class="page" position="attributes">
+				
+				<attribute name='t-if'>o.picking_type_id.code!='outgoing'</attribute>
+			</div>
+
+
+			<div class="page" position="before">
+
+
+							<div class="page" t-if="o.picking_type_id.code=='outgoing'">
+								<style>
+            
+	                                 table thead th {
+	                                 	background-color:#c5e0b3;
+	                                 	font-size: 14px; 
+	                                 	font-weight: bold;
+	                                 	border: 1px solid black;
+	                                 	text-align:center;
+	                                 	font-family: calibri;
+	                                 	 } 
+	                                table tbody td { 
+	                                	color: black;
+		                                 border: 1px solid black;
+		                                 font-size: 16px;
+		                                 font-weight: normal;
+		                                 font-family: calibri;
+	                                  }
+	                                .bas { border-bottom: None;}
+	                                .c_vert { background-color:#c5e0b3;}
+	                            </style>
+                            <div class="row">
+
+									<div class="col-xs-6" style="border: 3px solid #c5e0b3;border-radius: 20px;font-family:arial;font-size:14px;margin-top:100px">
+										                	
+										                    <strong>BON DE LIVRAISON N° <span t-field="o.name"/></strong><br/><br/>
+
+															<span t-if="o.sale_val('username')" >Suivi Commercial: <strong><span t-esc="o.sale_val('username')"/></strong></span><br/><br/>
+
+															<strong><span t-if="o.company_id.phone"><span t-field="o.company_id.phone"/></span> 
+															<span t-if="o.sale_val('userphone')">/ <span t-esc="o.sale_val('userphone')"/></span><br/>
+
+															<span t-if="o.company_id.email"><span t-field="o.company_id.email"/></span> 
+															<span t-if="o.sale_val('usermail')">/ <span t-esc="o.sale_val('usermail')"/></span></strong>
+
+										                                           
+										                </div>
+
+										                <div class="col-xs-4 col-xs-offset-2" style="margin-top:100px">
+
+										                	<div t-if="o.date" style="font-size:16px; font-family:calibri;font-style: italic;">
+										                    <span t-if="o.company_id.city">
+										                    	<span t-field="o.company_id.city"/>,</span> le <span t-field="o.date_text"/>
+										                    </div><br/>
+
+										                    <strong><div style="font-size:18px; font-family:calibri"> <span t-field="o.partner_id.name"/></div>
+										                    <div style="font-size:16px; font-family:calibri">
+										                        <span t-field="o.partner_id.street"
+										                        /><br/>
+										                    	<span t-field="o.partner_id.city"
+										                        /> - 
+										                        <span t-field="o.partner_id.country_id"
+										                        /></div>
+										                    </strong>
+										                
+										            	</div>
+
+
+
+                                
+                            </div>
+                            
+                            
+                            <br/>
+                            <br/>
+                            <div class="row" >
+						                <div class="col-xs-12" t-if="o.sale_val('object')" style="margin-top:30px">
+						                    <strong>Object:</strong>
+						                    <span t-esc="o.sale_val('object')"/>
+						                </div>
+						                
+						            </div><br/>
+                            <table class="table table-condensed" t-if="o.pack_operation_ids">
+                              <thead>
+                                    <tr style="border: 1px solid black">
+
+				                    	<th>N°</th>
+				                        <th>DESIGNATION</th>
+				                        <th>QUANTITE</th>
+				                        <th>PU HT</th>
+				                        <th>MONTANT HT</th>
+				                    </tr>
+                              </thead>
+                              <tbody>
+                              	<t t-set="count" t-value="1"/>
+                                    
+                                <tr t-foreach="o.pack_operation_ids" t-as="pack_operation">
+                                    <td><t t-esc="count"/></td>
+                                    <td><span t-field="pack_operation.product_id"/>
+                                        <t t-if="not pack_operation.product_id and pack_operation.package_id"><span  t-field="pack_operation.package_id"/></t></td>
+                                    <td style="text-align:center">
+                                    	<span t-if="pack_operation.product_qty%1>0"><span  t-esc='"%0.2f" % pack_operation.product_qty'/></span>        
+        								<span t-if="pack_operation.product_qty%1==0"><span  t-esc='"%0.0f" % pack_operation.product_qty'/></span>
+        								 <span t-field="pack_operation.product_uom_id" groups="product.group_uom"/></td>
+                                    
+                                        <td class="text-right"><t t-esc="'%0.0f' % o.sale_val('pu', pack_operation.product_id.id)"/></td>
+                                        <td class="text-right"><t t-esc="'%0.0f' % o.sale_val('stotal', pack_operation.product_id.id)"/></td>
+                                        
+                                        <t t-set="count" t-value="count + 1"/>
+                                  
+                                    
+                                </tr>
+                                <tr class="border-black">
+		                    		<td colspan="3" style="border:None"></td>
+		                            <td class="bas c_vert"><strong>TOTAL HT</strong></td>
+		                            <td class="text-right bas c_vert">
+		                               <strong><span t-esc="'%0.0f' % o.sale_val('totalht')" /> CFA</strong>
+
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                        	<td colspan="3" style="border:None"></td>
+		                            <td class="bas"><strong>Taxes</strong></td>
+		                            <td class="text-right bas">
+		                                <strong><span t-esc="'%0.0f' % o.sale_val('tax')" /> CFA</strong>
+		                            </td>
+		                        </tr>
+		                        <tr >
+		                        	<td colspan="3" style="border:None"></td>
+		                            <td class="c_vert" style="font-size: 17px"><strong>Total TTC</strong></td>
+		                            <td class="text-right c_vert">
+		                              <strong> <span t-esc="'%0.0f' % o.sale_val('totalttc')" /> CFA</strong>
+		                            </td>
+		                        </tr>
+                              </tbody>
+                            </table>
+
+
+                            <br/><br/>
+				            <p t-if="o.sale_val('amount_text')" style="font-size:13px;font-family:calibri;font-style:italic">
+				                <strong>Arrétée la présente facture à la somme de: <span t-esc="o.sale_val('amount_text')"/> CFA</strong>
+				                
+				            </p><br/><br/>
+                            
+                        </div>
+
+
+
+			</div>
+		</template>
+	</data>
+</openerp>

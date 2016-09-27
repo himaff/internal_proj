@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+
+		<template id="salex_footer" inherit_id="report.external_layout_footer">
+            <xpath expr="//div[@class='footer']" position="replace">
+                
+
+            	<div class="footer">
+            		
+
+                       <div class="text-center" style="border: 1px double #c5e0b3; font-size: 10.5px;font-family:calibri">
+                         
+                         <span t-if="company.rml_footer" > <span t-field="company.rml_footer" /> </span>  
+                        
+                          
+                       </div>
+                </div>
+
+
+            </xpath>
+        </template>
+
+
+        <template id="salex_header" inherit_id="report.external_layout_header">
+	            <xpath expr="//div[@class='header']" position="replace">
+	            	
+
+	            	<div class="header">
+                       <div class="row">
+	                        <div class="col-xs-3">
+	                            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 189px; max-width: 227px"/>
+	                        </div>
+	                        
+	                    </div>
+                		
+                	</div>
+
+
+
+	            </xpath>
+        </template>
+
+
+
+		<template id="ap_sale_custom" inherit_id="sale.report_saleorder_document">
+			<div class="page" position="replace">
+												<div class="page">
+													<style>
+                                
+						                                 table thead th {
+						                                 	background-color:#c5e0b3;
+						                                 	font-size: 14px; 
+						                                 	font-weight: bold;
+						                                 	border: 1px solid black;
+						                                 	text-align:center;
+						                                 	font-family: calibri;
+						                                 	 } 
+						                                table tbody td { 
+						                                	color: black;
+							                                 border: 1px solid black;
+							                                 font-size: 16px;
+							                                 font-weight: normal;
+							                                 font-family: calibri;
+						                                  }
+						                                .bas { border-bottom: None;}
+						                                .c_vert { background-color:#c5e0b3;}
+						                            </style>
+										            <div class="oe_structure"/>
+										            <div class="row" >
+										                <div class="col-xs-6" style="border: 3px solid #c5e0b3;border-radius: 20px;font-family:arial;font-size:14px;margin-top:100px">
+										                	
+										                    <strong>FACTURE PRO FORMA N° <span t-field="o.name"/></strong><br/><br/>
+
+															<span t-if="o.user_id.name" >Suivi Commercial: <strong><span t-field="o.user_id.name"/></strong></span><br/><br/>
+
+															<strong><span t-if="o.company_id.phone"><span t-field="o.company_id.phone"/></span> 
+															<span t-if="o.user_id.phone">/ <span t-field="o.user_id.phone"/></span><br/>
+
+															<span t-if="o.company_id.email"><span t-field="o.company_id.email"/></span> 
+															<span t-if="o.user_id.email">/ <span t-field="o.user_id.email"/></span></strong>
+
+										                                           
+										                </div>
+
+										                <div class="col-xs-4 col-xs-offset-2" style="margin-top:100px">
+
+										                	<div t-if="o.date_order" style="font-size:16px; font-family:calibri;font-style: italic;">
+										                    <span t-if="o.company_id.city">
+										                    	<span t-field="o.company_id.city"/>,</span> le <span t-field="o.date_text"/>
+										                    </div><br/>
+
+										                    <strong><div style="font-size:18px; font-family:calibri"> <span t-esc="o.name_maj(o.partner_id.name)"/></div>
+										                    <div style="font-size:16px; font-family:calibri">
+										                        <span t-field="o.partner_id.street"
+										                        /><br/>
+										                    	<span t-field="o.partner_id.city"
+										                        /> - 
+										                        <span t-field="o.partner_id.country_id"
+										                        /></div>
+										                    </strong>
+										                
+										            	</div>
+
+										                <div class="row" >
+											                <div class="col-xs-12" t-if="o.object" style="margin-top:30px">
+											                    <strong>Object:</strong>
+											                    <span t-field="o.object"/>
+											                </div>
+											                
+											            </div><br/>
+
+										          
+
+										            <table class="table table-condensed">
+										                <thead>
+										                    <tr style="border: 1px solid black">
+
+										                    	<th>N°</th>
+										                        <th>DESIGNATION</th>
+										                        <th>QUANTITE</th>
+										                        <th >PU HT</th>
+										                        <th >MONTANT HT</th>
+										                    </tr>
+										               </thead>
+										               <tbody class="sale_tbody">
+										               		<t t-set="count" t-value="1"/>
+										                    <tr t-foreach="o.order_line" t-as="l">
+										                    	<td><t t-esc="count"/></td>
+										                        <td>
+										                           <span t-field="l.name"/>
+										                        </td>
+										                        <td style="text-align:center">
+										                            <span t-esc='"%0.0f" %l.product_uom_qty'/>
+										                            <span t-field="l.product_uom"  groups="product.group_uom"/>
+										                        </td>
+										                        
+										                        <td class="text-right">
+										                            <span t-esc='"%0.0f" % l.price_unit'/>
+										                        </td>
+										                        <td class="text-right">
+										                            <strong><span t-field="l.price_subtotal" 
+										                                t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/></strong>
+										                        </td>
+										                        <t t-set="count" t-value="count + 1"/>
+										                        
+										                    </tr>
+
+										                    <tr class="border-black">
+									                    		<td colspan="3" style="border:None"></td>
+									                            <td class="bas c_vert"><strong>TOTAL HT</strong></td>
+									                            <td class="text-right bas c_vert">
+									                                <strong><span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/></strong>
+
+									                            </td>
+									                        </tr>
+									                        <tr>
+									                        	<td colspan="3" style="border:None"></td>
+									                            <td class="bas"><strong>Taxes</strong></td>
+									                            <td class="text-right bas">
+									                                <strong><span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/></strong>
+									                            </td>
+									                        </tr>
+									                        <tr >
+									                        	<td colspan="3" style="border:None"></td>
+									                            <td class="c_vert" style="font-size: 17px"><strong>Total TTC</strong></td>
+									                            <td class="text-right c_vert">
+									                                <strong> <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/></strong>
+									                            </td>
+									                        </tr>
+										                </tbody>
+										            </table>
+
+										         
+
+										            <br/><br/>
+				            <p t-if="o.amount_text" style="font-size:13px;font-family:calibri;font-style:italic">
+				                <strong>Arrétée la présente facture pro forma à la somme de: <span t-field="o.amount_text"/> CFA</strong>
+				                
+				            </p><br/><br/>
+
+
+										            <div t-if="o.payment_term" class="col-xs-3">
+										                    <strong>Payment Term:</strong>
+										                    <p t-field="o.payment_term"/>
+										                </div>
+										           
+										            <div class="oe_structure"/>
+        										</div>
+        									</div>
+        	</div>
+		</template>
+
+
+
+	</data>
+</openerp>

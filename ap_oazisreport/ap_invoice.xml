@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+
+
+
+
+		<template id="ap_invoice_custom" inherit_id="account.report_invoice_document">
+			<t t-call="report.external_layout" position="before">
+
+				<template id="x_footer" inherit_id="report.external_layout_footer">
+            <xpath expr="//div[@class='footer']" position="replace">
+                
+
+            	<div class="footer">
+                       <div class="text-center" style="border-top: 1px solid black; font-size: 8px; display:none;">
+                         Société à responsabilité limitée (SARL) - Capital de xxx Euros - SIRET: xxxxxx
+                          <br />
+                     NAF-APE: xxx - RCS/RM: xxxx - Num. TVA: xxxx
+                          <ul class="list-inline">
+                             <li>Page:</li>
+                             <li><span class="page"/></li>
+                             <li>/</li>
+                             <li><span class="topage"/></li>
+                          </ul>
+                       </div>
+                </div>
+
+
+            </xpath>
+        </template>
+
+
+        <template id="x_header" inherit_id="report.external_layout_header">
+	            <xpath expr="//div[@class='header']" position="replace">
+	            	
+
+	            	<div class="header">
+                       <div class="text-center" style="border-top: 1px solid black; font-size: 8px;display:none;">
+                         Société à responsabilité limitée (SARL) - Capital de xxx Euros - SIRET: xxxxxx
+                          <br />
+                     NAF-APE: xxx - RCS/RM: xxxx - Num. TVA: xxxx
+                          <ul class="list-inline">
+                             <li>Page:</li>
+                             <li><span class="page"/></li>
+                             <li>/</li>
+                             <li><span class="topage"/></li>
+                          </ul>
+                       </div>
+                </div>
+
+
+
+	            </xpath>
+        </template>
+
+				
+			</t>
+			<div class="page" position="replace">
+						<div class="page">
+							<style>
+                                
+                                 table thead th {
+                                 	background-color:#c5e0b3;
+                                 	font-size: 14px; 
+                                 	font-weight: bold;
+                                 	border: 1px solid black;
+                                 	text-align:center;
+                                 	font-family: calibri;
+                                 	 } 
+                                table tbody td { 
+                                	color: black;
+	                                 border: 1px solid black;
+	                                 font-size: 16px;
+	                                 font-weight: normal;
+	                                 font-family: calibri;
+                                  }
+                                .bas { border-bottom: None;}
+                                .c_vert { background-color:#c5e0b3;}
+                            </style>
+				            <div class="row" >
+				                <div class="col-xs-4 col-xs-offset-8" style="margin-top:150px;">
+
+				                	<div t-if="o.date_invoice">
+				                    <span t-if="o.company_id.city">
+				                    	<span t-field="o.company_id.city"/>,</span> le <span t-field="o.date_text"/>
+				                </div><br/>
+
+				                   <strong> <address t-esc="o.name_maj(o.partner_id.name)" />
+				                        <span t-field="o.partner_id.street"
+				                        /><br/>
+				                    	<span t-field="o.partner_id.city"
+				                        /> - 
+				                        <span t-field="o.partner_id.country_id"
+				                        />
+				                    </strong>
+				                </div>
+				            </div>
+				            <br/><br/>
+				           
+
+				            <div class="row">
+				                <div class="col-xs-12" t-if="o.object">
+				                    <strong>Object:</strong>
+				                    <span t-field="o.object"/>
+				                </div>
+				                
+				            </div>
+
+				            <br/>
+				            <table class="table table-condensed" >
+				                <thead>
+				                    <tr style="border: 1px solid black">
+
+				                    	<th>N°</th>
+				                        <th>DESIGNATION</th>
+				                        <th>QUANTITE</th>
+				                        <th >PU HT</th>
+				                        <th >MONTANT HT</th>
+				                    </tr>
+				                </thead>
+				                <tbody class="invoice_tbody">
+				                	<t t-set="count" t-value="1"/>
+				                    <tr t-foreach="o.invoice_line" t-as="l">
+
+										<td><t t-esc="count"/></td>
+				                        <td><span t-field="l.name"/></td>
+				                        <td style="text-align:center">
+				                            <span t-esc='"%0.0f" %l.quantity'/>
+				                            <span t-field="l.uos_id"  groups="product.group_uom"/>
+				                        </td>
+				                        <td class="text-right">
+				                            <span t-esc='"%0.0f" % l.price_unit'/>
+				                        </td>
+				                        
+				                        <td class="text-right">
+				                            <strong><span t-field="l.price_subtotal" 
+				                                t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/></strong>
+				                        </td>
+				                        <t t-set="count" t-value="count + 1"/>
+				                    </tr>
+
+
+				                    <tr class="border-black">
+				                    		<td colspan="3" style="border:None"></td>
+				                            <td class="bas c_vert"><strong>TOTAL HT</strong></td>
+				                            <td class="text-right bas c_vert">
+				                                <strong><span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/></strong>
+				                            </td>
+				                        </tr>
+				                        <tr>
+				                        	<td colspan="3" style="border:None"></td>
+				                            <td class="bas"><strong>Taxes</strong></td>
+				                            <td class="text-right bas">
+				                                <strong><span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/></strong>
+				                            </td>
+				                        </tr>
+				                        <tr >
+				                        	<td colspan="3" style="border:None"></td>
+				                            <td class="c_vert" style="font-size: 17px"><strong>Total TTC</strong></td>
+				                            <td class="text-right c_vert">
+				                                <strong> <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/></strong>
+				                            </td>
+				                        </tr>
+
+
+				                </tbody>
+				            </table>
+
+				            
+
+				            
+				            <br/><br/>
+				            <p t-if="o.amount_text" style="font-size:14px;font-family:calibri;font-style:italic">
+				                <strong>Arrétée la présente facture à la somme de: <span t-field="o.amount_text"/> CFA</strong>
+				                
+				            </p>
+				            <p t-if="o.payment_term.note">
+				                <strong>Payment Term:</strong>
+				                <span t-field="o.payment_term.note"/>
+				            </p>
+				            <p style="position:absolute;top:925px; page-break-inside: avoid;font-family: calibri;font-size: 11px;" t-if="o.comment">
+				            <span t-field="o.comment"/>
+							</p>
+			    	</div>
+
+			</div>
+
+		</template>
+
+
+
+	</data>
+</openerp>
